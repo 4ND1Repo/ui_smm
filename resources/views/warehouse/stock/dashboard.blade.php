@@ -240,7 +240,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Tipe Ukuran</label>
+                                <label>Tipe Satuan</label>
                                 <select tabindex="6" class="form-control" name="measure_code"></select>
                             </div>
                             <div class="form-group">

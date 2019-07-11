@@ -10,16 +10,23 @@ var KTValidationForm = function(){
             // define validation rules
             rules: {
                 stock_name: {
-                    required: true
+                    required: true,
+                    maxlength: 50
                 },
                 stock_size: {
-                    required: true
+                    required: true,
+                    maxlength: 20
                 },
                 stock_brand: {
-                    required: true
+                    required: true,
+                    maxlength: 20
                 },
                 stock_type: {
-                    required: true
+                    required: true,
+                    maxlength: 20
+                },
+                stock_color: {
+                    maxlength: 20
                 }
             },
             
@@ -176,6 +183,8 @@ $(document).ready(function(){
         }, {
             field: 'qty.stock_qty',
             title: 'Kuantiti',
+            autoHide: false,
+            overflow: 'visible',
             template: function(row){
                 return price.format(row.stock_qty,2,",",'.');
             }
@@ -340,5 +349,10 @@ $(document).ready(function(){
         $('#FStock')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
         KTValidationForm.element().resetForm();
+    });
+
+    // form masking
+    $("input[name=stock_price],input[name=stock_deliver_price],input[name=stock_qty],input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {
+        rightAlignNumerics: false
     });
 });

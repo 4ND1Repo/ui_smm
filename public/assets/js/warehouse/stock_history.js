@@ -42,7 +42,6 @@ $(document).ready(function(){
         }, {
             field: 'stock_date',
             title: 'Tanggal',
-            sortable: false,
             width: 80,
             overflow: 'visible',
             autoHide: false,
@@ -55,6 +54,8 @@ $(document).ready(function(){
         }, {
             field: 'stock.qty.stock_qty',
             title: 'Kuantiti',
+            overflow: 'visible',
+            autoHide: false,
             template: function(row){
                 return price.format(row.stock_qty,2,",",'.');
             }

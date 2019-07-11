@@ -4,7 +4,11 @@
 	<head>
 
 		<!--begin::Base Path (base relative path for assets of this page) -->
+        @if(env('APP_ENV') == 'production')
+		<base href="http://{{{$_SERVER['HTTP_HOST'].'/public/'}}}">
+        @else
 		<base href="{{{env('APP_URL').'/public/'}}}">
+        @endif
         <!--end::Base Path -->
 
 		<meta charset="utf-8" />
@@ -16,10 +20,17 @@
 		<link href="./assets/vendors/google/fonts.css" rel="stylesheet" type='text/css'>
         <!--end::Fonts -->
 
+        @if(env('APP_ENV') == 'production')
+        <script>
+            var base_url = 'http://{{{$_SERVER['HTTP_HOST']}}}',
+                api_url = 'http://{{{$_SERVER['HTTP_HOST'].":8081"}}}';
+        </script>
+        @else
         <script>
             var base_url = '{{{env("APP_URL")}}}',
                 api_url = '{{{env("API_URL")}}}';
         </script>
+        @endif
 
         <!--begin:Generate default css -->
         @if(count($template['head']['css']) > 0)

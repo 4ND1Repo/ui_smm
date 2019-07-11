@@ -1,7 +1,34 @@
+<style>
+    .list-item {
+        border-radius: 5px;
+        box-shadow: 0 0 12px #BBB;
+        overflow: hidden;
+        position: relative;
+    }
+    .list-item .item_header {
+        padding: 4px 10px;
+        background: #C6CFFA;
+        font-weight: bold;
+    }
+    .list-item .item_body > div {
+        padding: 0 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .list-item .item_body > div:last-child {
+        margin-bottom: 6px;
+    }
+    .list-item .item_header span {
+        position: absolute;
+        right: 6px;
+    }
+</style>
+
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">List Stock</h3>
+        <h3 class="kt-subheader__title">Request Barang</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -16,7 +43,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Stock
+                    Request Barang
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -58,7 +85,7 @@
                     </div>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
-                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addStock'>
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addReqtools'>
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
                     </div>
@@ -72,6 +99,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
                         <div class="row align-items-center">
+                            <div class="col-md-6">&nbsp;</div>
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
@@ -83,37 +111,15 @@
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group kt-form__group--inline">
                                     <div class="kt-form__label">
-                                        <label>Merek:</label>
+                                        <label>Status:</label>
                                     </div>
                                     <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_brand' data-live-search="true">
+                                        <select class="form-control bootstrap-select" name='status'>
                                             <option value="">All</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Tipe Ukuran:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='measure_code'>
-                                            <option value="">All</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Pakai Harian:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_daily_use'>
-                                            <option value="">All</option>
-                                            <option value="0">Tidak</option>
-                                            <option value="1">Ya</option>
+                                            <option value="ST02">Process</option>
+                                            <option value="ST03">Tidak Cukup</option>
+                                            <option value="ST04">Pembelian</option>
+                                            <option value="ST05">Selesai</option>
                                         </select>
                                     </div>
                                 </div>
@@ -123,92 +129,63 @@
                 </div>
             </div>
 
-            <!--end: Search Form -->
+        <!--end: Search Form -->
         </div>
+        
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-stock"></div>
-
+            <div class="kt-datatable" id="datagrid-req-tools"></div>
             <!--end: Datatable -->
         </div>
-    </div>
 
+    </div>
 </div>
 
+
+
 <!-- modal for add stock -->
-<div class="modal fade" id="addStock" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+<div class="modal fade" id="addReqtools" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Stock</h5>
+                <h5 class="modal-title" id="longModal">Request Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="kt-form" id="FStock">
+                <form class="kt-form" id="FReqtools">
                     <div class="row validated">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Kode Stok</label>
-                                <input type="text" name="stock_code" class="form-control" placeholder="Generate otomatis" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label>Nama Stok</label>
-                                <input type="text" tabindex="1" name="stock_name" class="form-control" placeholder="Isian nama stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Ukuran</label>
-                                <input type="text" tabindex="2" name="stock_size" class="form-control" placeholder="Isian ukuran">
-                            </div>
-                            <div class="form-group">
-                                <label>Merek</label>
-                                <input type="text" tabindex="3" name="stock_brand" class="form-control" placeholder="Isian merek">
-                            </div>
-                            <div class="form-group">
-                                <label>Tipe</label>
-                                <input type="text" tabindex="4" name="stock_type" class="form-control" placeholder="Isian tipe">
-                            </div>
-                            <div class="form-group">
-                                <label>Warna</label>
-                                <input type="text" tabindex="5" name="stock_color" class="form-control" placeholder="Isian warna">
+                                <label>NIK</label>
+                                <input type="text" name="req_nik" class="form-control" placeholder="Isian NIK">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Tipe Satuan</label>
-                                <select tabindex="6" class="form-control" name="measure_code" id="city_code"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Harga</label>
-                                <input type="text" tabindex="7" name="stock_price" class="form-control" placeholder="Isian harga">
-                            </div>
-                            <div class="form-group">
-                                <label>Ongkos</label>
-                                <input type="text" tabindex="8" name="stock_deliver_price" class="form-control" placeholder="Isian ongkos kirim">
-                            </div>
-                            <div class="form-group">
-                                <label>Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_qty" class="form-control" placeholder="Isian jumlah stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Minimal Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Maksimal Kuantiti</label>
-                                <input type="text" tabindex="10" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
-                            </div>
-                            <div class="form-group">
-                                <div class="kt-checkbox-list">
-                                    <label class="kt-checkbox">
-                                        <input type="checkbox" tabindex="11" value="1" name="stock_daily_use"> Dipakai Harian
-                                        <span></span>
-                                    </label>
-                                </div>
+                                <label>Nama</label>
+                                <input type="text" name="name_of_request" class="form-control" placeholder="Isian nama yang request">
                             </div>
                         </div>
                     </div>
+                    <div class="row validated search">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Cari Stock</label>
+                                <div class="input-group typeahead">
+                                    <input type="text" class="form-control autocomplete" name="stock_name" placeholder="Cari stok">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" id="basic-addon2">
+                                            <i class="la la-plus"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">&nbsp;</div>
+                    </div>
+                    <div class="row request_tools"></div>
                 </form>
             </div>
             <div class="modal-footer">
