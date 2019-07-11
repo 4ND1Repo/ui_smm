@@ -25,6 +25,7 @@ app/Http/Controllers/Auth
 !public/assets/*/*/*/*/*/*/*/*
 !public/assets/*/*/*/*/*/*/*/*/*
 !routes
+!routes/web.php
 !resources
 !resources/views
 !resources/views/*
