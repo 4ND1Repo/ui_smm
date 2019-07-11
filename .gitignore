@@ -9,6 +9,8 @@ app/Http/Controllers/Auth
 !app/Http/Controllers/*/*/*/*
 !app/Http/Controllers/*/*/*/*/*
 !app/Helper
+!app/Helper/*
+!app/Helper/*/*
 !conf
 !conf/*
 !public
