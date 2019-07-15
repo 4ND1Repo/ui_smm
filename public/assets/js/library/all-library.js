@@ -70,7 +70,7 @@ var myGrid = function(){
 			layout: {
 				scroll: true,
 				height: height,
-				footer: false
+                footer: false
 			},
 			sortable: true,
 			filterable: false,
@@ -85,7 +85,7 @@ var myGrid = function(){
 			search: {
 				input: $(_find)
 			},
-			columns: column,
+            columns: column
         });
     }
 

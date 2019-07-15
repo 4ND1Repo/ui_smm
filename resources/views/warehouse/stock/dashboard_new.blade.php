@@ -241,43 +241,47 @@
                                 <input type="text" name="stock_code" class="form-control" placeholder="Generate otomatis" readonly>
                             </div>
                             <div class="form-group">
+                                <label>Kategori</label>
+                                <select tabindex="1" class="form-control" name="category_code"></select>
+                            </div>
+                            <div class="form-group">
                                 <label>Nama Stok</label>
-                                <input type="text" tabindex="1" name="stock_name" class="form-control" placeholder="Isian nama stok">
+                                <input type="text" tabindex="2" name="stock_name" class="form-control" placeholder="Isian nama stok">
                             </div>
                             <div class="form-group">
                                 <label>Ukuran</label>
-                                <input type="text" tabindex="2" name="stock_size" class="form-control" placeholder="Isian ukuran">
+                                <input type="text" tabindex="3" name="stock_size" class="form-control" placeholder="Isian ukuran">
                             </div>
                             <div class="form-group">
                                 <label>Merek</label>
-                                <input type="text" tabindex="3" name="stock_brand" class="form-control" placeholder="Isian merek">
+                                <input type="text" tabindex="4" name="stock_brand" class="form-control" placeholder="Isian merek">
                             </div>
                             <div class="form-group">
                                 <label>Tipe</label>
-                                <input type="text" tabindex="4" name="stock_type" class="form-control" placeholder="Isian tipe">
+                                <input type="text" tabindex="5" name="stock_type" class="form-control" placeholder="Isian tipe">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Warna</label>
-                                <input type="text" tabindex="5" name="stock_color" class="form-control" placeholder="Isian warna">
+                                <input type="text" tabindex="6" name="stock_color" class="form-control" placeholder="Isian warna">
                             </div>
                             <div class="form-group">
                                 <label>Tipe Satuan</label>
-                                <select tabindex="6" class="form-control" name="measure_code"></select>
+                                <select tabindex="7" class="form-control" name="measure_code"></select>
                             </div>
                             <div class="form-group">
                                 <label>Minimal Kuantiti</label>
-                                <input type="text" tabindex="10" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
+                                <input type="text" tabindex="8" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
                             </div>
                             <div class="form-group">
                                 <label>Maksimal Kuantiti</label>
-                                <input type="text" tabindex="11" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
+                                <input type="text" tabindex="9" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
                             </div>
                             <div class="form-group">
                                 <div class="kt-checkbox-list">
                                     <label class="kt-checkbox">
-                                        <input type="checkbox" tabindex="12" value="1" name="stock_daily_use"> Pinjaman
+                                        <input type="checkbox" tabindex="10" value="1" name="stock_daily_use"> Pinjaman
                                         <span></span>
                                     </label>
                                 </div>
@@ -287,8 +291,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" tabindex="14" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                <button type="button" tabindex="13" class="btn btn-primary btn-submit">Simpan</button>
+                <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Simpan</button>
             </div>
         </div>
     </div>

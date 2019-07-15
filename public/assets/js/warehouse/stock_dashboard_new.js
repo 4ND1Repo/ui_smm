@@ -378,6 +378,9 @@ var KTStockForm = function(){
         _el = $( formId ).validate({
             // define validation rules
             rules: {
+                category_code: {
+                    required: true
+                },
                 stock_name: {
                     required: true,
                     maxlength: 50
@@ -415,8 +418,8 @@ var KTStockForm = function(){
 
 
                 var data = $(formId).serializeArray();
-                data.push({name:"nik", value:Auth.nik});
-                data.push({name:"menu_page", value:Auth.page});
+                data.push({name:"nik", value:window.Auth.nik});
+                data.push({name:"menu_page", value:window.Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -472,9 +475,20 @@ var KTStockForm = function(){
         });
     }
 
-    var _auth = function(){
-        myStorage.set('auth');
-        Auth = JSON.parse(myStorage.get());
+    var GetCategory = function(){
+        $.ajax({
+            url: api_url+'/api/mst/category',
+            type: 'GET',
+            success: function(r){
+                if(r.status){
+                    $.each(r.data,function(k,v){
+                        $('select[name=category_code]').append('<option value="'+v.category_code+'">'+v.category_name+'</option>');
+                    });
+
+                    $('select[name=category_code]').selectpicker();
+                }
+            }
+        });
     }
 
     return {
@@ -482,9 +496,9 @@ var KTStockForm = function(){
             return _el;
         },
         init: function(){
-            _auth();
             FormValidation();
             GetMeasure();
+            GetCategory();
         }
     };
 }();

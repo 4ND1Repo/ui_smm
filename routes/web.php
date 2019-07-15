@@ -47,6 +47,8 @@ Route::group(['prefix' => 'wh'], function(){
         Route::get('stock', 'Warehouse\MainController@master_stock');
         // master measure
         Route::get('measure', 'Warehouse\MainController@master_measure');
+        // master category
+        Route::get('category', 'Warehouse\MainController@master_category');
     });
 
     // Warehouse request

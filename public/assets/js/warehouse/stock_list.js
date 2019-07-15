@@ -9,6 +9,9 @@ var KTValidationForm = function(){
         _el = $( formId ).validate({
             // define validation rules
             rules: {
+                category_code: {
+                    required: true
+                },
                 stock_name: {
                     required: true,
                     maxlength: 50
@@ -66,6 +69,7 @@ var KTValidationForm = function(){
                             if(bEdit){
                                 $('#addStock').modal('hide');
                                 $('.btn-submit')[0].removeAttribute('edit');
+                                $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
                             }
 
                             swal.fire({
@@ -119,6 +123,22 @@ var KTValidationForm = function(){
         Auth = JSON.parse(myStorage.get());
     }
 
+    var GetCategory = function(){
+        $.ajax({
+            url: api_url+'/api/mst/category',
+            type: 'GET',
+            success: function(r){
+                if(r.status){
+                    $.each(r.data,function(k,v){
+                        $('select[name=category_code]').append('<option value="'+v.category_code+'">'+v.category_name+'</option>');
+                    });
+
+                    $('select[name=category_code]').selectpicker();
+                }
+            }
+        });
+    }
+
     return {
         element: function(){
             return _el;
@@ -126,6 +146,7 @@ var KTValidationForm = function(){
         init: function(){
             _auth();
             SupplierFormValidation();
+            GetCategory();
         }
     };
 }();
@@ -290,6 +311,7 @@ $(document).ready(function(){
                             if(parseInt(tmp.stock_daily_use) == 1)
                                 $('input[name=stock_daily_use]').prop('checked',true);
                             $('.btn-submit').attr('edit',1);
+                            $('select[name=category_code]').parent().parent().addClass('kt-hidden');
 
                             $('#addStock').modal('show');
                         }
@@ -350,6 +372,7 @@ $(document).ready(function(){
     $("#addStock").on('hide.bs.modal', function(){
         $('#FStock')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
+        $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
         KTValidationForm.element().resetForm();
     });
 
