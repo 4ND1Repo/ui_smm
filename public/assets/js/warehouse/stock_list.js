@@ -22,7 +22,6 @@ var KTValidationForm = function(){
                     maxlength: 20
                 },
                 stock_type: {
-                    required: true,
                     maxlength: 20
                 },
                 stock_color: {
@@ -148,6 +147,9 @@ $(document).ready(function(){
             field: 'stock_code',
             title: 'Kode Stock'
         }, {
+            field: 'cabinet_name',
+            title: 'Rak'
+        }, {
             field: 'stock_name',
             title: 'Nama Stok'
         }, {
@@ -227,15 +229,15 @@ $(document).ready(function(){
     );
     myGrid.set('data', {menu_page:Auth.page});
     myGrid.set('function', function(){
-        $('select[name=measure_code]').on('change', function() {
+        $('.filter select[name=measure_code]').on('change', function() {
             myGrid.element().search($(this).val(), 'measure_code');
         });
 
-        $('select[name=stock_brand]').on('change', function() {
+        $('.filter select[name=stock_brand]').on('change', function() {
             myGrid.element().search($(this).val(), 'stock_brand');
         });
 
-        $('select[name=stock_daily_use]').on('change', function() {
+        $('.filter select[name=stock_daily_use]').on('change', function() {
             myGrid.element().search($(this).val(), 'stock_daily_use');
         });
 

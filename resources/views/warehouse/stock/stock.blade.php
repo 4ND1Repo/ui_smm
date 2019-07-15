@@ -71,7 +71,7 @@
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center filter">
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
@@ -149,7 +149,7 @@
                 <form class="kt-form" id="FStock">
                     <div class="row validated">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group kt-hidden">
                                 <label>Kode Stok</label>
                                 <input type="text" name="stock_code" class="form-control" placeholder="Generate otomatis" readonly>
                             </div>
@@ -169,27 +169,15 @@
                                 <label>Tipe</label>
                                 <input type="text" tabindex="4" name="stock_type" class="form-control" placeholder="Isian tipe">
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Warna</label>
                                 <input type="text" tabindex="5" name="stock_color" class="form-control" placeholder="Isian warna">
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Tipe Satuan</label>
                                 <select tabindex="6" class="form-control" name="measure_code" id="city_code"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Harga</label>
-                                <input type="text" tabindex="7" name="stock_price" class="form-control" placeholder="Isian harga">
-                            </div>
-                            <div class="form-group">
-                                <label>Ongkos</label>
-                                <input type="text" tabindex="8" name="stock_deliver_price" class="form-control" placeholder="Isian ongkos kirim">
-                            </div>
-                            <div class="form-group">
-                                <label>Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_qty" class="form-control" placeholder="Isian jumlah stok">
                             </div>
                             <div class="form-group">
                                 <label>Minimal Kuantiti</label>
@@ -202,7 +190,7 @@
                             <div class="form-group">
                                 <div class="kt-checkbox-list">
                                     <label class="kt-checkbox">
-                                        <input type="checkbox" tabindex="11" value="1" name="stock_daily_use"> Dipakai Harian
+                                        <input type="checkbox" tabindex="11" value="1" name="stock_daily_use"> Pinjaman
                                         <span></span>
                                     </label>
                                 </div>

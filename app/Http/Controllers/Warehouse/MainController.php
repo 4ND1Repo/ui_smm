@@ -109,12 +109,15 @@ class MainController extends Controller{
             'css/demo1/skins/header/base/light.css',
             'css/demo1/skins/header/menu/light.css',
             'css/demo1/skins/brand/dark.css',
-            'css/demo1/skins/aside/dark.css'
+            'css/demo1/skins/aside/dark.css',
+            'vendors/custom/jstree/jstree.bundle.css',
+            'vendors/custom/hover/hover.css'
         ]);
         $v::js([
-            'js/warehouse/stock_dashboard.js'
+            'vendors/custom/jstree/jstree.bundle.js',
+            'js/warehouse/stock_dashboard_new.js'
         ]);
-        $v::page('warehouse.stock.dashboard');
+        $v::page('warehouse.stock.dashboard_new');
 
         return View('admin',$v::colect());
     }

@@ -1,4 +1,5 @@
 // datagrid library with vertical scrollbar
+
 var myGrid = function(){
     var column = null,
         url = null,
@@ -7,7 +8,8 @@ var myGrid = function(){
         fn = null,
         target = '.kt-datatable',
         datatable = null,
-        _data = null;
+        _data = null,
+        _find = "#generalSearch";
 
     var _check_var = function(){
         if(column == null){
@@ -45,10 +47,13 @@ var myGrid = function(){
             target = v;
         if(ty == 'data')
             _data = v;
+        if(ty == 'finder')
+            _find = v;
     }
 
     var _render = function(){
-        datatable = $(target).KTDatatable({
+        
+        return $(target).KTDatatable({
 			data: {
                 type: 'remote',
 				source: {
@@ -78,18 +83,20 @@ var myGrid = function(){
                 }
             },
 			search: {
-				input: $('#generalSearch')
+				input: $(_find)
 			},
 			columns: column,
         });
-        
+    }
+
+    var _func = function(){
         if(typeof fn !== null)
             fn();
     }
 
     return {
         element: function(){
-            return datatable;
+            return this[(target.replace("#",'',target)).replace(".",'',target)];
         },
         set: function(ty,v){
             _set(ty,v);
@@ -97,12 +104,101 @@ var myGrid = function(){
         },
         init: function(){
             var res = _check_var();
-            if(res.status)
-                _render();
+            if(res.status){
+                this[(target.replace("#",'',target)).replace(".",'',target)] = _render();
+                _func();
+            }
             return res;
         }
     }
 }();
+
+
+class myGrids {
+    constructor(u = null,t = '.kt-datatable', h = 400, p = 10){
+        this._column = null;
+        this._url = u;
+        this._page = p;
+        this._height = h;
+        this._fn = null;
+        this._target = t;
+        this._datatable = null;
+        this._data = null;
+        this._find = "#generalSearch";
+    }
+
+    set = function(k,v){
+        var key;
+        
+        if(key = this.#validation(k,v)){
+            this[key] = v;
+        }
+    }
+
+    #validation = function(k,v){
+        if(typeof this['_'+k] == "undefined"){
+            console.log("Your key : " + k + ", is not defined");
+            return null;
+        } else if(k == "fn"){
+            if(typeof v !== 'function'){
+                console.log("Your key : " + k + ", is not function");
+                return null;
+            }
+        }
+        return '_'+k;
+    }
+
+    #render = function(){
+        this._datatable = $(this._target).KTDatatable({
+			data: {
+                type: 'remote',
+				source: {
+					read: {
+                        url: this._url,
+                        params: this._data
+					}
+				},
+				pageSize: this._page,
+				serverPaging: true,
+				serverFiltering: true,
+                serverSorting: true
+			},
+			layout: {
+				scroll: true,
+				height: this._height,
+                footer: false,
+                spinner: {
+                    message: "Mohon menunggu..."
+                }
+			},
+			sortable: true,
+			filterable: false,
+            pagination: true,
+            toolbar: {
+                items: {
+                    pagination: {
+                        pageSizeSelect : [10, 25, 50, 100, "All"]
+                    }
+                }
+            },
+			search: {
+				input: $(this._find)
+			},
+			columns: this._column,
+        });
+
+        if(typeof this._fn !== null)
+            this['_fn']();
+    }
+
+    get = function(k){
+        return (typeof this['_'+k] !== "undefined"?this['_'+k]:null);
+    }
+
+    init = function(){
+        this.#render();
+    }
+}
 
 var price = function(){
 

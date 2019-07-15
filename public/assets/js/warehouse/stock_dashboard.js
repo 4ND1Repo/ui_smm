@@ -514,7 +514,7 @@ var KTModalGrid = function(){
     }
 
     var cabinet = function(){
-        _cabinet = window.cabinet_code;
+        _cabinet = typeof window.cabinet_code !== 'undefined'?window.cabinet_code:'';
         console.log(_cabinet);
     }
 
@@ -536,6 +536,102 @@ var KTModalGrid = function(){
 }();
 
 
+var KTTreeCabinet = function(){
+    var LayoutCabinet = '#cabinet-list';
+
+    var _render = function(){
+        $(LayoutCabinet).jstree({
+            "core" : {
+                "themes" : {
+                    "responsive": false
+                }, 
+                // so that create works
+                "check_callback" : true,
+                'data' : {
+                    'url' : function (node) {
+                      return api_url+'/api/mst/cabinet/tree';
+                    },
+                    'data' : function (node) {
+                      return { 'parent' : node.id };
+                    }
+                }
+            },
+            "types" : {
+                "default" : {
+                    "icon" : "fa fa-folder kt-font-brand"
+                },
+                "file" : {
+                    "icon" : "fa fa-file  kt-font-brand"
+                }
+            },
+            "state" : { "key" : "jstree" },
+            "plugins" : [ "dnd", "state", "types" ]
+        });
+
+        
+        $(LayoutCabinet).on('load_node.jstree', function(e,data) { 
+            console.log('Load tree');
+            console.log(data);
+        });
+
+        $(LayoutCabinet).on('refresh.jstree', function(e,data) { 
+            console.log('refresh tree');
+        });
+
+        // handle link clicks in tree nodes(support target="_blank" as well)
+        $(LayoutCabinet).on('select_node.jstree', function(e,data) { 
+            var link = $('#' + data.selected).find('a');
+            if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
+                _generateToLayout(link.attr("href"));
+                // if(typeof KTModalGrid  !== "undefined")
+                //     KTModalGrid.reload();
+                return false;
+            }
+        });
+    }
+
+    var _generateToLayout= function(code){
+        $.ajax({
+            url: api_url+'/api/mst/cabinet/tree_child?parent='+code+'&cnt=6',
+            type: 'GET',
+            success: function(r){
+                if(typeof r == 'object'){
+                    var tmp = '';
+                    $.each(r, function(k,v){
+                        tmp += '<div class="col-sm-3" style="margin-bottom:10px;">';
+                        $.each(v, function(k1,v1){
+                            tmp += '<div class="layout3DCabinet">';
+                            tmp += '<div class="bg3Dlocker hvr-grow-shadow">';
+                            tmp += '<div class="content3Dlocker">';
+                            tmp += v1.cabinet_name;
+                            tmp += '</div>';
+                            tmp += '</div>';
+                            tmp += '</div>';
+                        });
+                        tmp += '</div>';
+                    });
+                    $('.layout3D .row').html(tmp);
+                }
+                console.log(r);
+            }
+        });
+    }
+
+    var _refresh = function (){
+        // refresh list of tree
+        $(LayoutCabinet).jstree(true).refresh();
+    }
+
+    return {
+        init: function(){
+            _render();
+        },
+        refresh: function(){
+            _refresh();
+        }
+    }
+}();
+
 
 
 
@@ -545,9 +641,10 @@ $(document).ready(function(){
     // initiate Cabinet
     KTQuickCabinet.init();
     KTQuickCabinet.renderOption();
-    KTStockDashboard.init();
+    // KTStockDashboard.init();
     KTStockForm.init();
     KTStockCabinetForm.init();
+    KTTreeCabinet.init();
 
 
 	$('#listStockModal').on('shown.bs.modal', function() {
