@@ -65,6 +65,7 @@ var KTValidationForm = function(){
                             myGrid.element().reload();
                             $(formId)[0].reset();
                             $(formId+" input[type=text]")[0].focus();
+                            $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
 
                             if(bEdit){
                                 $('#addStock').modal('hide');

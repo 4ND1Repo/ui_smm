@@ -428,6 +428,7 @@ var KTStockForm = function(){
                         if(r.status){
                             $(formId)[0].reset();
                             $(formId+" input[type=text]")[0].focus();
+                            $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
                             $('#addStockModal').modal('hide');
 
                             swal.fire({
