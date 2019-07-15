@@ -193,18 +193,6 @@ $(document).ready(function(){
                 return row.measure_code+" - "+row.measure_type;
             }
         }, {
-            field: 'stock_price',
-            title: 'Harga',
-            template: function(row){
-                return price.format(row.stock_price,2,",",'.');
-            }
-        }, {
-            field: 'stock_deliver_price',
-            title: 'Ongkos',
-            template: function(row){
-                return price.format(row.stock_deliver_price,2,",",'.');
-            }
-        }, {
             field: 'qty.stock_qty',
             title: 'Kuantiti',
             autoHide: false,
