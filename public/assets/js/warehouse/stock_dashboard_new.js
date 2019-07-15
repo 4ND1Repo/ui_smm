@@ -33,9 +33,9 @@ var KTTreeCabinet = function(){
         });
 
         
-        $(LayoutCabinet).on('load_node.jstree', function(e,data) { 
+        $(LayoutCabinet).on('load_node.jstree', function(e,data) {
+            data.instance.deselect_node();
             console.log('Load tree');
-            console.log(data);
         });
 
         $(LayoutCabinet).on('refresh.jstree', function(e,data) { 
@@ -50,6 +50,7 @@ var KTTreeCabinet = function(){
                 return false;
             } else {
                 window.cabinet_code = $(link).attr('href');
+                $('.modal-title.stock_list').html('Rak ' + $(link).text());
                 $($(link).data('target')).modal('show');
             }
         });
@@ -163,7 +164,7 @@ var KTCabinetForm = function(){
                                 timer: 1500
                             }).then((res) => {
                                 $(formId+" input[type=text]")[0].focus();
-                                $(optionTarget).selectpicker('refresh');
+                                option();
                                 KTTreeCabinet.refresh();
                             });
                         } else {
@@ -188,6 +189,8 @@ var KTCabinetForm = function(){
     }
 
     var option = function(){
+        if(typeof $(optionTarget) === 'object')
+            $(optionTarget).selectpicker('destroy');
         $.ajax({
             url: link_get+'/'+window.Auth.page,
             type: 'GET',
@@ -204,10 +207,19 @@ var KTCabinetForm = function(){
             }
         });
     }
+
+    var _refresh = function(){
+        $(formId)[0].reset();
+        option();
+    }
+
     return {
         init: function(){
             validation();
             option();
+        },
+        refresh: function(){
+            _refresh();
         }
     }
 }();
@@ -552,12 +564,13 @@ $(document).ready(function(){
                             type: 'success',
                             showConfirmButton: false,
                             timer: 1500
+                        }).then((res) => {
+                            $('#listStockModal').modal('hide');
+                            $('select[name=parent_cabinet_code]').selectpicker('refresh');
+                            $('.layout3D .row').html('');
+                            KTTreeCabinet.refresh();
                         });
-
-                        $('#listStockModal').modal('hide');
-                        $('select[name=parent_cabinet_code]').selectpicker('refresh');
-                        $('.layout3D .row').html('');
-                        KTTreeCabinet.refresh();
+                        KTCabinetForm.refresh();
                     },
                     error: function(){
                         console.log('error delete');
