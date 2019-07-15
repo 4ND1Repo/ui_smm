@@ -22,7 +22,6 @@ var KTValidationForm = function(){
                     maxlength: 20
                 },
                 stock_type: {
-                    required: true,
                     maxlength: 20
                 },
                 stock_color: {
@@ -66,11 +65,13 @@ var KTValidationForm = function(){
 
                             if(bEdit){
                                 $('#addStock').modal('hide');
+                                $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
                                 $('.btn-submit')[0].removeAttribute('edit');
                             }
 
                             // generate brand
                             $('select[name=stock_brand]').selectpicker('destroy');
+                            $('select[name=category_code]').selectpicker('refresh');
                             $('select[name=stock_brand]').html('<option value="">All</option>');
                             $.ajax({
                                 url: api_url+'/api/mst/stock/brand',
@@ -110,6 +111,22 @@ var KTValidationForm = function(){
         Auth = JSON.parse(myStorage.get());
     }
 
+    var GetCategory = function(){
+        $.ajax({
+            url: api_url+'/api/mst/category',
+            type: 'GET',
+            success: function(r){
+                if(r.status){
+                    $.each(r.data,function(k,v){
+                        $('select[name=category_code]').append('<option value="'+v.category_code+'">'+v.category_name+'</option>');
+                    });
+
+                    $('select[name=category_code]').selectpicker();
+                }
+            }
+        });
+    }
+
     return {
         element: function(){
             return _el;
@@ -117,6 +134,7 @@ var KTValidationForm = function(){
         init: function(){
             _auth();
             SupplierFormValidation();
+            GetCategory();
         }
     };
 }();
@@ -157,24 +175,6 @@ $(document).ready(function(){
                 return row.measure_code+" - "+row.measure_type;
             }
         }, {
-            field: 'stock_price',
-            title: 'Harga',
-            template: function(row){
-                return price.format(row.stock_price,2,",",'.');
-            }
-        }, {
-            field: 'stock_deliver_price',
-            title: 'Ongkos',
-            template: function(row){
-                return price.format(row.stock_deliver_price,2,",",'.');
-            }
-        }, {
-            field: 'stock_qty',
-            title: 'Kuantiti',
-            template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
-            }
-        }, {
             field: 'stock_min_qty',
             title: 'Minimal Kuantiti',
             template: function(row){
@@ -200,27 +200,27 @@ $(document).ready(function(){
             overflow: 'visible',
             autoHide: false,
             template: function(row) {
-                return '\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.stock_code+'" title="Ubah data">\
-                        <i class="la la-edit"></i>\
-                    </a>\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.stock_code+'" title="Hapus">\
-                        <i class="la la-trash"></i>\
-                    </a>\
-                ';
+                var btn = "";
+                btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.stock_code+'" title="Ubah data">\
+                    <i class="la la-edit"></i>\
+                </a>\ ';
+                // btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.stock_code+'" title="Hapus">\
+                //     <i class="la la-trash"></i>\
+                // </a>\ ';
+                return btn;
             },
         }]
     );
     myGrid.set('function', function(){
-        $('select[name=measure_code]').on('change', function() {
+        $('.filter select[name=measure_code]').on('change', function() {
             myGrid.element().search($(this).val(), 'measure_code');
         });
 
-        $('select[name=stock_brand]').on('change', function() {
+        $('.filter select[name=stock_brand]').on('change', function() {
             myGrid.element().search($(this).val(), 'stock_brand');
         });
 
-        $('select[name=stock_daily_use]').on('change', function() {
+        $('.filter select[name=stock_daily_use]').on('change', function() {
             myGrid.element().search($(this).val(), 'stock_daily_use');
         });
 
@@ -264,14 +264,12 @@ $(document).ready(function(){
                             $('input[name=stock_brand]').val(tmp.stock_brand);
                             $('input[name=stock_type]').val(tmp.stock_type);
                             $('input[name=stock_color]').val(tmp.stock_color);
-                            $('input[name=stock_price]').val(tmp.stock_price);
-                            $('input[name=stock_deliver_price]').val(tmp.stock_deliver_price);
-                            $('select[name=measure_code]').val(tmp.measure_code).trigger('change');
-                            $('input[name=stock_qty]').val(tmp.stock_qty);
+                            $('#FStock').find('select[name=measure_code]').val(tmp.measure_code).trigger('change');
                             $('input[name=stock_min_qty]').val(tmp.stock_min_qty);
                             $('input[name=stock_max_qty]').val(tmp.stock_max_qty);
                             if(parseInt(tmp.stock_daily_use) == 1)
                                 $('input[name=stock_daily_use]').prop('checked',true);
+                            $('select[name=category_code]').parent().parent().addClass('kt-hidden');
                             $('.btn-submit').attr('edit',1);
 
                             $('#addStock').modal('show');
@@ -333,11 +331,13 @@ $(document).ready(function(){
     $("#addStock").on('hide.bs.modal', function(){
         $('#FStock')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
+        $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
+        $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
         KTValidationForm.element().resetForm();
     });
 
     // form masking
-    $("input[name=stock_price],input[name=stock_deliver_price],input[name=stock_qty],input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {
+    $("input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {
         rightAlignNumerics: false
     });
 });
