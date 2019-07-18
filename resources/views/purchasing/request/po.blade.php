@@ -57,10 +57,49 @@
                         </div>
                     </div>
                     &nbsp;
-                    <div class="dropdown dropdown-inline">
+                    <!-- <div class="dropdown dropdown-inline">
                         <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addPo'>
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+
+        <div class="kt-portlet__body kt-portlet__body--fit">
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="row align-items-center filter">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                        <span><i class="la la-search"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label>Status:</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select class="form-control bootstrap-select" name='status'>
+                                            <option value="">All</option>
+                                            <option value="ST02">Proses</option>
+                                            <option value="ST06">Menunggu</option>
+                                            <option value="ST05">Selesai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,7 +109,7 @@
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-po"></div>
+            <div class="kt-datatable" id="datagrid-pur-po"></div>
             <!--end: Datatable -->
         </div>
 
@@ -83,9 +122,8 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Buat Purchase Order</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
+                <h5 class="modal-title" id="longModal">Daftar Request Stok</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <style media="screen">
@@ -100,45 +138,51 @@
                   #FPO .list-header > div {
                     float: left;
                     font-weight: bold;
-                    width: 60%;
+                    width: 40%;
                   }
-                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:last-child {
+                  #FPO .list-header > div:last-child, #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(5) {
+                    text-align: center;
+                    width: 10%;
+                  }
+                  #FPO .list-header > div:nth-child(4) {
                     text-align: center;
                     width: 20%;
                   }
-                  #FPO .list-body > div {
+                  #FPO .list-data > div {
                     width: 100%;
                     min-height: 40px;
                   }
-                  #FPO .list-body > div > div {
-                    width: 60%;
+                  #FPO .list-data > div > div {
+                    width: 40%;
                     float: left;
                   }
-                  #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:last-child {
+                  #FPO .list-data > div > div:last-child, #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(5) {
+                    width: 10%;
+                  }
+                  #FPO .list-data > div > div:nth-child(4) {
                     width: 20%;
                   }
                 </style>
-                <div class="row typeahead">
-                    <div class="col-md-3"><input type="text" class="form-control form-control-sm autocomplete" name="main_stock_code" placeholder="cari stok disini"></div>
-                    <div class="col-md-9">&nbsp;</div>
-                </div>
                 <div class="row">&nbsp;</div>
                 <form class="kt-form" id="FPO">
                     <div class="row validated">
                         <div class="col-md-12">
                             <div class="list-header">
                                 <div>Stok</div>
-                                <div>Tanggal Terima</div>
                                 <div>Kuantiti</div>
+                                <div>Kirim</div>
+                                <div>Supplier</div>
+                                <div>Harga</div>
+                                <div>Tersedia</div>
                             </div>
-                            <div class="list-body"></div>
+                            <div class="list-data"></div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Buat</button>
+                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Proses</button>
             </div>
         </div>
     </div>

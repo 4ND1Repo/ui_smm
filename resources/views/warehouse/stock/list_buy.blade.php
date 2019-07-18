@@ -1,7 +1,7 @@
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">List Stock</h3>
+        <h3 class="kt-subheader__title">Daftar Stok Kurang</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -16,7 +16,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Stock
+                    Stok Kurang
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -58,8 +58,8 @@
                     </div>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
-                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addStock'>
-                            <i class="flaticon2-plus"></i> Tambah
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addPO' disabled>
+                            <i class="flaticon2-plus"></i> Buat PO
                         </button>
                     </div>
                 </div>
@@ -107,7 +107,7 @@
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group kt-form__group--inline">
                                     <div class="kt-form__label">
-                                        <label>Pakai Harian:</label>
+                                        <label>Pinjaman:</label>
                                     </div>
                                     <div class="kt-form__control">
                                         <select class="form-control bootstrap-select" name='stock_daily_use'>
@@ -128,7 +128,7 @@
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-stock"></div>
+            <div class="kt-datatable" id="datagrid-list-buy"></div>
 
             <!--end: Datatable -->
         </div>
@@ -136,76 +136,61 @@
 
 </div>
 
-<!-- modal for add stock -->
-<div class="modal fade" id="addStock" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+<!-- modal for add stock to PO -->
+<div class="modal fade" id="addPO" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Stock</h5>
+                <h5 class="modal-title" id="longModal">Buat Purchase Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="kt-form" id="FStock">
+                <style media="screen">
+                  #FPO .list-header, #FPO .list-body {
+                    display: block;
+                  }
+                  #FPO .list-header {
+                    min-height: 30px;
+                    border-bottom: 1px solid #999;
+                    margin-bottom: 6px;
+                  }
+                  #FPO .list-header > div {
+                    float: left;
+                    font-weight: bold;
+                    width: 70%;
+                  }
+                  #FPO .list-header > div:last-child {
+                    text-align: center;
+                    width: 30%;
+                  }
+                  #FPO .list-body > div {
+                    width: 100%;
+                    min-height: 40px;
+                  }
+                  #FPO .list-body > div > div {
+                    width: 70%;
+                    float: left;
+                  }
+                  #FPO .list-body > div > div:last-child {
+                    width: 30%;
+                  }
+                </style>
+                <form class="kt-form" id="FPO">
                     <div class="row validated">
-                        <div class="col-md-6">
-                            <div class="form-group kt-hidden">
-                                <label>Kode Stok</label>
-                                <input type="text" name="stock_code" class="form-control" placeholder="Generate otomatis" readonly>
+                        <div class="col-md-12">
+                            <div class="list-header">
+                                <div>Stok</div>
+                                <div>Kuantiti</div>
                             </div>
-                            <div class="form-group">
-                                <label>Kategori</label>
-                                <select tabindex="1" class="form-control" name="category_code"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Nama Stok</label>
-                                <input type="text" tabindex="2" name="stock_name" class="form-control" placeholder="Isian nama stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Ukuran</label>
-                                <input type="text" tabindex="3" name="stock_size" class="form-control" placeholder="Isian ukuran">
-                            </div>
-                            <div class="form-group">
-                                <label>Merek</label>
-                                <input type="text" tabindex="4" name="stock_brand" class="form-control" placeholder="Isian merek">
-                            </div>
-                            <div class="form-group">
-                                <label>Tipe</label>
-                                <input type="text" tabindex="5" name="stock_type" class="form-control" placeholder="Isian tipe">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Warna</label>
-                                <input type="text" tabindex="6" name="stock_color" class="form-control" placeholder="Isian warna">
-                            </div>
-                            <div class="form-group">
-                                <label>Tipe Satuan</label>
-                                <select tabindex="7" class="form-control" name="measure_code" id="city_code"></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Minimal Kuantiti</label>
-                                <input type="text" tabindex="8" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Maksimal Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
-                            </div>
-                            <div class="form-group">
-                                <div class="kt-checkbox-list">
-                                    <label class="kt-checkbox">
-                                        <input type="checkbox" tabindex="10" value="1" name="stock_daily_use"> Pinjaman
-                                        <span></span>
-                                    </label>
-                                </div>
-                            </div>
+                            <div class="list-body"></div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Simpan</button>
+                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Buat</button>
             </div>
         </div>
     </div>

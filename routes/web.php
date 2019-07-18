@@ -39,6 +39,8 @@ Route::group(['prefix' => 'wh'], function(){
         Route::get('stock','Warehouse\MainController@stock');
         // History Stock
         Route::get('history','Warehouse\MainController@history');
+        // Waiting for buy Stock
+        Route::get('list_buy','Warehouse\MainController@list_buy');
     });
 
     // Warehouse master group
@@ -55,6 +57,8 @@ Route::group(['prefix' => 'wh'], function(){
     Route::group(['prefix' => 'req'], function(){
         // Purchase Order
         Route::get('po', 'Warehouse\RequestController@po');
+        // Delivery Order
+        Route::get('do', 'Warehouse\RequestController@do');
         // Tools
         Route::get('tools', 'Warehouse\RequestController@tools');
     });
@@ -66,9 +70,28 @@ Route::group(['prefix' => 'mk'], function(){
     // Marketing dashboard
     Route::get('/', 'Marketing\MainController@index');
 
-    // Warehouse master group
+    // Marketing master group
     Route::group(['prefix' => 'mst'], function(){
         // master supplier
         Route::get('supplier', 'Marketing\MainController@master_supplier');
+    });
+});
+
+
+// Purchasing Admin page
+Route::group(['prefix' => 'pur'], function(){
+    // Marketing dashboard
+    Route::get('/', 'Purchasing\MainController@index');
+
+    // Purchasing master group
+    Route::group(['prefix' => 'mst'], function(){
+        // master supplier
+        Route::get('supplier', 'Marketing\MainController@master_supplier');
+    });
+
+    // Warehouse master group
+    Route::group(['prefix' => 'req'], function(){
+        // master supplier
+        Route::get('po', 'Purchasing\MainController@po');
     });
 });

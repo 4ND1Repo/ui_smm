@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Marketing;
+namespace App\Http\Controllers\Purchasing;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -41,7 +41,7 @@ class MainController extends Controller{
         return View('admin',$v::colect());
     }
 
-    public function master_supplier(Request $r, Views $v){
+    public function po(Request $r, Views $v){
         // validate user is login
         $v::js_head([
             'js/authentication/storage.js',
@@ -60,9 +60,9 @@ class MainController extends Controller{
             'css/demo1/skins/aside/dark.css'
         ]);
         $v::js([
-            'js/marketing/main.js'
+            'js/purchasing/request/po.js'
         ]);
-        $v::page('marketing.master.supplier');
+        $v::page('purchasing.request.po');
 
         return View('admin',$v::colect());
     }
