@@ -41,6 +41,8 @@ Route::group(['prefix' => 'wh'], function(){
         Route::get('history','Warehouse\MainController@history');
         // Waiting for buy Stock
         Route::get('list_buy','Warehouse\MainController@list_buy');
+        // Dashboard Stock
+        Route::get('opname','Warehouse\MainController@opname');
     });
 
     // Warehouse master group
