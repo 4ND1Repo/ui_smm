@@ -305,6 +305,7 @@ $(document).ready(function(){
         tmpHtml += data[3];
         tmpHtml += '</div>';
         // input qty
+        tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection]+']" placeholder="Kuantiti"></div>';
         tmpHtml += '</div>';
 
