@@ -20,12 +20,12 @@ var KTValidationForm = function(){
                     maxlength: 50
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -61,8 +61,8 @@ var KTValidationForm = function(){
                             }
 
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -71,8 +71,8 @@ var KTValidationForm = function(){
                             });
                         } else {
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -111,7 +111,7 @@ $(document).ready(function(){
     myGrid.set('height', '550');
     myGrid.set('url', api_url+'/api/mst/category/grid');
     myGrid.set('page', '10');
-    myGrid.set('column', 
+    myGrid.set('column',
         [{
             field: 'category_code',
             title: 'Kode Kategori',
@@ -210,6 +210,7 @@ $(document).ready(function(){
     $("#addCategory").on('hide.bs.modal', function(){
         $('#FCategory')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
+        $('#FCategory').find('.invalid-feedback').remove();
         KTValidationForm.element().resetForm();
     });
 });

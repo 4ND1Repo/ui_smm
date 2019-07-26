@@ -28,12 +28,12 @@ var KTValidationForm = function(){
                     maxlength: 20
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -93,8 +93,8 @@ var KTValidationForm = function(){
                 });
 
                 swal.fire({
-                    title: "", 
-                    text: "Semua terisi, akan diproses segera", 
+                    title: "",
+                    text: "Semua terisi, akan diproses segera",
                     type: "success",
                     showConfirmButton: false,
                     timer: 1500
@@ -149,7 +149,7 @@ $(document).ready(function(){
     myGrid.set('height', '550');
     myGrid.set('url', api_url+'/api/mst/stock/grid');
     myGrid.set('page', '10');
-    myGrid.set('column', 
+    myGrid.set('column',
         [{
             field: 'stock_code',
             title: 'Kode Stock'
@@ -316,8 +316,8 @@ $(document).ready(function(){
                 });
             });
         });
-    
-        
+
+
     });
     myGrid.init();
     // end: grid
@@ -334,6 +334,7 @@ $(document).ready(function(){
         $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
         $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
         KTValidationForm.element().resetForm();
+        $('#FStock').find('.invalid-feedback').remove();
     });
 
     // form masking

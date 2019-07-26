@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     image: php_sqlsrv:latest
     ports:
-      - "127.0.2.2:80:8080"
+      - "127.0.2.4:80:80"
     volumes:
       - ./:/app
       - ./conf/default:/etc/nginx/sites-available/default
@@ -15,6 +15,11 @@ services:
     depends_on:
       - api
     command: ['/app/conf/run.sh']
+    extra_hosts:
+      - "api.smm.co.id:172.18.1.3"
+    networks:
+      bridge :
+        ipv4_address: 172.18.1.4
 
   api:
     build:
@@ -22,20 +27,40 @@ services:
       dockerfile: Dockerfile
     image: php_sqlsrv:latest
     ports:
-      - "127.0.2.1:80:8080"
+      - "127.0.2.3:80:80"
     volumes:
       - ../api/:/app
       - ./conf/default:/etc/nginx/sites-available/default
       - ./conf/www.conf:/opt/bitnami/php/etc/php-fpm.d/www.conf
     depends_on:
       - db
-    extra_hosts:
-      - "db.smm.co.id:172.17.0.1"
     command: ['/app/conf/run.sh']
+    networks:
+      bridge:
+        aliases:
+          - api.smm.co.id
+        ipv4_address: 172.18.1.3
 
   db:
     image: mcr.microsoft.com/mssql/server:2017-CU14-ubuntu
     ports:
-      - "1433:1433"
+      - "127.0.2.2:1433:1433"
     volumes:
       - /srv/database/sqlsrv/data:/var/opt/mssql/data
+    networks:
+      bridge:
+        aliases:
+          - db.smm.co.id
+        ipv4_address: 172.18.1.2
+
+
+networks:
+  bridge:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.1.0/24
+          gateway: 172.18.1.254

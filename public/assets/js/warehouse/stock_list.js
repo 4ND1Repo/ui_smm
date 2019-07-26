@@ -31,12 +31,12 @@ var KTValidationForm = function(){
                     maxlength: 20
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -74,8 +74,8 @@ var KTValidationForm = function(){
                             }
 
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -100,8 +100,8 @@ var KTValidationForm = function(){
                             });
                         } else {
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -164,7 +164,7 @@ $(document).ready(function(){
     myGrid.set('height', '550');
     myGrid.set('url', api_url+'/api/wh/stock/grid');
     myGrid.set('page', '10');
-    myGrid.set('column', 
+    myGrid.set('column',
         [{
             field: 'stock_code',
             title: 'Kode Stock'
@@ -346,8 +346,8 @@ $(document).ready(function(){
                 });
             });
         });
-    
-        
+
+
     });
     myGrid.init();
     // end: grid
@@ -363,6 +363,7 @@ $(document).ready(function(){
         $('.btn-submit')[0].removeAttribute('edit');
         $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
         KTValidationForm.element().resetForm();
+        $('#FStock').find('.invalid-feedback').remove();
     });
 
     // form masking

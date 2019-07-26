@@ -340,6 +340,7 @@ $(document).ready(function(){
       $('#FPO .list-body').html('');
       $('#addPo .btn-submit, #addPo .typeahead').removeClass('kt-hidden');
       KTFormPO.element().resetForm();
+      $('#FPO').find('.invalid-feedback').remove();
     });
 
     // submit form PO

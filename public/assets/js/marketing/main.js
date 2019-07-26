@@ -27,12 +27,12 @@ var KTValidationForm = function(){
                     maxlength: 10
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -71,8 +71,8 @@ var KTValidationForm = function(){
                 });
 
                 swal.fire({
-                    title: "", 
-                    text: "Semua terisi, akan diproses segera", 
+                    title: "",
+                    text: "Semua terisi, akan diproses segera",
                     type: "success",
                     showConfirmButton: false,
                     timer: 1500
@@ -102,7 +102,7 @@ jQuery(document).ready(function () {
     myGrid.set('height', '550');
     myGrid.set('url', api_url+'/api/mst/supplier/grid');
     myGrid.set('page', '10');
-    myGrid.set('column', 
+    myGrid.set('column',
         [{
             field: 'supplier_code',
             title: 'Kode Supplier',
@@ -239,12 +239,12 @@ jQuery(document).ready(function () {
                 });
             });
         });
-    
-        
+
+
     });
     myGrid.init();
 
-    
+
     // end: grid
 
     // get all data city to append new form
@@ -275,5 +275,6 @@ jQuery(document).ready(function () {
         $('#FSupplier')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
         KTValidationForm.element().resetForm();
+        $('#FSupplier').find('.invalid-feedback').remove();
     });
 });

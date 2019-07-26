@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+use App\Helper\RestCurl;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
@@ -23,77 +23,69 @@ Route::group(['prefix'=>'auth'], function(){
     Route::get('login', 'Authentication\MainController@index');
 });
 
-// Warehouse Admin page
-Route::group(['prefix' => 'wh'], function(){
-    // Warehouse dashboard
-    Route::get('/', 'Warehouse\MainController@index');
+// generate full of rules page
+$response = RestCurl::get(env('API_URL')."/api/mst/page");
+if($response->status==200){
+  foreach ($response->data->data as $i => $row) {
+    // by page role
+    Route::group(['prefix' => $row->page_code], function() use($row){
+        // All Dashboard by Folder
+        Route::get('/', $row->page_name.'\MainController@index');
 
-    Route::get('export', 'Warehouse\MainController@export');
-    Route::get('export/{ty}', 'Warehouse\MainController@export');
+        // Management group
+        Route::group(['prefix' => 'mng'], function(){
+            // Users Management
+            Route::get('user', 'Management\MainController@users');
+            // Menus Management
+            Route::get('menu', 'Management\MainController@menu');
+            // Role Menu Management
+            Route::get('role_menu', 'Management\MainController@role_menu');
+            // Role Users Management
+            Route::get('role_user', 'Management\MainController@role_users');
+        });
 
-    // Stock
-    Route::group(['prefix' => 'stk'], function(){
-        // Dashboard Cabinet
-        Route::get('cabinet','Warehouse\MainController@stock_dashboard');
-        // Dashboard Stock
-        Route::get('stock','Warehouse\MainController@stock');
-        // History Stock
-        Route::get('history','Warehouse\MainController@history');
-        // Waiting for buy Stock
-        Route::get('list_buy','Warehouse\MainController@list_buy');
-        // Dashboard Stock
-        Route::get('opname','Warehouse\MainController@opname');
+        // Master group
+        Route::group(['prefix' => 'mst'], function(){
+            // Master Icon
+            Route::get('icon', 'Management\MasterController@icon');
+            // master stock
+            Route::get('stock', 'Warehouse\MainController@master_stock');
+            // master measure
+            Route::get('measure', 'Warehouse\MainController@master_measure');
+            // master category
+            Route::get('category', 'Warehouse\MainController@master_category');
+            // master supplier
+            Route::get('supplier', 'Marketing\MainController@master_supplier');
+        });
+
+        // Stock Group
+        Route::group(['prefix' => 'stk'], function(){
+            // Dashboard Cabinet
+            Route::get('cabinet','Warehouse\MainController@stock_dashboard');
+            // Dashboard Stock
+            Route::get('stock','Warehouse\MainController@stock');
+            // History Stock
+            Route::get('history','Warehouse\MainController@history');
+            // Waiting for buy Stock
+            Route::get('list_buy','Warehouse\MainController@list_buy');
+            // Dashboard Stock
+            Route::get('opname','Warehouse\MainController@opname');
+        });
+
+        // Request group
+        Route::group(['prefix' => 'req'], function() use($row){
+            // Purchase Order
+            Route::get('po', $row->page_name.'\MainController@po');
+            // Delivery Order
+            Route::get('do', $row->page_name.'\MainController@do');
+            // Goods
+            Route::get('tools', $row->page_name.'\MainController@tools');
+        });
+
+
+        // page test
+        Route::get('export', 'Warehouse\MainController@export');
+        Route::get('export/{ty}', 'Warehouse\MainController@export');
     });
-
-    // Warehouse master group
-    Route::group(['prefix' => 'mst'], function(){
-        // master stock
-        Route::get('stock', 'Warehouse\MainController@master_stock');
-        // master measure
-        Route::get('measure', 'Warehouse\MainController@master_measure');
-        // master category
-        Route::get('category', 'Warehouse\MainController@master_category');
-    });
-
-    // Warehouse request
-    Route::group(['prefix' => 'req'], function(){
-        // Purchase Order
-        Route::get('po', 'Warehouse\RequestController@po');
-        // Delivery Order
-        Route::get('do', 'Warehouse\RequestController@do');
-        // Tools
-        Route::get('tools', 'Warehouse\RequestController@tools');
-    });
-});
-
-
-// Marketing Admin page
-Route::group(['prefix' => 'mk'], function(){
-    // Marketing dashboard
-    Route::get('/', 'Marketing\MainController@index');
-
-    // Marketing master group
-    Route::group(['prefix' => 'mst'], function(){
-        // master supplier
-        Route::get('supplier', 'Marketing\MainController@master_supplier');
-    });
-});
-
-
-// Purchasing Admin page
-Route::group(['prefix' => 'pur'], function(){
-    // Marketing dashboard
-    Route::get('/', 'Purchasing\MainController@index');
-
-    // Purchasing master group
-    Route::group(['prefix' => 'mst'], function(){
-        // master supplier
-        Route::get('supplier', 'Marketing\MainController@master_supplier');
-    });
-
-    // Warehouse master group
-    Route::group(['prefix' => 'req'], function(){
-        // master supplier
-        Route::get('po', 'Purchasing\MainController@po');
-    });
-});
+  }
+}

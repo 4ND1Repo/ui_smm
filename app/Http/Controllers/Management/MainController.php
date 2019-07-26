@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Warehouse;
+namespace App\Http\Controllers\Management;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 // Add Helper
 use App\Helper\Template\Views;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class RequestController extends Controller{
+class MainController extends Controller{
 
-    public function po(Request $r, Views $v){
+    public function index(Request $r, Views $v){
         // validate user is login
         $v::js_head([
             'js/authentication/storage.js',
@@ -30,13 +28,18 @@ class RequestController extends Controller{
             'css/demo1/skins/brand/dark.css',
             'css/demo1/skins/aside/dark.css'
         ]);
-        $v::js(['js/warehouse/po.js']);
-        $v::page('warehouse.request.po');
+        $v::js([
+            'vendors/custom/fullcalendar/fullcalendar.bundle.js',
+            'vendors/custom/gmaps/gmaps.js',
+            'js/demo1/pages/dashboard.js',
+            'js/warehouse/main.js'
+        ]);
+        $v::page('management.dashboard');
 
         return View('admin',$v::colect());
     }
 
-    public function do(Request $r, Views $v){
+    public function menu(Request $r, Views $v){
         // validate user is login
         $v::js_head([
             'js/authentication/storage.js',
@@ -54,13 +57,13 @@ class RequestController extends Controller{
             'css/demo1/skins/brand/dark.css',
             'css/demo1/skins/aside/dark.css'
         ]);
-        $v::js(['js/warehouse/do.js']);
-        $v::page('warehouse.request.do');
+        $v::js(["js/management/menu.js"]);
+        $v::page('management.menu');
 
         return View('admin',$v::colect());
     }
 
-    public function tools(Request $r, Views $v){
+    public function users(Request $r, Views $v){
         // validate user is login
         $v::js_head([
             'js/authentication/storage.js',
@@ -78,22 +81,33 @@ class RequestController extends Controller{
             'css/demo1/skins/brand/dark.css',
             'css/demo1/skins/aside/dark.css'
         ]);
-        $v::js(['js/warehouse/request_tools.js']);
-        $v::page('warehouse.request.tools');
+        $v::js(["js/management/users.js"]);
+        $v::page('management.users');
 
         return View('admin',$v::colect());
     }
 
-    public function export($ty="excel"){
-        $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
+    public function role_menu(Request $r, Views $v){
+        // validate user is login
+        $v::js_head([
+            'js/authentication/storage.js',
+            'js/authentication/validate.js'
+        ]);
 
-        $writer = new Xlsx($spreadsheet);
+        $v::all_css();
+        $v::all_js();
 
-        header('Content-Type: application/vnd.ms-excel');
-		header('Content-Disposition: attachment;filename="export.xlsx"');
-		header('Cache-Control: max-age=0');
-        $writer->save("php://output");
+        $v::css([
+            'css/demo1/pages/general/login/login-1.css',
+            'css/demo1/style.bundle.css',
+            'css/demo1/skins/header/base/light.css',
+            'css/demo1/skins/header/menu/light.css',
+            'css/demo1/skins/brand/dark.css',
+            'css/demo1/skins/aside/dark.css'
+        ]);
+        $v::js(["js/management/menu.js"]);
+        $v::page('management.menu');
+
+        return View('admin',$v::colect());
     }
 }
