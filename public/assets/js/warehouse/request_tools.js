@@ -14,12 +14,12 @@ var KTRequestTools = function(){
                     maxlength: 30
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -33,8 +33,8 @@ var KTRequestTools = function(){
             submitHandler: function (form) {
                 if($('.request_tools').html()== ""){
                     swal.fire({
-                        title: "", 
-                        text: "belum mengisi stok yang dibutuhkan", 
+                        title: "",
+                        text: "belum mengisi stok yang dibutuhkan",
                         type: "warning",
                         showConfirmButton: false,
                         timer: 1500
@@ -65,8 +65,8 @@ var KTRequestTools = function(){
 
                             $('.request_tools').html('');
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -76,8 +76,8 @@ var KTRequestTools = function(){
                             KTGridRequestTools.element().reload();
                         } else {
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -90,6 +90,16 @@ var KTRequestTools = function(){
                 });
 
                 return false;
+            },
+            errorElement: 'span',
+            errorClass: 'error invalid-feedback',
+            errorPlacement: function(error, element) {
+                if(element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
+                element.addClass('is-invalid');
             }
         });
     }
@@ -116,7 +126,7 @@ var KTGridRequestTools = function(){
         myGrid.set('height', height);
         myGrid.set('url', url);
         myGrid.set('page', page);
-        myGrid.set('column', 
+        myGrid.set('column',
             [{
                 field: 'req_tools_code',
                 title: 'Kode Request'
@@ -182,7 +192,7 @@ var KTGridRequestTools = function(){
                                 console.log(tmp);
                                 $('input[name=name_of_request]').val(data.request_tools.name_of_request).prop('readonly',true);
                                 $('input[name=req_nik]').val(data.request_tools.req_nik).prop('readonly',true);
-                                
+
                                 var tmp = '';
                                 $.each(data.request_tools_detail, function(k,v){
 
@@ -193,12 +203,13 @@ var KTGridRequestTools = function(){
                                     tmp += '<div>'+v.stock_name+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_type+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_size+'&nbsp;</div>';
-                                    tmp += '<div><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" readonly></div>';
+                                    tmp += '<div>'+v.stock_brand+'&nbsp;</div>';
+                                    tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
                                     tmp += '</div>';
                                     if(v.finish_by == null && v.fullfillment == 1)
                                         tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
                                     else if(v.finish_by == null && v.fullfillment == 0)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-danger btn-wide btn-sm disable" id="'+v.stock_code+'-'+v.req_tools_code+'" disabled>Belum Terpenuhi</botton></div>'; 
+                                        tmp += '<div class="text-center"><button type="button" class="btn btn-danger btn-wide btn-sm disable" id="'+v.stock_code+'-'+v.req_tools_code+'" disabled>Belum Terpenuhi</botton></div>';
                                     tmp += '</div>';
                                     tmp += '</div>';
                                     tmp += '</div>';
@@ -276,8 +287,8 @@ var KTGridRequestTools = function(){
                     });
                 });
             });
-        
-            
+
+
         });
         myGrid.init();
         _el = myGrid.element();
@@ -317,6 +328,8 @@ $(document).ready(function(){
         $('input[name=name_of_request]').val('').prop('readonly',false);
         $('input[name=req_nik]').val('').prop('readonly',false);
         $('.modal-footer,.validated.search').removeClass('kt-hidden');
+        KTRequestTools.element().resetForm();
+        $('#FReqtools').find('.invalid-feedback').remove();
     });
 
 
@@ -354,14 +367,15 @@ $(document).ready(function(){
         tmp += '<div>'+data[1]+'&nbsp;</div>';
         tmp += '<div>'+data[2]+'&nbsp;</div>';
         tmp += '<div>'+data[3]+'&nbsp;</div>';
-        tmp += '<div><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"></div>';
+        tmp += '<div>'+data[4]+'&nbsp;</div>';
+        tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
         tmp += '</div>';
         tmp += '</div>';
         tmp += '</div>';
         if($('.request_tools').find("div[id='"+map[selection]+"']").length > 0){
             swal.fire({
-                title: "", 
-                text: "Data sudah ada di daftar", 
+                title: "",
+                text: "Data sudah ada di daftar",
                 type: "warning",
                 showConfirmButton: false,
                 timer: 1500
@@ -371,6 +385,8 @@ $(document).ready(function(){
             $(".qtyStock").inputmask('decimal', {
                 rightAlignNumerics: false
             });
+
+            $('.request_tools input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
     });
