@@ -18,19 +18,12 @@
 
 		<!--begin::Fonts -->
 		<link href="./assets/vendors/google/fonts.css" rel="stylesheet" type='text/css'>
-        <!--end::Fonts -->
+    <!--end::Fonts -->
 
-        @if(env('APP_ENV') == 'production')
-        <script>
-            var base_url = 'http://{{{$_SERVER['HTTP_HOST']}}}',
-                api_url = 'http://{{{$_SERVER['HTTP_HOST'].":8081"}}}';
-        </script>
-        @else
-        <script>
-            var base_url = '{{{env("APP_URL")}}}',
-                api_url = '{{{env("API_URL")}}}';
-        </script>
-        @endif
+		<script>
+        var base_url = '{{{env("APP_URL")}}}',
+            api_url = '{{{env("API_URL")}}}';
+    </script>
 
         <!--begin:Generate default css -->
         @if(count($template['head']['css']) > 0)
