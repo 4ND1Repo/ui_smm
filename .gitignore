@@ -1,5 +1,7 @@
 *
 !app
+!app/Exceptions
+!app/Exceptions/*
 !app/Http
 !app/Http/Controllers
 !app/Http/Controllers/*

@@ -11,6 +11,11 @@
 |
 */
 use App\Helper\RestCurl;
+use App\Helper\Api;
+
+// check URI
+API::check_env();
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });

@@ -2,15 +2,7 @@
 
 myStorage.set('auth');
 var auth = myStorage.get();
-if(auth==null){
-    if(window.location != base_url && window.location != base_url+'/auth/login')
-        window.location = base_url;
-} else{
-    window.Auth = JSON.parse(auth);
-    if(window.location == base_url+'/auth/login'){
-        window.location = base_url+'/'+window.Auth.page;
-    }
-}
+
 
 // function get all menu are exists
 var KTAccessMenu = function(){
@@ -33,12 +25,25 @@ var KTAccessMenu = function(){
   };
 }();
 
-// validate uri are exist in rules
-if(typeof window.Auth !== 'undefined'){
-  window.AccessMenu = KTAccessMenu.get(window.Auth.menu);
-  var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,"");
-  if(link != "" && window.AccessMenu.indexOf(link) == -1){
-    history.back(-1);
-    window.stop();
-  }
+
+if(auth==null){
+    if(window.location != base_url && window.location != base_url+'/auth/login'){
+        window.location = base_url;
+    }
+} else{
+    window.Auth = JSON.parse(auth);
+    if(window.location == base_url+'/auth/login'){
+        window.location = base_url+'/'+window.Auth.page;
+    } else {
+      console.log(window.Auth);
+      // validate uri are exist in rules
+      if(typeof window.Auth !== 'undefined'){
+        window.AccessMenu = KTAccessMenu.get(window.Auth.menu);
+        var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,"");
+        if(link != "" && window.AccessMenu.indexOf(link) == -1){
+          history.back(-1);
+          window.stop();
+        }
+      }
+    }
 }
