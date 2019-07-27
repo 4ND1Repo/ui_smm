@@ -100,22 +100,30 @@
                   #FPO .list-header > div {
                     float: left;
                     font-weight: bold;
-                    width: 60%;
+                    width: 50%;
                   }
-                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:last-child {
+                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3) {
                     text-align: center;
                     width: 20%;
+                  }
+                  #FPO .list-header > div:last-child {
+                    text-align: center;
+                    width: 10%;
                   }
                   #FPO .list-body > div {
                     width: 100%;
                     min-height: 40px;
                   }
                   #FPO .list-body > div > div {
-                    width: 60%;
+                    width: 50%;
                     float: left;
                   }
-                  #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:last-child {
+                  #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:nth-child(3) {
                     width: 20%;
+                  }
+                  #FPO .list-body > div > div:last-child {
+                    width: 10%;
+                    text-align: center;
                   }
                 </style>
                 <div class="row typeahead">
@@ -130,6 +138,7 @@
                                 <div>Stok</div>
                                 <div>Tanggal Terima</div>
                                 <div>Kuantiti</div>
+                                <div>Satuan</div>
                             </div>
                             <div class="list-body"></div>
                         </div>

@@ -195,6 +195,7 @@ var KTGridPO = function(){
                                     tmpHtml += '<div class="text-center">'+((v.po_date_delivery !== null)?(tmpdt[2]+"/"+tmpdt[1]+"/"+tmpdt[0]):tmpdt)+'</div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     tmpHtml += '</div>';
                                   });
                                   $('#FPO .list-body').append(tmpHtml);
@@ -307,6 +308,7 @@ $(document).ready(function(){
         // input qty
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection]+']" placeholder="Kuantiti"></div>';
+        tmpHtml += '<div class="text-center">'+data[5]+'</div>';
         tmpHtml += '</div>';
 
         if($('#FPO').find("div[id='"+map[selection]+"']").length > 0){

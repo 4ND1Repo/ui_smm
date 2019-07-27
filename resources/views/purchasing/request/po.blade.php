@@ -1,3 +1,8 @@
+<style>
+  .datepicker tbody tr > td.day.disabled, .datepicker tbody tr > td span.month.disabled, .datepicker tbody tr > td span.year.disabled {
+    color: #ccc;
+  }
+</style>
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
@@ -138,13 +143,15 @@
                   #FPO .list-header > div {
                     float: left;
                     font-weight: bold;
-                    width: 40%;
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    width: 30%;
                   }
-                  #FPO .list-header > div:last-child, #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(5) {
+                  #FPO .list-header > div:last-child, #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(4), #FPO .list-header > div:nth-child(6) {
                     text-align: center;
                     width: 10%;
                   }
-                  #FPO .list-header > div:nth-child(4) {
+                  #FPO .list-header > div:nth-child(5) {
                     text-align: center;
                     width: 20%;
                   }
@@ -153,13 +160,17 @@
                     min-height: 40px;
                   }
                   #FPO .list-data > div > div {
-                    width: 40%;
+                    width: 30%;
                     float: left;
                   }
-                  #FPO .list-data > div > div:last-child, #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(5) {
+                  #FPO .list-data > div > div:first-child {
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                  }
+                  #FPO .list-data > div > div:last-child, #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(4), #FPO .list-data > div > div:nth-child(6) {
                     width: 10%;
                   }
-                  #FPO .list-data > div > div:nth-child(4) {
+                  #FPO .list-data > div > div:nth-child(5) {
                     width: 20%;
                   }
                 </style>
@@ -170,6 +181,7 @@
                             <div class="list-header">
                                 <div>Stok</div>
                                 <div>Kuantiti</div>
+                                <div>Satuan</div>
                                 <div>Kirim</div>
                                 <div>Supplier</div>
                                 <div>Harga</div>

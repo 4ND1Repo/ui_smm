@@ -182,25 +182,34 @@ var KTGridPO = function(){
                                     // get data from po detail
                                     tmpHtml += '<div id="'+v.po_code+'">';
                                     // detail stock
-                                    tmpHtml += '<div>';
+                                    tmpHtml += '<div data-toggle="kt-tooltip" data-placement="top" data-original-title="'+v.stock_name+' - '+v.stock_type+' - '+v.stock_size+'" data-skin="dark">';
                                     tmpHtml += v.stock_code+' - ';
                                     tmpHtml += v.stock_name+' - ';
                                     tmpHtml += v.stock_type+' - ';
                                     tmpHtml += v.stock_size;
                                     tmpHtml += '</div>';
                                     // input qty
-                                    tmpHtml += '<div class="">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    // input measure
+                                    tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][date]" value="'+(v.po_date_delivery == null?'':v.v.po_date_delivery)+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
                                     tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][supplier]" value="'+(v.supplier_code == null?'':v.supplier_code+' - '+v.supplier_name)+'" placeholder="Supplier" title="Supplier"></div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" placeholder="Harga" title="Harga"></div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][qty]" value="'+v.po_qty+'" placeholder="Tersedia" title="Tersedia"></div>';
                                     $('#FPO .list-data').append(tmpHtml);
                                     tmpHtml += '</div>';
+                                    // datepicker
                                     $('input[name="data['+v.po_code+']['+v.main_stock_code+'][date]"]').datepicker({
                                         format: "dd/mm/yyyy",
+                                        pickTime: false,
                                         startDate: date,
-                                        clearBtn: true
+                                        clearBtn: true,
+                                        autoclose: true
+                                    }).on('hide',function(event){
+                                      	event.preventDefault();
+                                      	event.stopPropagation();
                                     });
+                                    // supplier autocomplete
                                     $('input[name="data['+v.po_code+']['+v.main_stock_code+'][supplier]"]').typeahead(null, {
                                         name: 'stock_name',
                                         source: function(query,psc){
@@ -222,6 +231,17 @@ var KTGridPO = function(){
                                             psc(res);
                                         }
                                     });
+                                    // masking number format
+                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][price]"], input[name="data['+v.po_code+']['+v.main_stock_code+'][qty]"]').inputmask('decimal', {
+                                        rightAlignNumerics: false
+                                    });
+                                  });
+                                  $('#FPO .list-data div[data-toggle="kt-tooltip"]').tooltip({
+                                    trigger: "hover",
+                                    template: '<div class="tooltip tooltip-dark" role="tooltip">\
+                                        <div class="arrow"></div>\
+                                        <div class="tooltip-inner"></div>\
+                                    </div>'
                                   });
                                   $('#addPo').modal('show');
                                 }
@@ -258,7 +278,8 @@ $(document).ready(function(){
     KTFormPO.init();
 
     $("#addPo").on('hide.bs.modal', function(){
-      $('#FPO .list-body').html('');
+      console.log('test');
+      $('#FPO .list-data').html('');
     });
 
     // submit form PO
