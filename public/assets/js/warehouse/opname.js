@@ -32,6 +32,15 @@ var KTFormOpname = function(){
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"menu_page", value:window.Auth.page});
+            // block ui modal
+            var target = formModal+' .modal-content';
+            KTApp.block(target, {
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'primary',
+                message: 'Processing...'
+            });
+
             $.ajax({
                 url: link,
                 type: "POST",
@@ -60,9 +69,19 @@ var KTFormOpname = function(){
                             console.log('failed');
                         });
                     }
+                    KTApp.unblock(target);
                 },
                 error: function(){
-
+                    swal.fire({
+                        title: "",
+                        text: "Kesalahan sistem",
+                        type: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((res) => {
+                        console.log('failed');
+                    });
+                    KTApp.unblock(target);
                 }
             });
             return false;

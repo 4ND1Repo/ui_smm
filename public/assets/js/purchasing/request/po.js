@@ -33,6 +33,15 @@ var KTFormPO = function(){
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"menu_page", value:window.Auth.page});
             data.push({name:"menu_page_destination", value:'pur'});
+            // block ui modal
+            var target = formModal+' .modal-content';
+            KTApp.block(target, {
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'primary',
+                message: 'Processing...'
+            });
+
             $.ajax({
                 url: link,
                 type: "POST",
@@ -62,9 +71,19 @@ var KTFormPO = function(){
                             console.log('failed');
                         });
                     }
+                    KTApp.unblock(target);
                 },
                 error: function(){
-
+                    swal.fire({
+                        title: "",
+                        text: "Kesalahan sistem",
+                        type: "error",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((res) => {
+                        console.log('failed');
+                    });
+                    KTApp.unblock(target);
                 }
             });
             return false;
@@ -98,6 +117,7 @@ var KTGridPO = function(){
         url = api_url+'/api/pur/req/po/grid',
         link_find = api_url+'/api/pur/req/po/find/',
         link_delete = api_url+'/api/pur/req/po/delete',
+        link_cancel = api_url+'/api/pur/req/po/cancel',
         page = '10';
 
     var _KTDatatable = function(){
@@ -131,7 +151,7 @@ var KTGridPO = function(){
                 template: function(row){
                     var status = {
                         "ST06": {'title': 'Pending', 'class': 'kt-badge--brand'},
-                        2: {'title': 'Delivered', 'class': ' kt-badge--danger'},
+                        "ST09": {'title': 'Delivered', 'class': ' kt-badge--danger'},
                         "ST04": {'title': 'Canceled', 'class': ' kt-badge--primary'},
                         "ST05": {'title': 'Success', 'class': ' kt-badge--success'},
                         5: {'title': 'Info', 'class': ' kt-badge--info'},
@@ -152,6 +172,9 @@ var KTGridPO = function(){
                         <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Proses PO">\
                             <i class="la la-automobile"></i>\
                         </a>\
+                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-cancel" id="'+row.po_code+'" title="Batalkan PO">\
+                            <i class="la la-remove text-danger"></i>\
+                        </a>\
                     ':"&nbsp;";
                 },
             }]
@@ -165,6 +188,41 @@ var KTGridPO = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+                $('.btn-cancel').click(function(){
+                  Swal.fire({
+                      title: 'Anda yakin?',
+                      text: "untuk membatalkan transaksi ini!",
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Ya',
+                      cancelButtonText: 'Tidak',
+                  }).then((result) => {
+                      if (result.value) {
+                          $.ajax({
+                              url: link_cancel,
+                              type: 'POST',
+                              data: {'po_code':$(this).attr('id'),nik:window.Auth.nik},
+                              success: function(r){
+                                  Swal.fire({
+                                      title: 'Dibatalkan!',
+                                      text: 'Transaksi telah dibatalkan.',
+                                      type: 'success',
+                                      showConfirmButton: false,
+                                      timer: 1500
+                                  });
+                                  _el.reload();
+                                  $('[name=find]')[0].focus();
+                              },
+                              error: function(){
+                                  console.log('error delete');
+                              }
+                          });
+                      }
+                  });
+                });
+
                 $('.btn-detail').click(function(){
                     $.ajax({
                         url: link_find+$(this).attr('id'),
@@ -187,14 +245,22 @@ var KTGridPO = function(){
                                     tmpHtml += v.stock_name+' - ';
                                     tmpHtml += v.stock_type+' - ';
                                     tmpHtml += v.stock_size;
+                                    if(v.po_notes !== null && v.po_notes !== "")
+                                      tmpHtml += '<br/>Keterangan :<br/>'+v.po_notes;
                                     tmpHtml += '</div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
                                     // input measure
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][date]" value="'+(v.po_date_delivery == null?'':v.v.po_date_delivery)+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
+                                    var tmp = (v.po_date_delivery == null?false:v.po_date_delivery),
+                                      dte = '';
+                                    if(tmp){
+                                      tmp = tmp.split('-');
+                                      dte = tmp[2]+"/"+tmp[1]+"/"+tmp[0];
+                                    }
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][date]" value="'+dte+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
                                     tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][supplier]" value="'+(v.supplier_code == null?'':v.supplier_code+' - '+v.supplier_name)+'" placeholder="Supplier" title="Supplier"></div>';
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" placeholder="Harga" title="Harga"></div>';
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" data-id="'+v.main_stock_code+'" data-skin="dark" data-toggle="kt-tooltip" data-container="body" data-placement="top" data-original-title="" placeholder="Harga" title="Harga"></div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][qty]" value="'+v.po_qty+'" placeholder="Tersedia" title="Tersedia"></div>';
                                     $('#FPO .list-data').append(tmpHtml);
                                     tmpHtml += '</div>';
@@ -235,7 +301,44 @@ var KTGridPO = function(){
                                     $('input[name="data['+v.po_code+']['+v.main_stock_code+'][price]"], input[name="data['+v.po_code+']['+v.main_stock_code+'][qty]"]').inputmask('decimal', {
                                         rightAlignNumerics: false
                                     });
+
+                                    // check last update price is higher or not
+                                    var ajx = "";
+                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][price]"]').on('keyup', function(){
+                                      var el = this;
+                                      if(typeof ajx === 'object'){
+                                        ajx.abort();
+                                      }
+                                      $(el).attr('title','');
+
+                                      ajx = $.ajax({
+                                        url: api_url+'/api/pur/req/po/check_price',
+                                        type: 'POST',
+                                        data: {main_stock_code: $(el).data('id')},
+                                        success: function(r){
+                                          if(r.status){
+                                            if(parseFloat($(el).val()) > r.data){
+                                              $(el).attr('data-original-title','harga sebelumnya : '+r.data);
+                                              if(!$(el).hasClass('is-higher'))
+                                                $(el).addClass('is-higher');
+                                            } else{
+                                              $(el).attr('data-original-title',"");
+                                              $(el).removeClass('is-higher');
+                                            }
+                                          }
+                                        }
+                                      }).done(function(){
+                                        $('input[data-toggle="kt-tooltip"]').tooltip({
+                                          trigger: "hover",
+                                          template: '<div class="tooltip tooltip-dark" role="tooltip">\
+                                              <div class="arrow"></div>\
+                                              <div class="tooltip-inner"></div>\
+                                          </div>'
+                                        });
+                                      });
+                                    });
                                   });
+
                                   $('#FPO .list-data div[data-toggle="kt-tooltip"]').tooltip({
                                     trigger: "hover",
                                     template: '<div class="tooltip tooltip-dark" role="tooltip">\

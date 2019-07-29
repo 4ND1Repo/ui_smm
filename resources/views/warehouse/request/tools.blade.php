@@ -85,6 +85,12 @@
                     </div>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addPo'>
+                            <i class="flaticon2-plus"></i> Buat PO
+                        </button>
+                    </div>
+                    &nbsp;
+                    <div class="dropdown dropdown-inline">
                         <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addReqtools'>
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
@@ -131,7 +137,7 @@
 
         <!--end: Search Form -->
         </div>
-        
+
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
@@ -191,6 +197,90 @@
             <div class="modal-footer">
                 <button type="button" tabindex="13" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
                 <button type="button" tabindex="12" class="btn btn-primary btn-submit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+
+
+<!-- modal for add stock to PO -->
+<div class="modal fade" id="addPo" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Buat Purchase Order</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <style media="screen">
+                  #FPO .list-header, #FPO .list-body {
+                    display: block;
+                  }
+                  #FPO .list-header {
+                    min-height: 30px;
+                    border-bottom: 1px solid #999;
+                    margin-bottom: 6px;
+                  }
+                  #FPO .list-header > div {
+                    float: left;
+                    font-weight: bold;
+                    width: 30%;
+                  }
+                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3) {
+                    text-align: center;
+                    width: 20%;
+                  }
+                  #FPO .list-header > div:nth-child(4) {
+                    text-align: center;
+                    width: 10%;
+                  }
+                  #FPO .list-header > div:last-child {
+                    text-align: center;
+                    width: 20%;
+                  }
+                  #FPO .list-body > div {
+                    width: 100%;
+                    min-height: 40px;
+                  }
+                  #FPO .list-body > div > div {
+                    width: 30%;
+                    float: left;
+                  }
+                  #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:nth-child(3) {
+                    width: 20%;
+                  }
+                  #FPO .list-body > div > div:nth-child(4) {
+                    width: 10%;
+                    text-align: center;
+                  }
+                  #FPO .list-body > div > div:last-child {
+                    width: 20%;
+                    text-align: center;
+                  }
+                </style>
+                <form class="kt-form" id="FPO">
+                    <div class="row validated">
+                        <div class="col-md-12">
+                            <div class="list-header">
+                                <div>Stok</div>
+                                <div>Tanggal Terima</div>
+                                <div>Kuantiti</div>
+                                <div>Satuan</div>
+                                <div>Keterangan</div>
+                            </div>
+                            <div class="list-body"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Buat</button>
             </div>
         </div>
     </div>

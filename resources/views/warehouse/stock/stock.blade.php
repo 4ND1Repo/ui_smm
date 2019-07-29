@@ -188,10 +188,6 @@
                                 <input type="text" tabindex="8" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
                             </div>
                             <div class="form-group">
-                                <label>Maksimal Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
-                            </div>
-                            <div class="form-group">
                                 <div class="kt-checkbox-list">
                                     <label class="kt-checkbox">
                                         <input type="checkbox" tabindex="10" value="1" name="stock_daily_use"> Pinjaman

@@ -1,7 +1,8 @@
 "use strict";
 
 var KTValidationForm = function(){
-    var formId = "#FSupplier";
+    var formId = "#FSupplier",
+        formModal = "#insertSupplier";
     var _el = null;
 
     var SupplierFormValidation = function () {
@@ -49,6 +50,15 @@ var KTValidationForm = function(){
                 if(bEdit)
                     link = api_url+"/api/mst/supplier/edit";
 
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
+
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -63,21 +73,41 @@ var KTValidationForm = function(){
                                 $('#insertSupplier').modal('hide');
                                 $('.btn-submit')[0].removeAttribute('edit');
                             }
+
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                $(formId+" input[type=text]")[0].focus();
+                            });
+                        } else {
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "warning",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                console.log('failed');
+                            });
                         }
+                        KTApp.unblock(target);
                     },
                     error: function(){
-
+                        swal.fire({
+                            title: "",
+                            text: "Kesalahan sistem",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((res) => {
+                            console.log('failed');
+                        });
+                        KTApp.unblock(target);
                     }
-                });
-
-                swal.fire({
-                    title: "",
-                    text: "Semua terisi, akan diproses segera",
-                    type: "success",
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then((res) => {
-                    $(formId+" input[type=text]")[0].focus();
                 });
                 return false;
             }

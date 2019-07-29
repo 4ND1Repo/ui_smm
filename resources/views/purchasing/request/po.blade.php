@@ -72,7 +72,7 @@
         </div>
 
 
-        <div class="kt-portlet__body kt-portlet__body--fit">
+        <div class="kt-portlet__body">
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
@@ -172,6 +172,9 @@
                   }
                   #FPO .list-data > div > div:nth-child(5) {
                     width: 20%;
+                  }
+                  #FPO .list-data > div input.is-higher {
+                    border-color: red;
                   }
                 </style>
                 <div class="row">&nbsp;</div>

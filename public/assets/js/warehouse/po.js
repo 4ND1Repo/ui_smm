@@ -33,6 +33,15 @@ var KTFormPO = function(){
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"menu_page", value:window.Auth.page});
             data.push({name:"menu_page_destination", value:'pur'});
+            // block ui modal
+            var target = formModal+' .modal-content';
+            KTApp.block(target, {
+                overlayColor: '#000000',
+                type: 'v2',
+                state: 'primary',
+                message: 'Processing...'
+            });
+
             $.ajax({
                 url: link,
                 type: "POST",
@@ -61,9 +70,19 @@ var KTFormPO = function(){
                             console.log('failed');
                         });
                     }
+                    KTApp.unblock(target);
                 },
                 error: function(){
-
+                  swal.fire({
+                      title: "",
+                      text: 'Kesalahan sistem',
+                      type: "error",
+                      showConfirmButton: false,
+                      timer: 1500
+                  }).then((res) => {
+                      console.log('failed');
+                  });
+                  KTApp.unblock(target);
                 }
             });
             return false;
@@ -130,7 +149,7 @@ var KTGridPO = function(){
                 template: function(row){
                     var status = {
                         "ST06": {'title': 'Pending', 'class': 'kt-badge--brand'},
-                        2: {'title': 'Delivered', 'class': ' kt-badge--danger'},
+                        "ST09": {'title': 'Delivered', 'class': ' kt-badge--danger'},
                         "ST04": {'title': 'Canceled', 'class': ' kt-badge--primary'},
                         "ST05": {'title': 'Success', 'class': ' kt-badge--success'},
                         5: {'title': 'Info', 'class': ' kt-badge--info'},
@@ -196,9 +215,11 @@ var KTGridPO = function(){
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
+                                    tmpHtml += '<div class="text-center" data-toggle="kt-tooltip-notes" data-container="body" data-placement="top" title="'+(v.po_notes==null?"":v.po_notes)+'">'+(v.po_notes==null?"":v.po_notes)+'</div>';
                                     tmpHtml += '</div>';
                                   });
                                   $('#FPO .list-body').append(tmpHtml);
+                                  $('[data-toggle="kt-tooltip-notes"]').tooltip();
                                   $('#addPo .btn-submit, #addPo .typeahead').addClass('kt-hidden');
                                   $('#addPo').modal('show');
                                 }
@@ -309,6 +330,7 @@ $(document).ready(function(){
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection]+']" placeholder="Kuantiti"></div>';
         tmpHtml += '<div class="text-center">'+data[5]+'</div>';
+        tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+map[selection]+']" placeholder="Keterangan"></div>';
         tmpHtml += '</div>';
 
         if($('#FPO').find("div[id='"+map[selection]+"']").length > 0){

@@ -1,7 +1,8 @@
 "use strict";
 
 var KTValidationForm = function(){
-    var formId = "#FStock";
+    var formId = "#FStock",
+        formModal = "#addStock";
     var _el = null,
         Auth;
 
@@ -56,6 +57,15 @@ var KTValidationForm = function(){
                 var data = $("#FStock").serializeArray();
                 data.push({name:"nik", value:Auth.nik});
                 data.push({name:"menu_page", value:Auth.page});
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
+
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -109,9 +119,19 @@ var KTValidationForm = function(){
                                 $(formId+" input[type=text]")[0].focus();
                             });
                         }
+                        KTApp.unblock(target);
                     },
-                    error: function(){
-
+                    error: function(e){
+                        swal.fire({
+                            title: "",
+                            text: "Kesalahan sistem",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((res) => {
+                            console.log(e);
+                        });
+                        KTApp.unblock(target);
                     }
                 });
                 return false;
@@ -207,12 +227,6 @@ $(document).ready(function(){
                 return price.format(row.stock_min_qty,2,",",'.');
             }
         }, {
-            field: 'stock_max_qty',
-            title: 'Maksimal Kuantiti',
-            template: function(row){
-                return price.format(row.stock_max_qty,2,",",'.');
-            }
-        }, {
             field: 'stock_daily_use',
             title: 'Pakai Harian',
             template: function(row){
@@ -279,28 +293,28 @@ $(document).ready(function(){
         // function buttin on datatable grid
         $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
             $('.btn-edit').click(function(){
+
                 $.ajax({
                     url: api_url+'/api/wh/stock/find/'+$(this).attr('id'),
                     type: 'GET',
                     success: function(res){
                         if(res.status){
                             var tmp = res.data;
-                            $('input[name=stock_code]').val(tmp.stock_code);
-                            $('input[name=stock_name]').val(tmp.stock_name);
-                            $('input[name=stock_size]').val(tmp.stock_size);
-                            $('input[name=stock_brand]').val(tmp.stock_brand);
-                            $('input[name=stock_type]').val(tmp.stock_type);
-                            $('input[name=stock_color]').val(tmp.stock_color);
-                            $('input[name=stock_price]').val(tmp.stock_price);
-                            $('input[name=stock_deliver_price]').val(tmp.stock_deliver_price);
-                            $('select[name=measure_code]').val(tmp.measure_code).trigger('change');
-                            $('input[name=stock_qty]').val(tmp.stock_qty);
-                            $('input[name=stock_min_qty]').val(tmp.stock_min_qty);
-                            $('input[name=stock_max_qty]').val(tmp.stock_max_qty);
+                            $('#addStock input[name=stock_code]').val(tmp.stock_code);
+                            $('#addStock input[name=stock_name]').val(tmp.stock_name);
+                            $('#addStock input[name=stock_size]').val(tmp.stock_size);
+                            $('#addStock input[name=stock_brand]').val(tmp.stock_brand);
+                            $('#addStock input[name=stock_type]').val(tmp.stock_type);
+                            $('#addStock input[name=stock_color]').val(tmp.stock_color);
+                            $('#addStock input[name=stock_price]').val(tmp.stock_price);
+                            $('#addStock input[name=stock_deliver_price]').val(tmp.stock_deliver_price);
+                            $('#addStock select[name=measure_code]').val(tmp.measure_code).trigger('change');
+                            $('#addStock input[name=stock_qty]').val(tmp.stock_qty);
+                            $('#addStock input[name=stock_min_qty]').val(tmp.stock_min_qty);
                             if(parseInt(tmp.stock_daily_use) == 1)
                                 $('input[name=stock_daily_use]').prop('checked',true);
-                            $('.btn-submit').attr('edit',1);
-                            $('select[name=category_code]').parent().parent().addClass('kt-hidden');
+                            $('#addStock .btn-submit').attr('edit',1);
+                            $('#addStock select[name=category_code]').parent().parent().addClass('kt-hidden');
 
                             $('#addStock').modal('show');
                         }
@@ -367,7 +381,7 @@ $(document).ready(function(){
     });
 
     // form masking
-    $("input[name=stock_price],input[name=stock_deliver_price],input[name=stock_qty],input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {
+    $("input[name=stock_price],input[name=stock_deliver_price],input[name=stock_qty],input[name=stock_min_qty]").inputmask('decimal', {
         rightAlignNumerics: false
     });
 });

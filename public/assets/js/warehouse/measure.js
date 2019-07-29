@@ -1,7 +1,8 @@
 "use strict";
 
 var KTValidationForm = function(){
-    var formId = "#FMeasure";
+    var formId = "#FMeasure",
+        formModal = "#addMeasure";
     var _el = null,
         Auth;
 
@@ -38,6 +39,15 @@ var KTValidationForm = function(){
                     link = api_url+"/api/mst/measure/edit";
 
                 var data = $(formId).serializeArray();
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
+
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -71,9 +81,17 @@ var KTValidationForm = function(){
                                 timer: 1500
                             });
                         }
+                        KTApp.unblock(target);
                     },
                     error: function(){
-
+                        swal.fire({
+                            title: "",
+                            text: "Kesalahan sistem",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        KTApp.unblock(target);
                     }
                 });
                 return false;

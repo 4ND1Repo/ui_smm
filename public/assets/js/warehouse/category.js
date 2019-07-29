@@ -5,7 +5,7 @@ var KTValidationForm = function(){
         _el = null,
         link_add = api_url+"/api/mst/category/add",
         link_edit = api_url+"/api/mst/category/edit",
-        targetModal = '#addCategory';
+        targetModal = formModal = '#addCategory';
 
     var FormValidation = function () {
         _el = $( formId ).validate({
@@ -44,6 +44,15 @@ var KTValidationForm = function(){
                     link = link_edit;
 
                 var data = $(formId).serializeArray();
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
+
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -78,9 +87,17 @@ var KTValidationForm = function(){
                                 timer: 1500
                             });
                         }
+                        KTApp.unblock(target);
                     },
                     error: function(){
-
+                        swal.fire({
+                            title: "",
+                            text: "Kesalahan sistem",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        KTApp.unblock(target);
                     }
                 });
                 return false;

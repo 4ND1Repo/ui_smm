@@ -56,12 +56,12 @@
                             </ul>
                         </div>
                     </div>
-                    &nbsp;
+                    {{-- &nbsp;
                     <div class="dropdown dropdown-inline">
                         <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addStock'>
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -186,10 +186,6 @@
                             <div class="form-group">
                                 <label>Minimal Kuantiti</label>
                                 <input type="text" tabindex="8" name="stock_min_qty" class="form-control" placeholder="Isian jumlah minimal stok">
-                            </div>
-                            <div class="form-group">
-                                <label>Maksimal Kuantiti</label>
-                                <input type="text" tabindex="9" name="stock_max_qty" class="form-control" placeholder="Isian jumlah maksimal stok">
                             </div>
                             <div class="form-group">
                                 <div class="kt-checkbox-list">

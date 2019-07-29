@@ -8,7 +8,7 @@ var KTTreeCabinet = function(){
             "core" : {
                 "themes" : {
                     "responsive": false
-                }, 
+                },
                 // so that create works
                 "check_callback" : true,
                 'data' : {
@@ -32,18 +32,18 @@ var KTTreeCabinet = function(){
             "plugins" : [ "dnd", "state", "types" ]
         });
 
-        
+
         $(LayoutCabinet).on('load_node.jstree', function(e,data) {
             data.instance.deselect_node();
             console.log('Load tree');
         });
 
-        $(LayoutCabinet).on('refresh.jstree', function(e,data) { 
+        $(LayoutCabinet).on('refresh.jstree', function(e,data) {
             console.log('refresh tree');
         });
 
         // handle link clicks in tree nodes(support target="_blank" as well)
-        $(LayoutCabinet).on('select_node.jstree', function(e,data) { 
+        $(LayoutCabinet).on('select_node.jstree', function(e,data) {
             var link = $('#' + data.selected).find('a');
             if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "" && !$(link).data('toggle')) {
                 _generateToLayout(link.attr("href"));
@@ -68,7 +68,7 @@ var KTTreeCabinet = function(){
                         $.each(v, function(k1,v1){
                             tmp += '<div class="layout3DCabinet">';
                             if( v1.cabinet_description !== null)
-                                tmp += '<div class="bg3Dlocker hvr-grow-shadow" data-container="body" data-container="body" data-toggle="kt-tooltip-locker" data-placement="top" title="'+v1.cabinet_description+'" data-id="'+v1.cabinet_code+'">';
+                                tmp += '<div class="bg3Dlocker hvr-grow-shadow" data-container="body" data-toggle="kt-tooltip-locker" data-placement="top" title="'+v1.cabinet_description+'" data-id="'+v1.cabinet_code+'">';
                             else
                                 tmp += '<div class="bg3Dlocker hvr-grow-shadow">';
                             tmp += '<div class="content3Dlocker">';
@@ -127,12 +127,12 @@ var KTCabinetForm = function(){
                     maxlength: 50
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -145,7 +145,7 @@ var KTCabinetForm = function(){
 
             submitHandler: function (form) {
                 var data = $(formId).serializeArray();
-                
+
                 data.push({name:'menu_page', value:window.Auth.page});
                 $.ajax({
                     url: link,
@@ -157,8 +157,8 @@ var KTCabinetForm = function(){
                             // $('#addStockCabinetModal').modal('hide');
 
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -169,8 +169,8 @@ var KTCabinetForm = function(){
                             });
                         } else {
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -236,7 +236,7 @@ var KTModalGrid = function(){
         myGrid.set('height', '300');
         myGrid.set('url', api_url+'/api/wh/stock/cabinet/grid');
         myGrid.set('page', '10');
-        myGrid.set('column', 
+        myGrid.set('column',
             [{
                 field: 'cabinet_name',
                 title: 'Rak'
@@ -306,7 +306,7 @@ var KTModalGrid = function(){
 
             // function buttin on datatable grid
             $(_elGrid).on('kt-datatable--on-layout-updated', function() {
-                
+
                 $('.btn-delete').click(function(){
                     Swal.fire({
                         title: 'Anda yakin?',
@@ -342,8 +342,8 @@ var KTModalGrid = function(){
                     });
                 });
             });
-        
-            
+
+
         });
         myGrid.init();
         // end: grid
@@ -409,12 +409,12 @@ var KTStockForm = function(){
                     maxlength: 20
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -444,8 +444,8 @@ var KTStockForm = function(){
                             $('#addStockModal').modal('hide');
 
                             swal.fire({
-                                title: "", 
-                                text: "Semua terisi, akan diproses segera", 
+                                title: "",
+                                text: "Semua terisi, akan diproses segera",
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -454,8 +454,8 @@ var KTStockForm = function(){
                             });
                         } else
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -611,7 +611,7 @@ $(document).ready(function(){
         data.push({name:'menu_page', value:window.Auth.page});
         data.push({name:'main_stock_code', value:stock_code});
         data.push({name:'cabinet_code', value:window.cabinet_code});
-        
+
         $.ajax({
             url: link,
             type: "POST",
@@ -620,8 +620,8 @@ $(document).ready(function(){
                 $('input[name=stock_name].autocomplete').val('');
                 if(r.status){
                     swal.fire({
-                        title: "", 
-                        text: r.message, 
+                        title: "",
+                        text: r.message,
                         type: "success",
                         showConfirmButton: false,
                         timer: 1500
@@ -631,8 +631,8 @@ $(document).ready(function(){
                     });
                 } else {
                     swal.fire({
-                        title: "", 
-                        text: r.message, 
+                        title: "",
+                        text: r.message,
                         type: "warning",
                         showConfirmButton: false,
                         timer: 1500

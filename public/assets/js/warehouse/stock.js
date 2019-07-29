@@ -181,12 +181,6 @@ $(document).ready(function(){
                 return price.format(row.stock_min_qty,2,",",'.');
             }
         }, {
-            field: 'stock_max_qty',
-            title: 'Maksimal Kuantiti',
-            template: function(row){
-                return price.format(row.stock_max_qty,2,",",'.');
-            }
-        }, {
             field: 'stock_daily_use',
             title: 'Pakai Harian',
             template: function(row){
@@ -266,7 +260,6 @@ $(document).ready(function(){
                             $('input[name=stock_color]').val(tmp.stock_color);
                             $('#FStock').find('select[name=measure_code]').val(tmp.measure_code).trigger('change');
                             $('input[name=stock_min_qty]').val(tmp.stock_min_qty);
-                            $('input[name=stock_max_qty]').val(tmp.stock_max_qty);
                             if(parseInt(tmp.stock_daily_use) == 1)
                                 $('input[name=stock_daily_use]').prop('checked',true);
                             $('select[name=category_code]').parent().parent().addClass('kt-hidden');
@@ -338,7 +331,7 @@ $(document).ready(function(){
     });
 
     // form masking
-    $("input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {
+    $("input[name=stock_min_qty]").inputmask('decimal', {
         rightAlignNumerics: false
     });
 });

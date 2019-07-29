@@ -66,6 +66,46 @@
             </div>
         </div>
 
+        <div class="kt-portlet__body">
+
+            <!--begin: Search Form -->
+            <div class="kt-form kt-form--label-right">
+                <div class="row align-items-center">
+                    <div class="col-xl-8 order-2 order-xl-1">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">&nbsp;</div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                        <span><i class="la la-search"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label>Status:</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select class="form-control bootstrap-select" name='status'>
+                                            <option value="">Semua</option>
+                                            <option value="ST06">Menunggu</option>
+                                            <option value="ST02">Proses</option>
+                                            <option value="ST05">Selesai</option>>
+                                            <option value="ST09">Dibatalkan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!--end: Search Form -->
+        </div>
+
 
         <div class="kt-portlet__body kt-portlet__body--fit">
 
@@ -100,30 +140,42 @@
                   #FPO .list-header > div {
                     float: left;
                     font-weight: bold;
-                    width: 50%;
+                    width: 30%;
                   }
                   #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3) {
                     text-align: center;
                     width: 20%;
                   }
-                  #FPO .list-header > div:last-child {
+                  #FPO .list-header > div:nth-child(4) {
                     text-align: center;
                     width: 10%;
+                  }
+                  #FPO .list-header > div:last-child {
+                    text-align: center;
+                    width: 20%;
                   }
                   #FPO .list-body > div {
                     width: 100%;
                     min-height: 40px;
                   }
                   #FPO .list-body > div > div {
-                    width: 50%;
+                    width: 30%;
                     float: left;
                   }
                   #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:nth-child(3) {
                     width: 20%;
                   }
-                  #FPO .list-body > div > div:last-child {
+                  #FPO .list-body > div > div:nth-child(4) {
                     width: 10%;
                     text-align: center;
+                  }
+                  #FPO .list-body > div > div:last-child {
+                    width: 20%;
+                    text-align: center;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    min-height: 40px;
                   }
                 </style>
                 <div class="row typeahead">
@@ -139,6 +191,7 @@
                                 <div>Tanggal Terima</div>
                                 <div>Kuantiti</div>
                                 <div>Satuan</div>
+                                <div>Keterangan</div>
                             </div>
                             <div class="list-body"></div>
                         </div>
