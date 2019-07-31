@@ -80,7 +80,11 @@ if($response->status==200){
         // Request group
         Route::group(['prefix' => 'req'], function() use($row){
             // Purchase Order
-            Route::get('po', $row->page_name.'\MainController@po');
+            Route::group(['prefix' => 'po'], function() use($row){
+                Route::get('/', $row->page_name.'\MainController@po');
+                // History Purchasing
+                Route::get('history', $row->page_name.'\MainController@history');
+            });
             // Delivery Order
             Route::get('do', $row->page_name.'\MainController@do');
             // Goods

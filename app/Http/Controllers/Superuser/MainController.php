@@ -32,7 +32,7 @@ class MainController extends Controller{
             'vendors/custom/fullcalendar/fullcalendar.bundle.js',
             'vendors/custom/gmaps/gmaps.js',
             'js/demo1/pages/dashboard.js',
-            'js/warehouse/main.js'
+            'js/library/dashboard.js'
         ]);
         $v::page('management.dashboard');
 

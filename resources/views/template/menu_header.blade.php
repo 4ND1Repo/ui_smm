@@ -25,7 +25,7 @@
                 </span>
 
                 <!--
-Use dot badge instead of animated pulse effect: 
+Use dot badge instead of animated pulse effect:
 <span class="kt-badge kt-badge--dot kt-badge--notify kt-badge--sm kt-badge--brand"></span>
 -->
             </div>
@@ -418,7 +418,7 @@ Use dot badge instead of animated pulse effect:
         <!--end: Notifications -->
 
         <!--begin: Quick panel toggler -->
-        <div class="kt-header__topbar-item kt-header__topbar-item--quick-panel" data-toggle="kt-tooltip" title="Quick panel" data-placement="right">
+        <div class="kt-header__topbar-item kt-header__topbar-item--quick-panel" data-toggle="kt-tooltip" title="Akses cepat" data-placement="left">
             <span class="kt-header__topbar-icon" id="kt_quick_panel_toggler_btn">
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

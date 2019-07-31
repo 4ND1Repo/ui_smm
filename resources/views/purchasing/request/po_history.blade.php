@@ -1,7 +1,12 @@
+<style>
+  .datepicker tbody tr > td.day.disabled, .datepicker tbody tr > td span.month.disabled, .datepicker tbody tr > td span.year.disabled {
+    color: #ccc;
+  }
+</style>
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">Halaman Surat Jalan</h3>
+        <h3 class="kt-subheader__title">Halaman Riwayat Stok PO</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -16,7 +21,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Surat Jalan
+                    Riwayat stok PO
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -62,13 +67,14 @@
 
 
         <div class="kt-portlet__body">
-
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
-                        <div class="row align-items-center">
-                            <div class="col-md-9">&nbsp;</div>
+                        <div class="row align-items-center filter">
+                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                                &nbsp;
+                            </div>
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
@@ -77,97 +83,33 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-form__group kt-form__group--inline">
+                                    <div class="kt-form__label">
+                                        <label>Status:</label>
+                                    </div>
+                                    <div class="kt-form__control">
+                                        <select class="form-control bootstrap-select" name='status'>
+                                            <option value="">All</option>
+                                            <option value="ST05">Selesai</option>
+                                            <option value="ST09">Dibatalkan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-        <!--end: Search Form -->
         </div>
 
 
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-do"></div>
+            <div class="kt-datatable" id="datagrid-history-po"></div>
             <!--end: Datatable -->
         </div>
 
     </div>
 </div>
-
-
-<!-- modal for receive stock from PO -->
-<div class="modal fade" id="addPo" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Terima Barang</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                </button>
-            </div>
-            <div class="modal-body">
-                <style media="screen">
-                  .list_stock .list-header, .list_stock .list-body {
-                    display: block;
-                  }
-                  .list_stock .list-header {
-                    min-height: 30px;
-                    border-bottom: 1px solid #999;
-                    margin-bottom: 6px;
-                  }
-                  .list_stock .list-header > div {
-                    float: left;
-                    font-weight: bold;
-                    width: calc( 20% - 12px);
-                    padding-left: 6px;
-                    padding-right: 6px;
-                    text-align: center;
-                  }
-                  .list_stock .list-header > div:first-child {
-                    width: 60%;
-                  }
-                  .list_stock .list-body > div {
-                    width: 100%;
-                    min-height: 40px;
-                  }
-                  .list_stock .list-body > div > div {
-                    float: left;
-                    width: calc( 20% - 12px);
-                    padding-left: 6px;
-                    padding-right: 6px;
-                  }
-                  .list_stock .list-body > div > div:first-child {
-                    width: 60%;
-                  }
-                  #FPO div input.exists {
-                    border-color: red;
-                  }
-                </style>
-                <form class="kt-form" id="FPO">
-                    <div class="row validated">
-                        <div class="col-md-8">&nbsp;</div>
-                        <div class="col-md-4"><input type="text" class="form-control form-control-sm" name="do_code" placeholder="Nomor surat jalan"></div>
-                    </div>
-                    <div class="row">&nbsp;</div>
-                    <div class="row validated list_stock">
-                        <div class="col-md-12">
-                            <div class="list-header">
-                                <div>Stok</div>
-                                <div>Kuantiti</div>
-                                <div>Terima</div>
-                            </div>
-                            <div class="list-body"></div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Simpan</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--end::Modal-->

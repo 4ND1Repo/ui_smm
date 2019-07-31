@@ -32,7 +32,6 @@ var KTForm = function(){
         submitHandler: function (form) {
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"menu_page", value:window.Auth.page});
             // block ui modal
             var target = window.formModal+' .modal-content';
             KTApp.block(target, {

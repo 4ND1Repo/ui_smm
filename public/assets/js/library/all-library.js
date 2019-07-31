@@ -52,7 +52,7 @@ var myGrid = function(){
     }
 
     var _render = function(){
-        
+
         return $(target).KTDatatable({
 			data: {
                 type: 'remote',
@@ -113,7 +113,7 @@ var myGrid = function(){
     }
 }();
 
-
+// get grid by class
 class myGrids {
     constructor(u = null,t = '.kt-datatable', h = 400, p = 10){
         this._column = null;
@@ -129,7 +129,7 @@ class myGrids {
 
     set = function(k,v){
         var key;
-        
+
         if(key = this.#validation(k,v)){
             this[key] = v;
         }
@@ -200,6 +200,7 @@ class myGrids {
     }
 }
 
+// price forcmat
 var price = function(){
 
     var formatMoney = function(amount,decimalCount,decimal,thousands){
@@ -211,7 +212,7 @@ var price = function(){
 
             let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
             let j = (i.length > 3) ? i.length % 3 : 0;
-        
+
             return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
           } catch (e) {
             console.log(e)
@@ -223,4 +224,85 @@ var price = function(){
             return formatMoney(amount,decimalCount,decimal,thousands);
         }
     }
+}();
+
+// infinite scroll
+
+var KTInfinite = function(){
+
+  var _configuration = function(el, c){
+    if(typeof c === 'object'){
+      Object.assign(el.config, c);
+    }
+  }
+
+  var _get = function(el, v){
+    return (typeof el.config[v] !== 'undefined'? el.config['v']: null);
+  }
+
+  var _render = function(el){
+    $(el.config.element).scroll(function() {
+        if($(el.config.element).scrollTop() + $(el.config.element).height() + 20 >= $(el.config.target).height()) {
+            // _loading(true);
+            if(typeof el.ajx !== 'object' && (typeof el.config.finish === 'undefined'))
+              el.ajx = _load(el);
+            if((typeof el.config.finish !== 'undefined') && (typeof el.config.end !== 'undefined') && $(el.config.target).find('.end-of-infinite').length == 0)
+              $(el.config.target).append('<div class="end-of-infinite text-center kt-timeline-v2__item-text">'+el.config.end+"</div>");
+        }
+    });
+  }
+
+  var _load = function(el){
+    _loading(el,true);
+    return $.ajax({
+      url: el.config.url,
+      type: "POST",
+      data: {last:el.config.last, length:(typeof el.config.length !== 'undefined'?el.config.length:5)},
+      success: function(r){
+        if(r.status){
+          el.config.last = r.data.last;
+          // halt if the end of content
+          if(r.data.content.length == 0) el.config.finish = 1;
+
+          if(typeof el.config.template === 'function'){
+            r.data.content.forEach(function(v,k){
+              $(el.config.target).append(el.config.template(v));
+            });
+          }
+        }
+        _loading(el,false);
+        el.ajx = "";
+      },
+      error: function(){
+        _loading(el,false);
+        el.ajx = "";
+      }
+    });
+  }
+
+  var _loading = function(el,s){
+    if(s) $(el.config.target).append('<div class="infinite-loading text-center">Loading...</div>');
+    else $(el.config.target).find('.infinite-loading').remove();
+  }
+
+  return {
+    init: function(c){
+      this.config = {
+        element: null,
+        target: null,
+        template: null,
+        last: null
+      },
+      this.ajx = "";
+
+      _configuration(this, c);
+      _render(this);
+      this['last'] = _get(this,'last');
+      this['element'] = this;
+    },
+    reload: function(el){
+      $(el.element).unbind('scroll');
+      KTInfinite.init(el);
+    }
+  };
 }();

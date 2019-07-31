@@ -33,59 +33,71 @@ var KTFormPO = function(){
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"menu_page", value:window.Auth.page});
             data.push({name:"menu_page_destination", value:'pur'});
-            // block ui modal
-            var target = formModal+' .modal-content';
-            KTApp.block(target, {
-                overlayColor: '#000000',
-                type: 'v2',
-                state: 'primary',
-                message: 'Processing...'
-            });
+            if($('input.exists').length == 0){
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
 
-            $.ajax({
-                url: link,
-                type: "POST",
-                data: data,
-                success: function(r){
-                    if(r.status){
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "success",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            $('#FPO .list-body').html('');
-                            $('#addPo').modal('hide');
-                            myGrid.element().reload();
-                            console.log('Success');
-                        });
-                    } else {
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "warning",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            console.log('failed');
-                        });
+                $.ajax({
+                    url: link,
+                    type: "POST",
+                    data: data,
+                    success: function(r){
+                        if(r.status){
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                $('#FPO .list-body').html('');
+                                $('#addPo').modal('hide');
+                                myGrid.element().reload();
+                                console.log('Success');
+                            });
+                        } else {
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "warning",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                console.log('failed');
+                            });
+                        }
+                        KTApp.unblock(target);
+                    },
+                    error: function(){
+                      swal.fire({
+                          title: "",
+                          text: "Kesalahan sistem",
+                          type: "error",
+                          showConfirmButton: false,
+                          timer: 1500
+                      }).then((res) => {
+                          console.log('failed');
+                      });
+                      KTApp.unblock(target);
                     }
-                    KTApp.unblock(target);
-                },
-                error: function(){
-                  swal.fire({
-                      title: "",
-                      text: "Kesalahan sistem",
-                      type: "error",
-                      showConfirmButton: false,
-                      timer: 1500
-                  }).then((res) => {
-                      console.log('failed');
-                  });
-                  KTApp.unblock(target);
-                }
-            });
+                });
+            } else {
+                swal.fire({
+                    title: "",
+                    text: "Nomor Surat Jalan sudah ada",
+                    type: "warning",
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then((res) => {
+                    console.log('failed');
+                });
+            }
             return false;
         }
     });
@@ -365,5 +377,28 @@ $(document).ready(function(){
     // submit form PO
     $('#addPo .btn-submit').on('click', function(){
       $('#FPO').submit();
+    });
+
+    var doCode = "";
+    $('input[name="do_code"]').on('keyup', function(){
+      var el = this,
+          poCode = $(".list-body > div:first-child").attr('id');
+      if(typeof doCode === 'object') doCode.abort();
+
+      doCode = $.ajax({
+        url: api_url+"/api/wh/req/do/check",
+        type: "POST",
+        data: {do_code:$(el).val(), po_code:poCode},
+        success: function(r){
+          $(el).removeClass('exists');
+
+          if(!r.status){
+            $(el).addClass('exists').parent().append('<div class="error invalid-feedback">'+r.message+'</div>');
+          } else{
+            if($(el).next().length > 0)
+              $(el).next().remove();
+          }
+        }
+      });
     });
 });
