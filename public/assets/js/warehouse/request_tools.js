@@ -372,6 +372,14 @@ var KTGridRequestTools = function(){
                                 $('.btn-send').click(function(){
                                     var id = ($(this).attr('id')).split('-'),
                                         el = this;
+                                    // block ui modal
+                                    var target = $(el).parent().parent();
+                                    KTApp.block(target, {
+                                        overlayColor: '#000000',
+                                        type: 'v2',
+                                        state: 'primary',
+                                        message: 'Processing...'
+                                    });
                                     $.ajax({
                                         url: api_url+"/api/wh/req/tools/send",
                                         type: "POST",
@@ -379,8 +387,10 @@ var KTGridRequestTools = function(){
                                         success: function(r){
                                             $(el).parent().remove();
                                             _el.reload();
+                                            KTApp.unblock(target);
                                         },
                                         error: function(){
+                                            KTApp.unblock(target);
                                             console.log('error while send process');
                                         }
                                     });
