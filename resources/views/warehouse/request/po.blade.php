@@ -140,6 +140,9 @@
                   #FPO .list-header > div {
                     float: left;
                     font-weight: bold;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                     width: 30%;
                   }
                   #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3) {
@@ -188,7 +191,7 @@
                         <div class="col-md-12">
                             <div class="list-header">
                                 <div>Stok</div>
-                                <div>Tanggal Terima</div>
+                                <div title="Target Kirim">Target Kirim</div>
                                 <div>Kuantiti</div>
                                 <div>Satuan</div>
                                 <div>Keterangan</div>

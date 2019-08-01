@@ -5,7 +5,8 @@ var KTValidationForm = function(){
         _el = null,
         link_add = api_url+"/api/mst/category/add",
         link_edit = api_url+"/api/mst/category/edit",
-        targetModal = formModal = '#addCategory';
+        targetModal = '#addCategory',
+        formModal = '#addCategory';
 
     var FormValidation = function () {
         _el = $( formId ).validate({

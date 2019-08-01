@@ -4,7 +4,7 @@ var KTFormPO = function(){
   var formId = '#FPO',
       link_add = api_url+"/api/wh/req/po/add",
       formRules = {},
-      formModal = '#addPO';
+      formModal = '#addPo';
 
   var validation = function(){
     return $( formId ).validate({
@@ -158,6 +158,9 @@ var KTGridPO = function(){
                     };
                     return '<span class="kt-badge ' + (typeof status[row.status] !== 'undefined'?status[row.status].class:'') + ' kt-badge--inline kt-badge--pill">' + row.status_label + '</span>';
                 }
+            }, {
+                field: 'reason',
+                title: 'Alasan'
             }, {
                 field: 'action',
                 title: 'Aksi',

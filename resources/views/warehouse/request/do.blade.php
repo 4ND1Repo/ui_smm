@@ -123,9 +123,18 @@
                     padding-left: 6px;
                     padding-right: 6px;
                     text-align: center;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
                   }
                   .list_stock .list-header > div:first-child {
-                    width: 60%;
+                    width: 35%;
+                  }
+                  .list_stock .list-header > div:nth-child(2) {
+                    width: 20%;
+                  }
+                  .list_stock .list-header > div:last-child {
+                    width: 5%;
                   }
                   .list_stock .list-body > div {
                     width: 100%;
@@ -138,7 +147,13 @@
                     padding-right: 6px;
                   }
                   .list_stock .list-body > div > div:first-child {
-                    width: 60%;
+                    width: 35%;
+                  }
+                  .list_stock .list-body > div > div:nth-child(2) {
+                    width: 20%;
+                  }
+                  .list_stock .list-body > div > div:last-child {
+                    width: 5%;
                   }
                   #FPO div input.exists {
                     border-color: red;
@@ -154,8 +169,10 @@
                         <div class="col-md-12">
                             <div class="list-header">
                                 <div>Stok</div>
+                                <div title="Target Kirim">Target Kirim</div>
                                 <div>Kuantiti</div>
                                 <div>Terima</div>
+                                <div>%</div>
                             </div>
                             <div class="list-body"></div>
                         </div>

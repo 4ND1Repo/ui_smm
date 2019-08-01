@@ -145,6 +145,7 @@
                     font-weight: bold;
                     text-overflow: ellipsis;
                     overflow: hidden;
+                    white-space: nowrap;
                     width: 30%;
                   }
                   #FPO .list-header > div:last-child, #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(4), #FPO .list-header > div:nth-child(6) {
@@ -166,6 +167,7 @@
                   #FPO .list-data > div > div:first-child {
                     text-overflow: ellipsis;
                     overflow: hidden;
+                    white-space: nowrap;
                   }
                   #FPO .list-data > div > div:last-child, #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(4), #FPO .list-data > div > div:nth-child(6) {
                     width: 10%;
@@ -176,6 +178,30 @@
                   #FPO .list-data > div input.is-higher {
                     border-color: red;
                   }
+                  #FPO .list-data > div input.is-lower {
+                    border-color: green;
+                  }
+                  #FPO .list-data div{
+                    position: relative;
+                  }
+                  #FPO .list-data div.is-higher::after{
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    content: "\f106";
+                    right: 5px;
+                    top: 7px;
+                    color: red;
+                    position: absolute;
+                  }
+                  #FPO .list-data div.is-lower::after{
+                    font-family: "Font Awesome 5 Free";
+                    font-weight: 900;
+                    content: "\f107";
+                    right: 5px;
+                    top: 7px;
+                    color: green;
+                    position: absolute;
+                  }
                 </style>
                 <div class="row">&nbsp;</div>
                 <form class="kt-form" id="FPO">
@@ -185,7 +211,7 @@
                                 <div>Stok</div>
                                 <div>Kuantiti</div>
                                 <div>Satuan</div>
-                                <div>Kirim</div>
+                                <div title="Target Kirim">Target Kirim</div>
                                 <div>Supplier</div>
                                 <div>Harga</div>
                                 <div>Tersedia</div>

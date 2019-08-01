@@ -4,7 +4,7 @@ var KTFormPO = function(){
   var formId = '#FPO',
       link_add = api_url+"/api/pur/req/po/process",
       formRules = {},
-      formModal = '#addPO';
+      formModal = '#addPo';
 
   var validation = function(){
     return $( formId ).validate({
@@ -161,6 +161,9 @@ var KTGridPO = function(){
                     return '<span class="kt-badge ' + (typeof status[row.status] !== 'undefined'?status[row.status].class:'') + ' kt-badge--inline kt-badge--pill">' + row.status_label + '</span>';
                 }
             }, {
+                field: 'reason',
+                title: 'Alasan'
+            }, {
                 field: 'action',
                 title: 'Aksi',
                 sortable: false,
@@ -191,19 +194,36 @@ var KTGridPO = function(){
                 $('.btn-cancel').click(function(){
                   Swal.fire({
                       title: 'Anda yakin?',
-                      text: "untuk membatalkan transaksi ini!",
+                      // text: "untuk membatalkan transaksi ini!",
                       type: 'warning',
                       showCancelButton: true,
                       confirmButtonColor: '#3085d6',
                       cancelButtonColor: '#d33',
                       confirmButtonText: 'Ya',
                       cancelButtonText: 'Tidak',
+                      html: 'Isi alasan pembatalan :<br/><textarea rows="3" id="reason" name="reason" class="form-control form-control-sm"></textarea>',
+                      preConfirm: (res) => {
+
+                        if($('#reason').val().length > 0) return true;
+
+                        swal.fire({
+                            title: "",
+                            text: "Mohon input alasannya",
+                            type: "warning",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+
+                        return false;
+                      }
                   }).then((result) => {
+                      console.log(result);
+                      console.log($('#reason').val());
                       if (result.value) {
                           $.ajax({
                               url: link_cancel,
                               type: 'POST',
-                              data: {'po_code':$(this).attr('id'),nik:window.Auth.nik},
+                              data: {po_code:$(this).attr('id'),reason:$('#reason').val(),nik:window.Auth.nik},
                               success: function(r){
                                   Swal.fire({
                                       title: 'Dibatalkan!',
@@ -311,31 +331,44 @@ var KTGridPO = function(){
                                       }
                                       $(el).attr('title','');
 
-                                      ajx = $.ajax({
-                                        url: api_url+'/api/pur/req/po/check_price',
-                                        type: 'POST',
-                                        data: {main_stock_code: $(el).data('id')},
-                                        success: function(r){
-                                          if(r.status){
-                                            if(parseFloat($(el).val()) > r.data){
-                                              $(el).attr('data-original-title','harga sebelumnya : '+r.data);
-                                              if(!$(el).hasClass('is-higher'))
-                                                $(el).addClass('is-higher');
-                                            } else{
-                                              $(el).attr('data-original-title',"");
-                                              $(el).removeClass('is-higher');
+                                      if($('input[name="data['+v.po_code+']['+$(el).data('id')+'][supplier]"]').val() !== ""){
+                                        ajx = $.ajax({
+                                          url: api_url+'/api/pur/req/po/check_price',
+                                          type: 'POST',
+                                          data: {main_stock_code: $(el).data('id'), supplier_code:$('input[name="data['+v.po_code+']['+$(el).data('id')+'][supplier]"]').val()},
+                                          success: function(r){
+                                            $(el).attr('data-original-title',"");
+                                            $(el).removeClass('is-higher');
+                                            $(el).parent().removeClass('is-higher');
+                                            $(el).removeClass('is-lower');
+                                            $(el).parent().removeClass('is-lower');
+
+                                            if(r.status){
+                                              if(parseFloat($(el).val()) > r.data){
+                                                $(el).attr('data-original-title','harga sebelumnya : '+r.data);
+                                                if(!$(el).hasClass('is-higher'))
+                                                  $(el).addClass('is-higher');
+                                                if(!$(el).parent().hasClass('is-higher'))
+                                                  $(el).parent().addClass('is-higher');
+                                              } else if(parseFloat($(el).val()) < r.data){
+                                                $(el).attr('data-original-title','harga sebelumnya : '+r.data);
+                                                if(!$(el).hasClass('is-lower'))
+                                                  $(el).addClass('is-lower');
+                                                if(!$(el).parent().hasClass('is-lower'))
+                                                  $(el).parent().addClass('is-lower');
+                                              }
                                             }
                                           }
-                                        }
-                                      }).done(function(){
-                                        $('input[data-toggle="kt-tooltip"]').tooltip({
-                                          trigger: "hover",
-                                          template: '<div class="tooltip tooltip-dark" role="tooltip">\
-                                              <div class="arrow"></div>\
-                                              <div class="tooltip-inner"></div>\
-                                          </div>'
+                                        }).done(function(){
+                                          $('input[data-toggle="kt-tooltip"]').tooltip({
+                                            trigger: "hover",
+                                            template: '<div class="tooltip tooltip-dark" role="tooltip">\
+                                            <div class="arrow"></div>\
+                                            <div class="tooltip-inner"></div>\
+                                            </div>'
+                                          });
                                         });
-                                      });
+                                      }
                                     });
                                   });
 

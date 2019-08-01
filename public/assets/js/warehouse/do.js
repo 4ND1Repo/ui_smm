@@ -210,7 +210,7 @@ var KTGridPO = function(){
                                 var data = res.data,
                                     tmpHtml = '';
 
-                                if(typeof data.purchase_order == "object"){
+                                if(typeof data.purchase_order_detail == "object"){
                                   $.each(data.purchase_order_detail, function(k,v){
                                     if(v.qty > 0){
                                       tmpHtml = '';
@@ -223,9 +223,13 @@ var KTGridPO = function(){
                                       tmpHtml += v.stock_type+' - ';
                                       tmpHtml += v.stock_size;
                                       tmpHtml += '</div>';
+                                      // po date
+                                      var tmp = v.po_date_delivery.split("-");
+                                      tmpHtml += '<div class="text-center">'+((typeof tmp == 'object')?tmp.reverse().join('/'):"-")+'</div>';
                                       // input qty
                                       tmpHtml += '<div class="text-right">'+price.format(v.qty,2,',','.')+'</div>';
                                       tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm qtyDO" name="data['+v.po_code+']['+v.main_stock_code+']" value="'+v.qty+'"></div>';
+                                      tmpHtml += '<div class="text-right">'+(Math.ceil(((v.po_qty-v.qty)/v.po_qty)*100))+"%"+'</div>';
                                       tmpHtml += '</div>';
                                       $('#FPO .list-body').append(tmpHtml);
                                       KTFormPO.rules('input[name="data['+v.po_code+']['+v.main_stock_code+']"]',{max: parseFloat(v.qty)});
@@ -381,6 +385,7 @@ $(document).ready(function(){
 
     var doCode = "";
     $('input[name="do_code"]').on('keyup', function(){
+      $(this).val($(this).val().toUpperCase());
       var el = this,
           poCode = $(".list-body > div:first-child").attr('id');
       if(typeof doCode === 'object') doCode.abort();
