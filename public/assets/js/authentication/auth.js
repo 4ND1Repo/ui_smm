@@ -48,7 +48,7 @@ var KTLoginV1 = function () {
 				type: 'POST',
 				success: function (response, status, xhr, $form) {
 					btn.removeClass('kt-spinner kt-spinner--right kt-spinner-md kt-spinner--light').attr('disabled', false);
-					
+
 					if(response.status==1){
 						gotoAdmin(response.data, form, btn);
 					} else
@@ -63,9 +63,9 @@ var KTLoginV1 = function () {
 	}
 
 	var gotoAdmin = function(r, form, btn) {
-        // after succes get menu then 
+        // after succes get menu then
 		myStorage.set('auth');
-		
+
 		btn.addClass('kt-spinner kt-spinner--right kt-spinner-md kt-spinner--light').attr('disabled', true);
 		$.ajax({
 			url: api_url+'/api/auth/menu',
@@ -76,7 +76,6 @@ var KTLoginV1 = function () {
 				if(res.status == 1){
 					if(res.data !== null){
 						r['menu'] = res.data;
-						r['page'] = res.data[0].menu_page;
 						myStorage.store(JSON.stringify(r));
 						window.location = base_url+'/'+r.page;
 						showErrorMsg(form, 'success', 'Anda berhasil masuk');
@@ -113,15 +112,20 @@ var KTMenusV1 = function(){
 		menu_list = tmp.menu;
 		page = tmp.page;
 		tmp_menu = "";
+		window.role = {};
 	}
 	var generateMenu = function(tmp, lv){
+		var tmps = {}
 		$.each(tmp, function(k,v){
+			// set role
+			if("/"+page+v.menu_url == window.location.pathname)
+				window.role = {add : v.add, edit : v.edit, del : v.del};
 			if(typeof v.children !== 'undefined')
 				tmp_menu += '<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle">';
 			else
-				tmp_menu += '<li class="kt-menu__item '+(lv>0?'kt-menu__item--submenu':'')+'" aria-haspopup="true"><a href="/'+v.menu_page+v.menu_url+'" title="'+v.menu_name+'" class="kt-menu__link kt-menu__page">';
+				tmp_menu += '<li class="kt-menu__item '+(lv>0?'kt-menu__item--submenu':'')+'" aria-haspopup="true"><a href="/'+page+v.menu_url+'" title="'+v.menu_name+'" class="kt-menu__link kt-menu__page">';
 
-			// add icon 
+			// add icon
 			if(v.menu_icon !== null)
 				tmp_menu += '<span class="kt-menu__link-icon"><i class="'+v.menu_icon+'"></i></span>';
 			else if(lv > 0)
@@ -136,7 +140,7 @@ var KTMenusV1 = function(){
 			// menu arrow
 			if(typeof v.children !== 'undefined')
 				tmp_menu += '<i class="kt-menu__ver-arrow la la-angle-right"></i>';
-			
+
 			// end off link menu
 			tmp_menu += '</a>';
 
@@ -173,9 +177,9 @@ jQuery(document).ready(function () {
 	// initiate menus after login
 	if(myStorage.get() !== null){
 		var auth = JSON.parse(myStorage.get());
-		
+
 		KTMenusV1.init();
-	
+
 		$(".kt-header__topbar-username, .kt-user-card__name").html(auth.nik);
 
 		// change title

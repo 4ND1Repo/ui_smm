@@ -87,7 +87,7 @@ class MainController extends Controller{
         return View('admin',$v::colect());
     }
 
-    public function role_menu(Request $r, Views $v){
+    public function group(Request $r, Views $v){
         // validate user is login
         $v::js_head([
             'js/authentication/storage.js',
@@ -105,8 +105,8 @@ class MainController extends Controller{
             'css/demo1/skins/brand/dark.css',
             'css/demo1/skins/aside/dark.css'
         ]);
-        $v::js(["js/management/menu.js"]);
-        $v::page('management.menu');
+        $v::js(["js/management/group.js"]);
+        $v::page('management.group');
 
         return View('admin',$v::colect());
     }

@@ -74,7 +74,7 @@ var KTGridPO = function(){
                 }
             }]
         );
-        myGrid.set('data',{menu_page:window.Auth.page});
+        myGrid.set('data',{page_code:window.Auth.page});
         myGrid.set('function', function(){
             $('select[name=status]').on('change', function() {
                 myGrid.element().search($(this).val(), 'status');

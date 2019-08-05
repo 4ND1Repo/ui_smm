@@ -44,9 +44,7 @@ if($response->status==200){
             // Menus Management
             Route::get('menu', 'Management\MainController@menu');
             // Role Menu Management
-            Route::get('role_menu', 'Management\MainController@role_menu');
-            // Role Users Management
-            Route::get('role_user', 'Management\MainController@role_users');
+            Route::get('group', 'Management\MainController@group');
         });
 
         // Master group

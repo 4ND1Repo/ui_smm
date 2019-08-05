@@ -31,7 +31,7 @@ var KTFormOpname = function(){
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"menu_page", value:window.Auth.page});
+            data.push({name:"page_code", value:window.Auth.page});
             // block ui modal
             var target = formModal+' .modal-content';
             KTApp.block(target, {
@@ -194,7 +194,7 @@ var KTGridOpname = function(){
                 },
             }]
         );
-        myGrid.set('data',{menu_page:window.Auth.page});
+        myGrid.set('data',{page_code:window.Auth.page});
         myGrid.set('function', function(){
             $('.filter select[name=stock_brand]').on('change', function() {
                 myGrid.element().search($(this).val(), 'stock_brand');
@@ -316,7 +316,7 @@ var KTGridOpname = function(){
                             $.ajax({
                                 url: link_approve,
                                 type: 'POST',
-                                data: {'opname':window.opname,nik:window.Auth.nik,menu_page:window.Auth.page},
+                                data: {'opname':window.opname,nik:window.Auth.nik,page_code:window.Auth.page},
                                 success: function(r){
                                     Swal.fire({
                                         title: 'Konfirmasi!',
@@ -336,7 +336,7 @@ var KTGridOpname = function(){
                               $.ajax({
                                   url: link_reject,
                                   type: 'POST',
-                                  data: {'opname':window.opname,nik:window.Auth.nik,menu_page:window.Auth.page},
+                                  data: {'opname':window.opname,nik:window.Auth.nik,page_code:window.Auth.page},
                                   success: function(r){
                                       Swal.fire({
                                           title: 'Konfirmasi!',
@@ -420,7 +420,7 @@ $(document).ready(function(){
         $.ajax({
           url: api_url+'/api/wh/stock/qty',
           type: 'POST',
-          data: {menu_page:window.Auth.page, main_stock_code:map[selection]},
+          data: {page_code:window.Auth.page, main_stock_code:map[selection]},
           success: function(r){
             if(r.status){
               $('#FOpname input[name=opname_qty_from]').val(r.data);

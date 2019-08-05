@@ -31,8 +31,8 @@ var KTFormPO = function(){
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"menu_page", value:window.Auth.page});
-            data.push({name:"menu_page_destination", value:'pur'});
+            data.push({name:"page_code", value:window.Auth.page});
+            data.push({name:"page_code_destination", value:'pur'});
             // block ui modal
             var target = formModal+' .modal-content';
             KTApp.block(target, {
@@ -173,20 +173,14 @@ $(document).ready(function(){
                 return price.format(row.stock_min_qty,2,",",'.');
             }
         }, {
-            field: 'stock_max_qty',
-            title: 'Maksimal Kuantiti',
-            template: function(row){
-                return price.format(row.stock_max_qty,2,",",'.');
-            }
-        }, {
             field: 'stock_daily_use',
-            title: 'Pakai Harian',
+            title: 'Pinjaman',
             template: function(row){
                 return parseInt(row.stock_daily_use)==1?'Ya':'Tidak';
             }
         }]
     );
-    myGrid.set('data', {menu_page:Auth.page});
+    myGrid.set('data', {page_code:Auth.page});
     myGrid.set('function', function(){
         $('.filter select[name=measure_code]').on('change', function() {
             myGrid.element().search($(this).val(), 'measure_code');

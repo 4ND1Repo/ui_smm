@@ -35,7 +35,7 @@ var KTForm = function(){
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"menu_page", value:window.Auth.page});
+            data.push({name:"page_code", value:window.Auth.page});
             // block ui modal
             var target = window.formModal+' .modal-content';
             KTApp.block(target, {
@@ -127,6 +127,9 @@ var KTGrid = function(){
             field: 'nik',
             title: 'NIK'
         }, {
+            field: 'group_name',
+            title: 'Group'
+        }, {
             field: 'company_name',
             title: 'Company'
         }, {
@@ -183,17 +186,8 @@ var KTGrid = function(){
                   type: 'GET',
                   success: function(r){
                       if(r.status == 1){
-                        KTSelectDepartment.get(r.data.company_code);
-                        KTSelectDivision.get(r.data.company_code,r.data.department_code);
-
                         // set value
-                        $('select[name=company_code]').val(r.data.company_code).selectpicker('refresh');
-                        KTSelectDepartment.element().done(function(){
-                          $('select[name=department_code]').val(r.data.department_code).selectpicker('refresh');
-                        });
-                        KTSelectDivision.element().done(function(){
-                          $('select[name=division_code]').val(r.data.division_code).selectpicker('refresh');
-                        });
+                        $('select[name=group_code]').val(r.data.group_code).selectpicker('refresh');
                         $('input[name=username]').val(r.data.nik);
                         $(window.formModal+' .btn-submit').attr('edit',1);
                         $('input[name="username"]').prop('readonly', true);
@@ -260,75 +254,6 @@ var KTGrid = function(){
   };
 }();
 
-var KTSelectDepartment = function(){
-  var element = 'select[name=department_code]',
-      element_child = 'select[name="division_code"]';
-
-  var _get = function(v){
-    var option = '<option value="">-- None --</option>';
-    if(v != ""){
-      return $.ajax({
-        url: api_url+'/api/mst/department',
-        type: 'POST',
-        data: {company_code:v},
-        success: function(r){
-          $.each(r.data, function(k,v){
-            option += '<option value="'+v.department_code+'">'+v.department_name+'</option>';
-          });
-          $(element).html(option);
-          $(element_child).html('<option value="">-- None --</option>');
-          $(element+', '+element_child).selectpicker('refresh');
-        }
-      });
-    } else {
-      $(element).html(option);
-      $(element_child).html('<option value="">-- None --</option>');
-      $(element+', '+element_child).selectpicker('refresh');
-    }
-  }
-  return {
-    get: function(v=""){
-      this['department'] = _get(v);
-    },
-    element: function(){
-      return this['department'];
-    }
-  };
-}();
-
-var KTSelectDivision = function(){
-  var element = 'select[name=division_code]';
-
-  var _get = function(c,v){
-    var option = '<option value="">-- None --</option>';
-    if(c != "" && v != ""){
-      return $.ajax({
-        url: api_url+'/api/mst/division',
-        type: 'POST',
-        data: {company_code: c, department_code: v},
-        success: function(r){
-          $.each(r.data, function(k,v){
-            option += '<option value="'+v.division_code+'">'+v.division_name+'</option>';
-          });
-          $(element).html(option);
-          $(element).selectpicker('refresh');
-        }
-      });
-    } else {
-      $(element).html(option);
-      $(element).selectpicker('refresh');
-    }
-  }
-  return {
-    get: function(c="",v=""){
-      this['division'] = _get(c,v);
-    },
-    element: function(){
-      return this['division'];
-    }
-  };
-}();
-
 jQuery(document).ready(function () {
     myStorage.set('auth');
     window.Auth = JSON.parse(myStorage.get());
@@ -341,34 +266,22 @@ jQuery(document).ready(function () {
     KTForm.rules('input[name=nik]',{required:true, maxlength:20});
     KTForm.rules('input[name=password]',{maxlength:12, minlength: 4});
     KTForm.rules('input[name=repassword]',{equalTo:'input[name=password]'});
-    KTForm.rules('select[name=company_code]',{required:true});
+    KTForm.rules('select[name=group_code]',{required:true});
 
 
     // get select contents
-    // company
+    // User group
     $.ajax({
-      url:api_url+'/api/mst/company',
+      url:api_url+'/api/mng/user/group',
       type: 'GET',
       success: function(r){
-        var option = '<option value="">-- Choose One --</option>';
+        var option = '';
         $.each(r.data, function(k,v){
-          option += '<option value="'+v.company_code+'">'+v.company_name+'</option>';
+          option += '<option value="'+v.group_code+'">'+v.group_name+'</option>';
         });
-        $('select[name="company_code"]').html(option);
-        $('select[name="company_code"]').selectpicker();
+        $('select[name="group_code"]').html(option);
+        $('select[name="group_code"]').selectpicker();
       }
-    });
-
-    $('select[name="department_code"], select[name="division_code"]').selectpicker();
-
-    // department
-    $('select[name="company_code"]').on('change', function(){
-      KTSelectDepartment.get($(this).val());
-    });
-
-    // division
-    $('select[name="department_code"]').on('change', function(){
-      KTSelectDivision.get($('select[name="company_code"]').val(),$(this).val());
     });
 
     // check NIK
@@ -400,10 +313,8 @@ jQuery(document).ready(function () {
           _elDepartment = 'select[name=department_code]';
       $(window.formId)[0].reset();
       $(_elCompany).val("").selectpicker('refresh');
-      KTSelectDepartment.get($(_elCompany).val());
-      KTSelectDivision.get($(_elCompany).val(),$(_elDepartment).val());
       $(window.formModal+' .btn-submit').removeAttr('edit');
-      $('input[name="username"]').parent().find('div').remove();
+      $('input[name="username"]').prop('readonly',false).parent().find('div').remove();
       KTForm.element().resetForm();
       $(formId).find('.invalid-feedback').remove();
     });

@@ -57,7 +57,6 @@ var KTForm = function(){
                             $(formId)[0].reset();
                             $('select').selectpicker('refresh');
                             KTGrid.reload();
-                            KTParentMenu.get($('select[name="menu_page"]').val());
                         });
                     } else {
                         swal.fire({
@@ -119,9 +118,6 @@ var KTGrid = function(){
         }, {
             field: 'menu_name',
             title: 'Name'
-        }, {
-            field: 'page',
-            title: 'For'
         }, {
             field: 'menu_url',
             title: 'URI'
@@ -213,11 +209,10 @@ var KTParentMenu = function(){
       link = api_url+"/api/mst/menu/parent",
       option = "";
 
-  var getParent = function(pg){
+  var getParent = function(){
     $.ajax({
       url: link,
       type: 'POST',
-      data: {menu_page: pg},
       success: function(r){
         console.log(r);
         option = "<option value=''>-- Root --</option>";
@@ -230,8 +225,8 @@ var KTParentMenu = function(){
     });
   }
   return {
-    get: function(pg){
-      getParent(pg);
+    get: function(){
+      getParent();
     }
   };
 }();
@@ -247,43 +242,22 @@ jQuery(document).ready(function () {
     // set Rules
     KTForm.rules('input[name=menu_name]',{required:true, maxlength:20});
     KTForm.rules('input[name=menu_url]',{required:true});
-    KTForm.rules('select[name=menu_page]',{required:true});
 
+    KTParentMenu.get();
 
-    // get select contents
-    // page_menu
+    // icon
     $.ajax({
-      url:api_url+'/api/mst/page',
+      url: api_url+'/api/mst/icon',
       type: 'GET',
       success: function(r){
         var option = "";
         $.each(r.data, function(k,v){
-          option += '<option value="'+v.page_code+'">'+v.page_name+'</option>';
+          option += '<option value="'+v.icon_name+'" data-icon="'+v.icon_name+'">'+v.icon_name+'</option>';
         });
-        $('select[name="menu_page"]').html(option);
+        $('select[name="menu_icon"]').html(option);
 
-        // icon
-        $.ajax({
-          url: api_url+'/api/mst/icon',
-          type: 'GET',
-          success: function(r){
-            option = "";
-            $.each(r.data, function(k,v){
-              option += '<option value="'+v.icon_name+'" data-icon="'+v.icon_name+'">'+v.icon_name+'</option>';
-            });
-            $('select[name="menu_icon"]').html(option);
-
-            // generate parent menu
-            KTParentMenu.get($('select[name="menu_page"]').val());
-            $('select').selectpicker();
-          }
-        });
+        $('select').selectpicker();
       }
-    });
-
-    $('select[name="menu_page"]').on('change', function(){
-      var el = this;
-      KTParentMenu.get($(el).val());
     });
 
     // submit form Icon

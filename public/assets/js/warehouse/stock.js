@@ -52,7 +52,7 @@ var KTValidationForm = function(){
 
                 var data = $("#FStock").serializeArray();
                 data.push({name:"nik", value:Auth.nik});
-                data.push({name:"menu_page", value:Auth.page});
+                data.push({name:"page_code", value:Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -182,7 +182,7 @@ $(document).ready(function(){
             }
         }, {
             field: 'stock_daily_use',
-            title: 'Pakai Harian',
+            title: 'Pinjaman',
             template: function(row){
                 return parseInt(row.stock_daily_use)==1?'Ya':'Tidak';
             }

@@ -48,7 +48,7 @@ var KTRequestTools = function(){
 
                 var data = $(formId).serializeArray();
                 data.push({name:"nik", value:Window.Auth.nik});
-                data.push({name:"menu_page", value:Window.Auth.page});
+                data.push({name:"page_code", value:Window.Auth.page});
                 // block ui modal
                 var target = formModal+' .modal-content';
                 KTApp.block(target, {
@@ -81,6 +81,15 @@ var KTRequestTools = function(){
                                 timer: 1500
                             }).then((res) => {
                                 $(formId+" input[type=text]")[0].focus();
+                                // send notification to target
+                                $.ajax({
+                                  url: api_url+'/api/mng/user/notification/add',
+                                  type: 'POST',
+                                  data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Ada request barang', notification_url:base_url+'/wh/req/tools'},
+                                  success: function(r){
+                                    console.log(r);
+                                  }
+                                });
                             });
                             KTGridRequestTools.element().reload();
                         } else {
@@ -162,8 +171,8 @@ var KTFormPO = function(){
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"menu_page", value:window.Auth.page});
-            data.push({name:"menu_page_destination", value:'pur'});
+            data.push({name:"page_code", value:window.Auth.page});
+            data.push({name:"page_code_destination", value:'pur'});
             // block ui modal
             var target = formModal+' .modal-content';
             KTApp.block(target, {
@@ -315,7 +324,7 @@ var KTGridRequestTools = function(){
                 },
             }]
         );
-        myGrid.set('data',{menu_page:Window.Auth.page});
+        myGrid.set('data',{page_code:Window.Auth.page});
         myGrid.set('function', function(){
             $('select[name=status]').on('change', function() {
                 myGrid.element().search($(this).val(), 'status');
@@ -406,7 +415,7 @@ var KTGridRequestTools = function(){
                                         $.ajax({
                                           url: api_url+'/api/wh/stock/find_by_stock',
                                           type: 'POST',
-                                          data: {stock_code:id[0], menu_page:window.Auth.page},
+                                          data: {stock_code:id[0], page_code:window.Auth.page},
                                           success: function(r){
                                             if(r.status){
                                               window.po[id[0]] = r.data;

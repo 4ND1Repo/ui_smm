@@ -1,7 +1,7 @@
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">Management > User</h3>
+        <h3 class="kt-subheader__title">Management > Group</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -16,7 +16,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    User
+                    Group
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -27,7 +27,7 @@
                     </a>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
-                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addUser'>
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addGroup'>
                             <i class="flaticon2-plus"></i> Add
                         </button>
                     </div>
@@ -60,47 +60,74 @@
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-management-users"></div>
+            <div class="kt-datatable" id="datagrid-management-groups"></div>
             <!--end: Datatable -->
         </div>
     </div>
 
 </div>
 
-<!-- modal for add stock -->
-<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+<!-- modal for add group -->
+<div class="modal fade" id="addGroup" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">User</h5>
+                <h5 class="modal-title" id="longModal">Group</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="kt-form" id="FUser">
+                <form class="kt-form" id="FGroup">
                     <div class="row validated">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>NIK</label>
-                                <input type="text" tabindex="1" name="username" class="form-control" placeholder="Username" autocomplete="off">
+                                <label>Group Name</label>
+                                <input type="text" tabindex="1" name="group_name" class="form-control" placeholder="Group Name" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <label>Group</label>
-                                <select name="group_code" tabindex="4" class="form-control" data-live-search="true"></select>
+                                <label>Page Menu</label>
+                                <select name="page_code" tabindex="4" class="form-control" data-live-search="true"></select>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" tabindex="2" name="password" class="form-control" placeholder="Password">
+                                <label>Company</label>
+                                <select name="company_code" tabindex="4" class="form-control" data-live-search="true"></select>
                             </div>
                             <div class="form-group">
-                                <label>Re-Password</label>
-                                <input type="password" tabindex="3" name="repassword" class="form-control" placeholder="Re-password">
+                                <label>Department</label>
+                                <select name="department_code" tabindex="4" class="form-control" data-live-search="true"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Division</label>
+                                <select name="division_code" tabindex="4" class="form-control" data-live-search="true"></select>
                             </div>
                         </div>
                     </div>
                 </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="8" class="btn btn-secondary" data-dismiss="modal">Back</button>
+                <button type="button" tabindex="7" class="btn btn-primary btn-submit">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+<!-- modal for add user menu -->
+<div class="modal fade" id="addUserMenu" tabindex="-1" role="dialog" aria-labelledby="Modal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Role Menu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="kt-form" id="FUserMenu"></form>
             </div>
             <div class="modal-footer">
                 <button type="button" tabindex="8" class="btn btn-secondary" data-dismiss="modal">Back</button>

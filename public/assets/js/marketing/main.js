@@ -178,14 +178,17 @@ jQuery(document).ready(function () {
             overflow: 'visible',
             autoHide: false,
             template: function(row) {
-                return '\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.supplier_code+'" title="Ubah data">\
-                        <i class="la la-edit"></i>\
-                    </a>\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.supplier_code+'" title="Hapus">\
-                        <i class="la la-trash"></i>\
-                    </a>\
-                ';
+                var btn = "",
+                    role = window.role;
+                if(role.edit == 1)
+                  btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.supplier_code+'" title="Ubah data">\
+                      <i class="la la-edit"></i>\
+                  </a>';
+                if(role.del == 1)
+                  btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.supplier_code+'" title="Hapus">\
+                      <i class="la la-trash"></i>\
+                  </a>';
+                return btn;
             },
         }]
     );
@@ -307,4 +310,7 @@ jQuery(document).ready(function () {
         KTValidationForm.element().resetForm();
         $('#FSupplier').find('.invalid-feedback').remove();
     });
+
+    if(window.role.add != 1)
+      $(".btn-add").addClass('kt-hidden');
 });

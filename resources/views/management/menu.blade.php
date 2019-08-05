@@ -81,10 +81,6 @@
                     <div class="row validated">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>For</label>
-                                <select name="menu_page" class="form-control"></select>
-                            </div>
-                            <div class="form-group">
                                 <label>Menu Name</label>
                                 <input type="text" tabindex="1" name="menu_name" class="form-control" placeholder="Menu Name">
                             </div>

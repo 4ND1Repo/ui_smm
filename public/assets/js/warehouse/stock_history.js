@@ -77,7 +77,7 @@ $(document).ready(function(){
             autoHide: false,
         }]
     );
-    gridIn.set('data', {menu_page:Auth.page});
+    gridIn.set('data', {page_code:Auth.page});
     gridIn.set('fn', function(){
         $('select[name=measure_code_in]').on('change', function() {
             gridIn.get('datatable').search($(this).val(), 'measure_code');
@@ -202,7 +202,7 @@ $(document).ready(function(){
             autoHide: false,
         }]
     );
-    gridOut.set('data', {menu_page:Auth.page});
+    gridOut.set('data', {page_code:Auth.page});
     gridOut.set('fn', function(){
         $('select[name=measure_code_out]').on('change', function() {
             gridOut.get('datatable').search($(this).val(), 'measure_code');

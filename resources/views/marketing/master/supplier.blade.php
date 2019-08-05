@@ -58,7 +58,7 @@
                         </div>
                     </div>
                     &nbsp;
-                    <div class="dropdown dropdown-inline">
+                    <div class="dropdown dropdown-inline btn-add">
                         <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="flaticon2-plus"></i> Tambah
                         </button>

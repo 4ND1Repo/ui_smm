@@ -56,7 +56,7 @@ var KTValidationForm = function(){
 
                 var data = $("#FStock").serializeArray();
                 data.push({name:"nik", value:Auth.nik});
-                data.push({name:"menu_page", value:Auth.page});
+                data.push({name:"page_code", value:Auth.page});
                 // block ui modal
                 var target = formModal+' .modal-content';
                 KTApp.block(target, {
@@ -228,7 +228,7 @@ $(document).ready(function(){
             }
         }, {
             field: 'stock_daily_use',
-            title: 'Pakai Harian',
+            title: 'Pinjaman',
             template: function(row){
                 return parseInt(row.stock_daily_use)==1?'Ya':'Tidak';
             }
@@ -251,7 +251,7 @@ $(document).ready(function(){
             },
         }]
     );
-    myGrid.set('data', {menu_page:Auth.page});
+    myGrid.set('data', {page_code:Auth.page});
     myGrid.set('function', function(){
         $('.filter select[name=measure_code]').on('change', function() {
             myGrid.element().search($(this).val(), 'measure_code');

@@ -65,7 +65,7 @@ var KTQuickCabinet = function(){
 
         myStorage.set('auth');
         Auth = JSON.parse(myStorage.get());
-        $( formId ).append('<input type="hidden" name="menu_page" value="'+Auth.page+'">');
+        $( formId ).append('<input type="hidden" name="page_code" value="'+Auth.page+'">');
     }
 
     var __render_option = function(){
@@ -146,7 +146,7 @@ var KTStockForm = function(){
 
                 var data = $("#FStock").serializeArray();
                 data.push({name:"nik", value:Auth.nik});
-                data.push({name:"menu_page", value:Auth.page});
+                data.push({name:"page_code", value:Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -331,7 +331,7 @@ var KTStockCabinetForm = function(){
                 
                 myStorage.set('auth');
                 Auth = JSON.parse(myStorage.get());
-                data.push({name:'menu_page', value:Auth.page});
+                data.push({name:'page_code', value:Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -433,7 +433,7 @@ var KTModalGrid = function(){
             }]
         );
         // sent to ajax data
-        myGrid.set('data', {menu_page:Auth.page, cabinet_code:_cabinet});
+        myGrid.set('data', {page_code:Auth.page, cabinet_code:_cabinet});
 
         myGrid.set('function', function(){
 
@@ -714,7 +714,7 @@ $(document).ready(function(){
                 $.ajax({
                     url: api_url+'/api/mst/cabinet/delete',
                     type: 'POST',
-                    data: {cabinet_code: window.cabinet_code, menu_page: Auth.page},
+                    data: {cabinet_code: window.cabinet_code, page_code: Auth.page},
                     success: function(r){
                         Swal.fire({
                             title: 'Terhapus!',

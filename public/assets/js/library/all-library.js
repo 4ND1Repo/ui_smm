@@ -242,7 +242,8 @@ var KTInfinite = function(){
 
   var _render = function(el){
     $(el.config.element).scroll(function() {
-        if($(el.config.element).scrollTop() + $(el.config.element).height() + 20 >= $(el.config.target).height()) {
+        console.log(($(el.config.element).scrollTop() + $(el.config.element).height() + 20)+ " " + $(el.config.target).children(":last-child")[0].offsetTop);
+        if($(el.config.element).scrollTop() + $(el.config.element).height() + 20 >= ((el.config.target == el.config.element)? $(el.config.target).children(":last-child")[0].offsetTop : $(el.config.target).height())) {
             // _loading(true);
             if(typeof el.ajx !== 'object' && (typeof el.config.finish === 'undefined'))
               el.ajx = _load(el);
@@ -268,6 +269,10 @@ var KTInfinite = function(){
             r.data.content.forEach(function(v,k){
               $(el.config.target).append(el.config.template(v));
             });
+            if(typeof el.config.fn !== 'undefined'){
+              if(typeof el.config.fn === 'function')
+                el.config.fn();
+            }
           }
         }
         _loading(el,false);
@@ -541,6 +546,152 @@ var KTComplaintLoad = function(){
   };
 }();
 
+var KTNotification = function(){
+  var _get = function(el){
+    var t = el,
+        target_icon = '.kt-header__topbar-icon',
+        target_notif = '#topbar_notifications_notifications .kt-notification';
+
+    $.ajax({
+      url: el.link,
+      type: 'POST',
+      data: {nik:window.Auth.nik,init:(typeof t.init !== 'undefined'?1:0)},
+      success: function(r){
+        if(r.status){
+          var data = r.data;
+          if(data.count > 0 || (typeof t.init !== 'undefined')){
+            $.each(data.content, function(k,v){
+              var tmp = '<a href="'+(v.notification_url !== null?v.notification_url:"javascript:void(0);")+'" target="_blank" data-id="'+v.notification_id+'" class="kt-notification__item'+(v.notification_read==1?' kt-notification__item--read':'')+'">\
+              <div class="kt-notification__item-icon">\
+              <i class="'+v.notification_icon+' kt-font-success"></i>\
+              </div>\
+              <div class="kt-notification__item-details" style="width: calc(100% - 32px - 39px)">\
+              <div class="kt-notification__item-title" title="'+(v.notification_title!=null?v.notification_title+" : ":"")+v.notification_content+'" data-toggle="kt-tooltip" data-placement="top" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">\
+              '+(v.notification_title!=null?v.notification_title+" : ":"")+v.notification_content+'\
+              </div>\
+              <div class="kt-notification__item-time" title="'+v.notification_time+'"></div>\
+              </div>\
+              </a>';
+              $(target_notif).prepend(tmp);
+              $(target_notif+' a[data-id="'+v.notification_id+'"] .kt-notification__item-time').timeago();
+              $(target_notif+' a[data-id="'+v.notification_id+'"] [data-toggle="kt-tooltip"]').tooltip();
+
+
+              // stop propagation
+              $(target_notif+' a[data-id="'+v.notification_id+'"]').click(function(e){
+                var elm = this;
+                if(! $(elm).hasClass('kt-notification__item--read'))
+                  $.ajax({
+                    url: el.link+"/read",
+                    type: 'POST',
+                    data: {id:$(elm).data('id')},
+                    success: function(r){
+                      if(r.status)
+                        $(elm).addClass('kt-notification__item--read');
+                    }
+                  });
+
+                e.stopPropagation()
+              });
+            });
+            if($(target_notif).find('.kt-notification__item--read').length < $(target_notif+' a').length){
+              // if(! $(target_icon).hasClass('kt-pulse')){
+                $(target_icon).addClass('kt-pulse kt-pulse--brand');
+              // }
+            }
+
+            if(typeof t.init !== 'undefined') {
+              // infinite Scroll for notif
+              window.ktN1 = new KTInfinite.init({
+                element:"#topbar_notifications_notifications .kt-notification",
+                target:"#topbar_notifications_notifications .kt-notification",
+                url: api_url+"/api/mng/user/notification/infinite/"+window.Auth.nik,
+                length: 5,
+                last: $("#topbar_notifications_notifications .kt-notification > a").length,
+                end: 'Sudah di akhir',
+                template: function(r){
+                  return '<a href="'+(r.notification_url !== null?r.notification_url:"javascript:void(0);")+'" target="_blank" data-id="'+r.notification_id+'" class="kt-notification__item'+(r.notification_read==1?' kt-notification__item--read':'')+'">\
+                  <div class="kt-notification__item-icon">\
+                  <i class="'+r.notification_icon+' kt-font-success"></i>\
+                  </div>\
+                  <div class="kt-notification__item-details" style="width: calc(100% - 32px - 39px)">\
+                  <div class="kt-notification__item-title" title="'+(r.notification_title!=null?r.notification_title+" : ":"")+r.notification_content+'" data-toggle="kt-tooltip" data-placement="top" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">\
+                  '+(r.notification_title!=null?r.notification_title+" : ":"")+r.notification_content+'\
+                  </div>\
+                  <div class="kt-notification__item-time" title="'+r.notification_time+'"></div>\
+                  </div>\
+                  </a>';
+                },
+                fn: function(){
+                  $('.kt-notification__item-time').timeago();
+                  $(target_notif+' a [data-toggle="kt-tooltip"]').tooltip();
+
+                  // stop propagation
+                  $(target_notif+' a').unbind('click');
+                  $(target_notif+' a').click(function(e){
+                    var elm = this;
+                    if(! $(elm).hasClass('kt-notification__item--read'))
+                      $.ajax({
+                        url: el.link+"/read",
+                        type: 'POST',
+                        data: {id:$(elm).data('id')},
+                        success: function(r){
+                          if(r.status)
+                            $(elm).addClass('kt-notification__item--read');
+                        }
+                      });
+
+                    e.stopPropagation()
+                  });
+                }
+              });
+              console.log('ok');
+            }
+
+            // update infinite scroll
+            console.log($('#topbar_notifications_notifications .kt-notification > a').length);
+            window.ktN1.config.last = $('#topbar_notifications_notifications .kt-notification > a').length;
+            KTInfinite.reload(window.ktN1);
+            console.log(window.ktN1);
+          }
+        }
+      }
+    });
+
+    $(target_icon).click(function(){
+      $(this).removeClass('kt-pulse kt-pulse--brand');
+    });
+  }
+
+  return {
+    init: function(c){
+      window.notif = {};
+      if(typeof c === 'object')
+        Object.assign(window.notif, c);
+
+      Object.assign(window.notif, {init:1});
+      KTNotification.get(window.notif);
+      setTimeout(function(){
+        delete window.notif.init;
+      },10000);
+      window.ktnotify = setInterval(function(){KTNotification.get(window.notif);},10000);
+
+      return this;
+    },
+    get: function(el){
+      if(typeof el !== 'undefined')
+        _get(el);
+      else
+        console.log('Notification configuration not found!');
+    }
+  };
+}();
+
+
+
+
+
+
 
 
 
@@ -578,105 +729,111 @@ $(document).ready(function(){
     }
   });
 
-  // infinte scroll
-  window.ktI2 = new KTInfinite.init({
-    element:"#kt_quick_panel div.kt-notification",
-    target:"#kt_quick_panel div.kt-notification",
-    url: api_url+"/api/mng/user/complaint/infinite/"+window.Auth.nik,
-    length: 5,
-    last: $("#kt_quick_panel div.kt-notification > a").length,
-    end: 'Sudah di akhir',
-    template: function(r){
-      var tm = (r.create_date.split(' '))[1].split(":"),
-          icon = {
-            'CMPT003': 'kt-font-danger',
-            'CMPT002': 'kt-font-warning',
-            'CMPT001' : 'kt-font-success',
-            'CMPT004': 'kt-font-info'
-          };
-      return '<a href="javascript:;" class="kt-notification__item kt-notification__item--read">\
-          <div class="kt-notification__item-icon">\
-              <i class="flaticon2-user '+icon[r.complaint_type]+'"></i>\
-          </div>\
-          <div class="kt-notification__item-details">\
-              <div class="kt-notification__item-title">\
-                  '+r.complaint_description+'\
-              </div>\
-              <div class="kt-notification__item-time">\
-                  19 hrs ago\
-              </div>\
-          </div>\
-      </a>';
-    }
-  });
+  if(typeof window.Auth !== 'undefined'){
+    // infinte scroll
+    window.ktI2 = new KTInfinite.init({
+      element:"#kt_quick_panel div.kt-notification",
+      target:"#kt_quick_panel div.kt-notification",
+      url: api_url+"/api/mng/user/complaint/infinite/"+window.Auth.nik,
+      length: 5,
+      last: $("#kt_quick_panel div.kt-notification > a").length,
+      end: 'Sudah di akhir',
+      template: function(r){
+        var tm = (r.create_date.split(' '))[1].split(":"),
+            icon = {
+              'CMPT003': 'kt-font-danger',
+              'CMPT002': 'kt-font-warning',
+              'CMPT001' : 'kt-font-success',
+              'CMPT004': 'kt-font-info'
+            };
+        return '<a href="javascript:;" class="kt-notification__item kt-notification__item--read">\
+            <div class="kt-notification__item-icon">\
+                <i class="flaticon2-user '+icon[r.complaint_type]+'"></i>\
+            </div>\
+            <div class="kt-notification__item-details">\
+                <div class="kt-notification__item-title">\
+                    '+r.complaint_description+'\
+                </div>\
+                <div class="kt-notification__item-time">\
+                    19 hrs ago\
+                </div>\
+            </div>\
+        </a>';
+      }
+    });
 
-  // initiate complaint
-  KTComplaintLoad.mycomplaint();
-  KTComplaintLoad.complaint();
+    // initiate complaint
+    KTComplaintLoad.mycomplaint();
+    KTComplaintLoad.complaint();
+    // initiate notification
+    KTNotification.init({
+      link: api_url+'/api/mng/user/notification'
+    });
 
-  // form validation for complaint
-  var cmpt = new KTForm.init({
-    formId:"#FComplaint",
-    link: api_url+'/api/mng/user/complaint/add',
-    data: {
-      nik: window.Auth.nik,
-      menu_page: window.Auth.page
-    },
-    formRules:{
-      complaint_description : {required:true, minlength:20}
-    },
-    fn:{
-      after: function(r){
-        if(r.status){
-            KTForm.notif({
-              text: r.message,
-              type: "success",
-              timer: 1500,
-              fn:{
-                after: function(r){
-                  cmpt.element.resetForm();
-                  $(cmpt.formId)[0].reset();
+    // form validation for complaint
+    var cmpt = new KTForm.init({
+      formId:"#FComplaint",
+      link: api_url+'/api/mng/user/complaint/add',
+      data: {
+        nik: window.Auth.nik,
+        page_code: window.Auth.page
+      },
+      formRules:{
+        complaint_description : {required:true, minlength:20}
+      },
+      fn:{
+        after: function(r){
+          if(r.status){
+              KTForm.notif({
+                text: r.message,
+                type: "success",
+                timer: 1500,
+                fn:{
+                  after: function(r){
+                    cmpt.element.resetForm();
+                    $(cmpt.formId)[0].reset();
 
-                  KTComplaintLoad.complaint();
-                  KTComplaintLoad.mycomplaint();
+                    KTComplaintLoad.complaint();
+                    KTComplaintLoad.mycomplaint();
 
-                  console.log('Success');
+                    console.log('Success');
+                  }
                 }
-              }
-            });
-        } else {
-            KTForm.notif({
-              text: r.message,
-              type: "warning",
-              timer: 1500
-            });
+              });
+          } else {
+              KTForm.notif({
+                text: r.message,
+                type: "warning",
+                timer: 1500
+              });
+          }
         }
       }
-    }
-  });
+    });
 
-  // $('#complaint-list').css('max-height', ($(window).height()-90)+"px").css('overflow-y', 'scroll');
-  var ps = new PerfectScrollbar('#complaint-list', {
-    wheelSpeed: 0.5,
-    wheelPropagation: true,
-    minScrollbarLength: 20,
-    maxScrollbarLength: 300,
-  });
+    // $('#complaint-list').css('max-height', ($(window).height()-90)+"px").css('overflow-y', 'scroll');
+    var ps = new PerfectScrollbar('#complaint-list', {
+      wheelSpeed: 0.5,
+      wheelPropagation: true,
+      minScrollbarLength: 20,
+      maxScrollbarLength: 300,
+    });
 
-  var kn = new PerfectScrollbar('#kt_quick_panel div.kt-notification', {
-    wheelSpeed: 0.5,
-    wheelPropagation: true,
-    minScrollbarLength: 20,
-    maxScrollbarLength: 300,
-  });
+    var kn = new PerfectScrollbar('#kt_quick_panel div.kt-notification', {
+      wheelSpeed: 0.5,
+      wheelPropagation: true,
+      minScrollbarLength: 20,
+      maxScrollbarLength: 300,
+    });
 
-  $('#kt_quick_panel').find('.kt-quick-panel__content').css('height', ($('#kt_quick_panel').height()-65.5) + 'px');
-  $(window).resize(function(){
     $('#kt_quick_panel').find('.kt-quick-panel__content').css('height', ($('#kt_quick_panel').height()-65.5) + 'px');
-  });
-  // console.log(ps);
+    $(window).resize(function(){
+      $('#kt_quick_panel').find('.kt-quick-panel__content').css('height', ($('#kt_quick_panel').height()-65.5) + 'px');
+    });
+    // console.log(ps);
 
-  $('a[href="#kt_quick_panel_tab_complaint"]').click(function(){
-    KTComplaintLoad.complaint();
-  });
+    $('a[href="#kt_quick_panel_tab_complaint"]').click(function(){
+      KTComplaintLoad.complaint();
+    });
+  }
 });

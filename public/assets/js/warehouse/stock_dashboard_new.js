@@ -146,7 +146,7 @@ var KTCabinetForm = function(){
             submitHandler: function (form) {
                 var data = $(formId).serializeArray();
 
-                data.push({name:'menu_page', value:window.Auth.page});
+                data.push({name:'page_code', value:window.Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -275,7 +275,7 @@ var KTModalGrid = function(){
             }]
         );
         // sent to ajax data
-        myGrid.set('data', {menu_page:Auth.page, cabinet_code:_cabinet});
+        myGrid.set('data', {page_code:Auth.page, cabinet_code:_cabinet});
 
         myGrid.set('function', function(){
 
@@ -431,7 +431,7 @@ var KTStockForm = function(){
 
                 var data = $(formId).serializeArray();
                 data.push({name:"nik", value:window.Auth.nik});
-                data.push({name:"menu_page", value:window.Auth.page});
+                data.push({name:"page_code", value:window.Auth.page});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -556,7 +556,7 @@ $(document).ready(function(){
                 $.ajax({
                     url: api_url+'/api/mst/cabinet/delete',
                     type: 'POST',
-                    data: {cabinet_code: window.cabinet_code, menu_page: window.Auth.page},
+                    data: {cabinet_code: window.cabinet_code, page_code: window.Auth.page},
                     success: function(r){
                         Swal.fire({
                             title: 'Terhapus!',
@@ -608,7 +608,7 @@ $(document).ready(function(){
             stock_code = map[selection],
             data = [];
 
-        data.push({name:'menu_page', value:window.Auth.page});
+        data.push({name:'page_code', value:window.Auth.page});
         data.push({name:'main_stock_code', value:stock_code});
         data.push({name:'cabinet_code', value:window.cabinet_code});
 
