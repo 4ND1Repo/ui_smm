@@ -58,6 +58,15 @@ var KTFormPO = function(){
                             $('#FPO .list-body').html('');
                             myGrid.element().reload();
                             console.log('Success');
+                            // send notification to target
+                            $.ajax({
+                              url: api_url+'/api/mng/user/notification/add',
+                              type: 'POST',
+                              data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada request PO', notification_url:base_url+'/pur/req/po', notification_icon: "fa fa-book kt-font-warning"},
+                              success: function(r){
+                                console.log(r);
+                              }
+                            });
                         });
                     } else {
                         swal.fire({
@@ -246,10 +255,11 @@ var KTGridPO = function(){
                         cancelButtonText: 'Tidak',
                     }).then((result) => {
                         if (result.value) {
+                            var el = this;
                             $.ajax({
                                 url: link_delete,
                                 type: 'POST',
-                                data: {'po_code':$(this).attr('id'),nik:window.Auth.nik},
+                                data: {'po_code':$(el).attr('id'),nik:window.Auth.nik},
                                 success: function(r){
                                     Swal.fire({
                                         title: 'Terhapus!',
@@ -260,6 +270,14 @@ var KTGridPO = function(){
                                     });
                                     _el.reload();
                                     $('[name=find]')[0].focus();
+                                    $.ajax({
+                                      url: api_url+'/api/mng/user/notification/add',
+                                      type: 'POST',
+                                      data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Request PO '+$(el).attr('id')+' digagalkan', notification_url:base_url+'/pur/req/po', notification_icon: "fa fa-trash kt-font-danger"},
+                                      success: function(r){
+                                        console.log(r);
+                                      }
+                                    });
                                 },
                                 error: function(){
                                     console.log('error delete');

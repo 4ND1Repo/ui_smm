@@ -181,11 +181,6 @@
                                 <label>Cari Stock</label>
                                 <div class="input-group typeahead">
                                     <input type="text" class="form-control autocomplete" name="stock_name" placeholder="Cari stok">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text" id="basic-addon2">
-                                            <i class="la la-plus"></i>
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </div>

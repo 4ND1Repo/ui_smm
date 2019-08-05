@@ -59,6 +59,15 @@ var KTFormPO = function(){
                             $(formModal).modal('hide');
                             myGrid.element().reload();
                             console.log('Success');
+                            // send notification to target
+                            $.ajax({
+                              url: api_url+'/api/mng/user/notification/add',
+                              type: 'POST',
+                              data:{notification_to:r.data.to, notification_from:window.Auth.nik, notification_content:'PO '+r.data.po_code+' sedang diproses', notification_url:base_url+'/wh/req/po', notification_icon: "fa fa-book kt-font-success"},
+                              success: function(r){
+                                console.log(r);
+                              }
+                            });
                         });
                     } else {
                         swal.fire({
@@ -220,10 +229,11 @@ var KTGridPO = function(){
                       console.log(result);
                       console.log($('#reason').val());
                       if (result.value) {
+                          var el = this;
                           $.ajax({
                               url: link_cancel,
                               type: 'POST',
-                              data: {po_code:$(this).attr('id'),reason:$('#reason').val(),nik:window.Auth.nik},
+                              data: {po_code:$(el).attr('id'),reason:$('#reason').val(),nik:window.Auth.nik},
                               success: function(r){
                                   Swal.fire({
                                       title: 'Dibatalkan!',
@@ -234,6 +244,16 @@ var KTGridPO = function(){
                                   });
                                   _el.reload();
                                   $('[name=find]')[0].focus();
+
+                                  // send notification to target
+                                  $.ajax({
+                                    url: api_url+'/api/mng/user/notification/add',
+                                    type: 'POST',
+                                    data:{notification_to:$(el).parent().parent().parent().children('[data-field="create_by"]').text(), notification_from:window.Auth.nik, notification_content:'PO '+$(el).attr('id')+' dibatalkan', notification_url:base_url+'/wh/req/po', notification_icon: "fa fa-book kt-font-danger"},
+                                    success: function(r){
+                                      console.log(r);
+                                    }
+                                  });
                               },
                               error: function(){
                                   console.log('error delete');

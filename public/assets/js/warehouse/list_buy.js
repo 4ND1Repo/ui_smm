@@ -58,6 +58,16 @@ var KTFormPO = function(){
                             $("#addPO").modal('hide');
                             myGrid.element().reload();
                             console.log('Success');
+
+                            // send notification to target
+                            $.ajax({
+                              url: api_url+'/api/mng/user/notification/add',
+                              type: 'POST',
+                              data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada request PO', notification_url:base_url+'/pur/req/po', notification_icon: "fa fa-book kt-font-warning"},
+                              success: function(r){
+                                console.log(r);
+                              }
+                            });
                         });
                     } else {
                         swal.fire({

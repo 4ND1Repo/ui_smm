@@ -561,9 +561,9 @@ var KTNotification = function(){
           var data = r.data;
           if(data.count > 0 || (typeof t.init !== 'undefined')){
             $.each(data.content, function(k,v){
-              var tmp = '<a href="'+(v.notification_url !== null?v.notification_url:"javascript:void(0);")+'" target="_blank" data-id="'+v.notification_id+'" class="kt-notification__item'+(v.notification_read==1?' kt-notification__item--read':'')+'">\
+              var tmp = '<a href="'+(v.notification_url !== null?v.notification_url:"javascript:void(0);")+'" target="_self" data-id="'+v.notification_id+'" class="kt-notification__item'+(v.notification_read==1?' kt-notification__item--read':'')+'">\
               <div class="kt-notification__item-icon">\
-              <i class="'+v.notification_icon+' kt-font-success"></i>\
+              <i class="'+v.notification_icon+'"></i>\
               </div>\
               <div class="kt-notification__item-details" style="width: calc(100% - 32px - 39px)">\
               <div class="kt-notification__item-title" title="'+(v.notification_title!=null?v.notification_title+" : ":"")+v.notification_content+'" data-toggle="kt-tooltip" data-placement="top" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">\
@@ -790,8 +790,20 @@ $(document).ready(function(){
                 timer: 1500,
                 fn:{
                   after: function(r){
+                    var to = $(cmpt.formId).find('[name="complaint_to"]').val();
                     cmpt.element.resetForm();
                     $(cmpt.formId)[0].reset();
+                    // send notification to target
+                    if(to !== ""){
+                      $.ajax({
+                        url: api_url+'/api/mng/user/notification/add',
+                        type: 'POST',
+                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Ada komplain untuk anda', notification_icon: "fa fa-bullhorn kt-font-warning"},
+                        success: function(r){
+                          console.log(r);
+                        }
+                      });
+                    }
 
                     KTComplaintLoad.complaint();
                     KTComplaintLoad.mycomplaint();

@@ -85,7 +85,7 @@ var KTRequestTools = function(){
                                 $.ajax({
                                   url: api_url+'/api/mng/user/notification/add',
                                   type: 'POST',
-                                  data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Ada request barang', notification_url:base_url+'/wh/req/tools'},
+                                  data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Ada request barang', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-box kt-font-info"},
                                   success: function(r){
                                     console.log(r);
                                   }
@@ -199,6 +199,17 @@ var KTFormPO = function(){
                             window.po = {};
                             myGrid.element().reload();
                             console.log('Success');
+
+                            // send notification to target
+                            $.ajax({
+                              url: api_url+'/api/mng/user/notification/add',
+                              type: 'POST',
+                              data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada request PO', notification_url:base_url+'/pur/req/po', notification_icon: "fa fa-book kt-font-warning"},
+                              success: function(r){
+                                console.log(r);
+                              }
+                            });
+
                             Swal.fire({
                                 title: '',
                                 text: "Pindah ke halaman PO ?",
@@ -397,6 +408,16 @@ var KTGridRequestTools = function(){
                                             $(el).parent().remove();
                                             _el.reload();
                                             KTApp.unblock(target);
+
+                                            // send notification to target
+                                            $.ajax({
+                                              url: api_url+'/api/mng/user/notification/add',
+                                              type: 'POST',
+                                              data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
+                                              success: function(r){
+                                                console.log(r);
+                                              }
+                                            });
                                         },
                                         error: function(){
                                             KTApp.unblock(target);
@@ -459,10 +480,11 @@ var KTGridRequestTools = function(){
                         cancelButtonText: 'Tidak',
                     }).then((result) => {
                         if (result.value) {
+                            var el = this;
                             $.ajax({
                                 url: api_url+'/api/wh/req/tools/delete',
                                 type: 'POST',
-                                data: {'req_tools_code':$(this).attr('id'),nik:Window.Auth.nik},
+                                data: {'req_tools_code':$(el).attr('id'),nik:Window.Auth.nik},
                                 success: function(r){
                                     Swal.fire({
                                         title: 'Terhapus!',
@@ -473,6 +495,16 @@ var KTGridRequestTools = function(){
                                     });
                                     _el.reload();
                                     $('[name=find]')[0].focus();
+
+                                    // send notification to target
+                                    $.ajax({
+                                      url: api_url+'/api/mng/user/notification/add',
+                                      type: 'POST',
+                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Barang('+$(el).attr('id')+') digagalkan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-trash kt-font-danger"},
+                                      success: function(r){
+                                        console.log(r);
+                                      }
+                                    });
                                 },
                                 error: function(){
                                     console.log('error delete');
