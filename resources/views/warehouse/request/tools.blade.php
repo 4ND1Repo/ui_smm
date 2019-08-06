@@ -165,7 +165,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>NIK</label>
-                                <input type="text" name="req_nik" class="form-control" placeholder="Isian NIK">
+                                <div class="typeahead">
+                                  <input type="text" name="req_nik" class="form-control" placeholder="Isian NIK">
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">

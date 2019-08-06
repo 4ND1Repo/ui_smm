@@ -59,6 +59,16 @@ var KTFormPO = function(){
                                 $('#FPO .list-body').html('');
                                 $('#addPo').modal('hide');
                                 myGrid.element().reload();
+
+                                // send notification to target
+                                $.ajax({
+                                  url: api_url+'/api/mng/user/notification/add',
+                                  type: 'POST',
+                                  data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada barang masuk gudang', notification_url:base_url+'/pur/req/po/history', notification_icon: "fa fa-box-open kt-font-success"},
+                                  success: function(r){
+                                    console.log(r);
+                                  }
+                                });
                                 console.log('Success');
                             });
                         } else {
@@ -225,6 +235,7 @@ var KTGridPO = function(){
                                       tmpHtml += '</div>';
                                       // po date
                                       var tmp = v.po_date_delivery.split("-");
+                                      tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm doNumber" data-supplier="'+v.supplier_code+'" name="do['+v.po_code+']['+v.main_stock_code+']" value=""></div>';
                                       tmpHtml += '<div class="text-center">'+((typeof tmp == 'object')?tmp.reverse().join('/'):"-")+'</div>';
                                       // input qty
                                       tmpHtml += '<div class="text-right">'+price.format(v.qty,2,',','.')+'</div>';
@@ -308,69 +319,6 @@ $(document).ready(function(){
     KTGridPO.init();
     KTFormPO.init();
 
-    // set rules for modal
-    KTFormPO.rules('input[name="do_code"]',{required: true});
-
-    // autocomplete
-    var map = {};
-    var res = [],
-    stockAutocomplete = $('input[name=main_stock_code].autocomplete').typeahead(null, {
-        name: 'stock_name',
-        source: function(query,psc){
-            $.ajax({
-                url: api_url+'/api/wh/stock/autocomplete',
-                type: 'POST',
-                data: {find:query},
-                async: false,
-                success: function(r){
-                    res = [];
-                    map = {};
-                    $.each(r, function(k,v){
-                        res.push(v.label);
-                        map[v.label] = v.id;
-                    });
-
-                }
-            });
-            psc(res);
-        }
-    }).on('typeahead:selected', function(event, selection) {
-        var data = selection.split(' - '),
-            tmpHtml = '';
-
-        // data add from stock
-        tmpHtml += '<div id="'+map[selection]+'">';
-        // detail stock
-        tmpHtml += '<div>';
-        tmpHtml += data[0]+' - ';
-        tmpHtml += data[1]+' - ';
-        tmpHtml += data[2]+' - ';
-        tmpHtml += data[3];
-        tmpHtml += '</div>';
-        // input qty
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection]+']" placeholder="Kuantiti"></div>';
-        tmpHtml += '</div>';
-
-        if($('#FPO').find("div[id='"+map[selection]+"']").length > 0){
-            swal.fire({
-                title: "",
-                text: "Data sudah ada di daftar",
-                type: "warning",
-                showConfirmButton: false,
-                timer: 1500
-            });
-        } else{
-            $('#FPO .list-body').append(tmpHtml);
-            $(".qtyPO").inputmask('decimal', {
-                rightAlignNumerics: false
-            });
-            // add rules
-            KTFormPO.rules('input[name="data['+map[selection]+']"]');
-        }
-        stockAutocomplete.typeahead('val','');
-    });
-
-
     $("#addPo").on('hide.bs.modal', function(){
       $('#FPO .list-body').html('');
       $('#addPo .btn-submit, #addPo .typeahead').removeClass('kt-hidden');
@@ -383,27 +331,31 @@ $(document).ready(function(){
       $('#FPO').submit();
     });
 
-    var doCode = "";
-    $('input[name="do_code"]').on('keyup', function(){
-      $(this).val($(this).val().toUpperCase());
-      var el = this,
-          poCode = $(".list-body > div:first-child").attr('id');
-      if(typeof doCode === 'object') doCode.abort();
+    $("#addPo").on('shown.bs.modal', function(){
+      var doCode = "";
+      $('.doNumber').on('keyup', function(){
+        $(this).val($(this).val().toUpperCase());
+        var el = this,
+        poCode = $(".list-body > div:first-child").attr('id');
+        if(typeof doCode === 'object') doCode.abort();
 
-      doCode = $.ajax({
-        url: api_url+"/api/wh/req/do/check",
-        type: "POST",
-        data: {do_code:$(el).val(), po_code:poCode},
-        success: function(r){
-          $(el).removeClass('exists');
+        var supplier_code = $(el).data('supplier');
+        if($(el).next().length > 0)
+          $(el).next().remove();
 
-          if(!r.status){
-            $(el).addClass('exists').parent().append('<div class="error invalid-feedback">'+r.message+'</div>');
-          } else{
-            if($(el).next().length > 0)
-              $(el).next().remove();
+        doCode = $.ajax({
+          url: api_url+"/api/wh/req/do/check",
+          type: "POST",
+          data: {do_code:$(el).val(), supplier_code:supplier_code},
+          success: function(r){
+            $(el).removeClass('exists');
+
+            if(!r.status){
+              $(el).addClass('exists').parent().append('<div class="error invalid-feedback">'+r.message+'</div>');
+            }
           }
-        }
+        });
       });
     });
+
 });

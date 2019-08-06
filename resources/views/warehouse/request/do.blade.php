@@ -130,8 +130,11 @@
                   .list_stock .list-header > div:first-child {
                     width: 35%;
                   }
-                  .list_stock .list-header > div:nth-child(2) {
+                  .list_stock .list-header > div:nth-child(2), .list_stock .list-header > div:nth-child(3) {
                     width: 20%;
+                  }
+                  .list_stock .list-header > div:nth-child(4), .list_stock .list-header > div:nth-child(5) {
+                    width: 10%;
                   }
                   .list_stock .list-header > div:last-child {
                     width: 5%;
@@ -149,8 +152,11 @@
                   .list_stock .list-body > div > div:first-child {
                     width: 35%;
                   }
-                  .list_stock .list-body > div > div:nth-child(2) {
+                  .list_stock .list-body > div > div:nth-child(2), .list_stock .list-body > div > div:nth-child(3) {
                     width: 20%;
+                  }
+                  .list_stock .list-body > div > div:nth-child(4), .list_stock .list-body > div > div:nth-child(5) {
+                    width: 10%;
                   }
                   .list_stock .list-body > div > div:last-child {
                     width: 5%;
@@ -160,15 +166,12 @@
                   }
                 </style>
                 <form class="kt-form" id="FPO">
-                    <div class="row validated">
-                        <div class="col-md-8">&nbsp;</div>
-                        <div class="col-md-4"><input type="text" class="form-control form-control-sm" name="do_code" placeholder="Nomor surat jalan"></div>
-                    </div>
                     <div class="row">&nbsp;</div>
                     <div class="row validated list_stock">
                         <div class="col-md-12">
                             <div class="list-header">
                                 <div>Stok</div>
+                                <div>Surat Jalan</div>
                                 <div title="Target Kirim">Target Kirim</div>
                                 <div>Kuantiti</div>
                                 <div>Terima</div>

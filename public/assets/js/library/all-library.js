@@ -223,7 +223,7 @@ var price = function(){
         format: function(amount, decimalCount = 2, decimal = ".", thousands = ","){
             return formatMoney(amount,decimalCount,decimal,thousands);
         }
-    }
+    };
 }();
 
 // infinite scroll
@@ -488,14 +488,15 @@ var KTComplaintLoad = function(){
                         <div class="kt-notification__item-title">\
                             '+v.complaint_description+'\
                         </div>\
-                        <div class="kt-notification__item-time">\
+                        <span class="kt-notification__item-time" title="'+v.create_date+'">\
                             '+v.create_date+'\
-                        </div>\
+                        </span>\
                     </div>\
                 </a>';
             $('#kt_quick_panel div.kt-notification').append(tmp);
           });
 
+          $("#kt_quick_panel_tab_my_complaint").find('span').timeago();
 
           window.ktI2.config.last = $('#kt_quick_panel div.kt-notification > a').length;
           KTInfinite.reload(window.ktI2);
@@ -738,6 +739,9 @@ $(document).ready(function(){
       length: 5,
       last: $("#kt_quick_panel div.kt-notification > a").length,
       end: 'Sudah di akhir',
+      fn: function(){
+          $("#kt_quick_panel_tab_my_complaint").find('span').timeago();
+      },
       template: function(r){
         var tm = (r.create_date.split(' '))[1].split(":"),
             icon = {
@@ -754,9 +758,9 @@ $(document).ready(function(){
                 <div class="kt-notification__item-title">\
                     '+r.complaint_description+'\
                 </div>\
-                <div class="kt-notification__item-time">\
-                    19 hrs ago\
-                </div>\
+                <span class="kt-notification__item-time" title="'+r.create_date+'">\
+                    '+r.create_date+'\
+                </span>\
             </div>\
         </a>';
       }

@@ -8,12 +8,7 @@ var KTRequestTools = function(){
     var _validation = function(){
         _el = $( formId ).validate({
             // define validation rules
-            rules: {
-                name_of_request: {
-                    required: true,
-                    maxlength: 30
-                }
-            },
+            rules: {},
 
             //display error alert on form submit
             invalidHandler: function(event, validator) {
@@ -47,9 +42,9 @@ var KTRequestTools = function(){
                     link = api_url+"/api/wh/req/tools/edit";
 
                 var data = $(formId).serializeArray();
-                data.push({name:"nik", value:Window.Auth.nik});
+                data.push({name:"nik", value:window.Auth.nik});
                 data.push({name:"page_code", value:'wh'});
-                data.push({name:"page_code_from", value:window.page_from});
+                data.push({name:"page_code_from", value:window.Auth.page});
                 // block ui modal
                 var target = formModal+' .modal-content';
                 KTApp.block(target, {
@@ -141,145 +136,9 @@ var KTRequestTools = function(){
     };
 }();
 
-var KTFormPO = function(){
-  var formId = '#FPO',
-      link_add = api_url+"/api/wh/req/po/add",
-      formRules = {},
-      formModal = '#addPO';
-
-  var validation = function(){
-    return $( formId ).validate({
-        // define validation rules
-        rules: formRules,
-
-        //display error alert on form submit
-        invalidHandler: function(event, validator) {
-            swal.fire({
-                "title": "",
-                "text": "Mohon periksa kembali inputan anda.",
-                "type": "error",
-                "confirmButtonClass": "btn btn-secondary",
-                "onClose": function(e) {
-                    console.log('on close event fired!');
-                }
-            });
-
-            event.preventDefault();
-        },
-
-        submitHandler: function (form) {
-            var link = link_add;
-
-            var data = $(formId).serializeArray();
-            data.push({name:"nik", value:window.Auth.nik});
-            data.push({name:"page_code", value:window.Auth.page});
-            data.push({name:"page_code_destination", value:'pur'});
-            // block ui modal
-            var target = formModal+' .modal-content';
-            KTApp.block(target, {
-                overlayColor: '#000000',
-                type: 'v2',
-                state: 'primary',
-                message: 'Processing...'
-            });
-
-            $.ajax({
-                url: link,
-                type: "POST",
-                data: data,
-                success: function(r){
-                    if(r.status){
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "success",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            $('#FPO .list-body').html('');
-                            window.po = {};
-                            myGrid.element().reload();
-                            console.log('Success');
-
-                            // send notification to target
-                            $.ajax({
-                              url: api_url+'/api/mng/user/notification/add',
-                              type: 'POST',
-                              data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada request PO', notification_url:base_url+'/pur/req/po', notification_icon: "fa fa-book kt-font-warning"},
-                              success: function(r){
-                                console.log(r);
-                              }
-                            });
-
-                            Swal.fire({
-                                title: '',
-                                text: "Pindah ke halaman PO ?",
-                                type: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Ya',
-                                cancelButtonText: 'Tidak',
-                            }).then((result) => {
-                                if (result.value) {
-                                  window.location = base_url+'/wh/req/po';
-                                }
-                                $('#addPo').modal('hide');
-                            });
-                        });
-                    } else {
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "warning",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            console.log('failed');
-                        });
-                    }
-                    KTApp.unblock(target);
-                },
-                error: function(){
-                    swal.fire({
-                        title: "",
-                        text: "Kesalahan sistem",
-                        type: "error",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((res) => {
-                        console.log('failed');
-                    });
-                    KTApp.unblock(target);
-                }
-            });
-            return false;
-        }
-    });
-  }
-
-  var setRules = function(rule){
-    $(rule).rules("add", {required:true, min: 0.01});
-  }
-
-  return {
-    init: function(){
-      console.log('init form');
-      this[formId.replace(/'#|.'/g,'')] = validation();
-    },
-    element: function(){
-      return this[formId.replace(/'#|.'/g,'')];
-    },
-    rules: function(r){
-      console.log('set rule');
-      setRules(r);
-    }
-  }
-}();
-
 var KTGridRequestTools = function(){
     var _el,
-        gridId = "#datagrid-req-tools",
+        gridId = "#datagrid-req-tools-opr",
         height = '550',
         url = api_url+'/api/wh/req/tools/grid',
         page = '10';
@@ -341,7 +200,7 @@ var KTGridRequestTools = function(){
                 },
             }]
         );
-        myGrid.set('data',{page_code:Window.Auth.page});
+        myGrid.set('data',{page_code:window.Auth.page});
         myGrid.set('function', function(){
             $('select[name=status]').on('change', function() {
                 myGrid.element().search($(this).val(), 'status');
@@ -375,9 +234,11 @@ var KTGridRequestTools = function(){
                                     tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
                                     tmp += '</div>';
                                     if(v.finish_by == null && v.fullfillment == 1)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
-                                    else if(v.finish_by == null && v.fullfillment == 0)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-warning btn-wide btn-sm btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'">Buat PO</botton></div>';
+                                        tmp += '<div class="text-center">Bisa Diambil</div>';
+                                    else if(v.finish_by !== null && v.fullfillment == 1)
+                                        tmp += '<div class="text-center">Sudah Diambil</div>';
+                                    else
+                                        tmp += '<div class="text-center">Sedang pembelian</div>';
                                     tmp += '</div>';
                                     tmp += '</div>';
                                     tmp += '</div>';
@@ -392,80 +253,6 @@ var KTGridRequestTools = function(){
                                 $('.modal-footer,.validated.search').addClass('kt-hidden');
 
                                 $('#addReqtools').modal('show');
-
-                                $(".btn-send").unbind('click');
-                                // send to stock
-                                $('.btn-send').click(function(){
-                                    var id = ($(this).attr('id')).split('-'),
-                                        el = this;
-                                    // block ui modal
-                                    var target = $(el).parent().parent();
-                                    KTApp.block(target, {
-                                        overlayColor: '#000000',
-                                        type: 'v2',
-                                        state: 'primary',
-                                        message: 'Processing...'
-                                    });
-                                    $.ajax({
-                                        url: api_url+"/api/wh/req/tools/send",
-                                        type: "POST",
-                                        data: {stock_code:id[0],req_tools_code:id[1],nik:Window.Auth.nik},
-                                        success: function(r){
-                                            $(el).parent().remove();
-                                            _el.reload();
-                                            KTApp.unblock(target);
-
-                                            // send notification to target
-                                            $.ajax({
-                                              url: api_url+'/api/mng/user/notification/add',
-                                              type: 'POST',
-                                              data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
-                                              success: function(r){
-                                                console.log(r);
-                                              }
-                                            });
-                                        },
-                                        error: function(){
-                                            KTApp.unblock(target);
-                                            console.log('error while send process');
-                                        }
-                                    });
-                                });
-
-                                $('.btn-add-po').click(function(){
-                                    var id = ($(this).attr('id')).split('-'),
-                                        el = this;
-
-                                    // add to list po
-                                    if(!(id[0] in window.po)){
-                                        // getting data
-                                        $.ajax({
-                                          url: api_url+'/api/wh/stock/find_by_stock',
-                                          type: 'POST',
-                                          data: {stock_code:id[0], page_code:window.Auth.page},
-                                          success: function(r){
-                                            if(r.status){
-                                              window.po[id[0]] = r.data;
-                                              Swal.fire({
-                                                  title: '',
-                                                  text: 'Stok sudah ditambahkan ke daftar PO',
-                                                  type: 'success',
-                                                  showConfirmButton: false,
-                                                  timer: 1500
-                                              });
-                                            }
-                                          }
-                                        });
-                                    } else
-                                      Swal.fire({
-                                          title: '',
-                                          text: 'Stok sudah ada di list PO',
-                                          type: 'warning',
-                                          showConfirmButton: false,
-                                          timer: 1500
-                                      });
-                                });
-
                             }
                         },
                         error: function(){
@@ -490,7 +277,7 @@ var KTGridRequestTools = function(){
                             $.ajax({
                                 url: api_url+'/api/wh/req/tools/delete',
                                 type: 'POST',
-                                data: {'req_tools_code':$(el).attr('id'),nik:Window.Auth.nik},
+                                data: {'req_tools_code':$(el).attr('id'),nik:window.Auth.nik},
                                 success: function(r){
                                     Swal.fire({
                                         title: 'Terhapus!',
@@ -506,7 +293,7 @@ var KTGridRequestTools = function(){
                                     $.ajax({
                                       url: api_url+'/api/mng/user/notification/add',
                                       type: 'POST',
-                                      data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Request Barang('+$(el).attr('id')+') digagalkan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-trash kt-font-danger"},
+                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Barang('+$(el).attr('id')+') digagalkan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-trash kt-font-danger"},
                                       success: function(r){
                                         console.log(r);
                                       }
@@ -544,25 +331,22 @@ var delete_items_stock = function(id=null){
 }
 
 $(document).ready(function(){
-    myStorage.set('auth');
-    Window.Auth = JSON.parse(myStorage.get());
     window.po = {};
-    window.page_from = Window.Auth.page;
 
     // initiate
     KTRequestTools.init();
     KTGridRequestTools.init();
-    KTFormPO.init();
 
     $('#addReqtools').find('.btn-submit').click(function(){
         $('#FReqtools').submit();
     });
 
+    $('[type=hidden][name=req_nik]').val(window.Auth.nik);
+    $('[type=hidden][name=name_of_request]').val(window.Auth.nik);
+
     // reset form when hide
     $("#addReqtools").on('hide.bs.modal', function(){
         $('.request_tools').html('');
-        $('input[name=name_of_request]').val('').prop('readonly',false);
-        $('input[name=req_nik]').val('').prop('readonly',false);
         $('.modal-footer,.validated.search').removeClass('kt-hidden');
         KTRequestTools.element().resetForm();
         $('#FReqtools').find('.invalid-feedback').remove();
@@ -625,80 +409,6 @@ $(document).ready(function(){
             $('.request_tools input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
-    });
-
-
-    // autocomplete
-    var map = {};
-    var res = [],
-    nikAutocomplete = $('input[name=req_nik]').typeahead(null, {
-        name: 'req_nik',
-        source: function(query,psc){
-            $.ajax({
-                url: api_url+'/api/account/user/autocomplete',
-                type: 'POST',
-                data: {find:query},
-                async: false,
-                success: function(r){
-                    res = [];
-                    map = {};
-                    $.each(r, function(k,v){
-                        res.push(v.label);
-                        map[v.label] = v.id;
-                    });
-
-                }
-            });
-            psc(res);
-        }
-    }).on('typeahead:selected', function(event, selection) {
-        var tmp = '',
-            data = selection.split(' - ');
-        $('[name=name_of_request]').val(data[1]);
-        nikAutocomplete.typeahead('val',map[selection]);
-        // get page from
-        $.ajax({
-          url: api_url+'/api/account/user/check/group',
-          type: 'POST',
-          data: {nik : map[selection]},
-          success: function(r){
-            window.page_from = r.data.page_code;
-          }
-        });
-    });
-
-
-    var tmpHtml = '',
-        targetListPo= '#addPo .list-body';
-    $('#addPo').on('show.bs.modal', function(){
-      $.each(window.po, function(k,v){
-        // data add from stock
-        tmpHtml = '<div id="'+v.main_stock_code+'">';
-        // detail stock
-        tmpHtml += '<div>';
-        tmpHtml += v.stock_code+' - ';
-        tmpHtml += v.stock_name+' - ';
-        tmpHtml += v.stock_size+' - ';
-        tmpHtml += v.stock_type;
-        tmpHtml += '</div>';
-        // input qty
-        tmpHtml += '<div class="text-center">-</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+v.main_stock_code+']" placeholder="Kuantiti"></div>';
-        tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.main_stock_code+']" placeholder="Keterangan"></div>';
-        tmpHtml += '</div>';
-        $(targetListPo).append(tmpHtml);
-        KTFormPO.rules('input[name="data['+v.main_stock_code+']"]');
-      });
-      $(".qtyPO").inputmask('decimal', {
-          rightAlignNumerics: false
-      });
-    });
-    $('#addPo').on('hide.bs.modal', function(){
-      $(targetListPo).html('');
-    });
-    $('#addPo .btn-submit').on('click', function(){
-      $('#FPO').submit();
     });
 
 });
