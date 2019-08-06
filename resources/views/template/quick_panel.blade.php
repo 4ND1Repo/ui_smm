@@ -64,12 +64,7 @@
                     <div class="row">
                       <div class="col-sm-6">
                         <div class="form-group form-group-sm">
-                          <div class="input-group">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text">
-                                <i class="la la-user"></i>
-                              </span>
-                            </div>
+                          <div class="typeahead">
                             <input type="text" class="form-control form-control-sm" name="complaint_to" placeholder="Kepada siapa?">
                           </div>
                         </div>

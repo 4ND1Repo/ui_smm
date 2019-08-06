@@ -851,5 +851,34 @@ $(document).ready(function(){
     $('a[href="#kt_quick_panel_tab_complaint"]').click(function(){
       KTComplaintLoad.complaint();
     });
+
+    // autocomplete for complaint_to
+    var map = {};
+    var res = [],
+    compToAutocomplete = $('input[name=complaint_to]').typeahead(null, {
+        name: 'complaint_to',
+        source: function(query,psc){
+            $.ajax({
+                url: api_url+'/api/account/user/autocomplete',
+                type: 'POST',
+                data: {find:query},
+                async: false,
+                success: function(r){
+                    res = [];
+                    map = {};
+                    $.each(r, function(k,v){
+                        res.push(v.label);
+                        map[v.label] = v.id;
+                    });
+
+                }
+            });
+            psc(res);
+        }
+    }).on('typeahead:selected', function(event, selection) {
+        var tmp = '',
+            data = selection.split(' - ');
+        compToAutocomplete.typeahead('val',map[selection]);
+    });
   }
 });

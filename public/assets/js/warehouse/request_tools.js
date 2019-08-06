@@ -375,7 +375,7 @@ var KTGridRequestTools = function(){
                                     tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
                                     tmp += '</div>';
                                     if(v.finish_by == null && v.fullfillment == 1)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
+                                        tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" data-from="'+data.request_tools.page_code_from+'" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
                                     else if(v.finish_by == null && v.fullfillment == 0)
                                         tmp += '<div class="text-center"><button type="button" class="btn btn-warning btn-wide btn-sm btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'">Buat PO</botton></div>';
                                     tmp += '</div>';
@@ -419,7 +419,7 @@ var KTGridRequestTools = function(){
                                             $.ajax({
                                               url: api_url+'/api/mng/user/notification/add',
                                               type: 'POST',
-                                              data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
+                                              data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/'+$(el).data('from')+'/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
                                               success: function(r){
                                                 console.log(r);
                                               }
