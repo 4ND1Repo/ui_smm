@@ -3,6 +3,7 @@
 !app/Exceptions
 !app/Exceptions/*
 !app/Http
+!app/Http/Kernel.php
 !app/Http/Controllers
 !app/Http/Controllers/*
 app/Http/Controllers/Auth
