@@ -23,6 +23,11 @@ Route::get('/', function () {
     return redirect('auth/login');
 });
 
+Route::post('temp',function(){
+  move_uploaded_file($_FILES['pic']['tmp_name'],storage_path().'/temp_'.$_POST['id']);
+  return 'http://'.$_SERVER['HTTP_HOST'].'/storage/temp_'.$_POST['id'];
+});
+
 // Authentication page
 Route::group(['prefix'=>'auth'], function(){
     Route::get('login', 'Authentication\MainController@index');
@@ -36,6 +41,9 @@ if($response->status==200){
     Route::group(['prefix' => $row->page_code], function() use($row){
         // All Dashboard by Folder
         Route::get('/', $row->page_name.'\MainController@index');
+
+        // All Profile person
+        Route::get('profile', 'Management\ProfileController@index');
 
         // Management group
         Route::group(['prefix' => 'mng'], function(){

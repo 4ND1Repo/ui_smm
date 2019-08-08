@@ -74,7 +74,7 @@ Use dot badge instead of animated pulse effect:
                     <img class="kt-hidden" alt="Pic" src="./assets/media/users/300_25.jpg" />
 
                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-                    <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold"><i class="fa fa-user"></i></span>
+                    <span class="kt-badge kt-badge--username kt-badge--unified-success kt-badge--lg kt-badge--rounded kt-badge--bold" style="background-image: url(./assets/media/users/default.jpg); background-size: contain;">&nbsp;</span>
                 </div>
             </div>
             <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
@@ -85,7 +85,7 @@ Use dot badge instead of animated pulse effect:
                         <img class="kt-hidden" alt="Pic" src="./assets/media/users/300_25.jpg" />
 
                         <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
-                        <span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success"><i class="fa fa-user"></i></span>
+                        <span class="kt-badge kt-badge--username kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success" style="background-image: url(./assets/media/users/default.jpg); background-size: contain;">&nbsp;</span>
                     </div>
                     <div class="kt-user-card__name"></div>
                 </div>
@@ -94,7 +94,7 @@ Use dot badge instead of animated pulse effect:
 
                 <!--begin: Navigation -->
                 <div class="kt-notification">
-                    <a href="#" class="kt-notification__item">
+                    <a href="{{URL::to(Request::segment(1).'/profile')}}" class="kt-notification__item">
                         <div class="kt-notification__item-icon">
                             <i class="flaticon2-calendar-3 kt-font-success"></i>
                         </div>

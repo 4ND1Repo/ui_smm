@@ -39,6 +39,13 @@ if(auth==null){
       // validate uri are exist in rules
       if(typeof window.Auth !== 'undefined'){
         window.AccessMenu = KTAccessMenu.get(window.Auth.menu);
+        // add for profile
+        if(window.AccessMenu.indexOf('/profile') == -1)
+          window.AccessMenu.push('/profile');
+        // default page
+        if(window.AccessMenu.indexOf('/') == -1)
+          window.AccessMenu.push('/');
+
         var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,"");
         if(link != "" && window.AccessMenu.indexOf(link) == -1){
           history.back(-1);

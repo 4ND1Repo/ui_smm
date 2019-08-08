@@ -880,5 +880,16 @@ $(document).ready(function(){
             data = selection.split(' - ');
         compToAutocomplete.typeahead('val',map[selection]);
     });
+
+    // grab images
+    if(window.Auth.photo !== null)
+      $('.kt-badge--username, .kt-avatar__holder').removeAttr('style').attr('style', "background-image: url('"+window.Auth.photo+"'); background-size: cover;");
+
+    $('.date-picker').datepicker({
+      changeMonth:true,
+      changeYear:true,
+      format:"yyyy-mm-dd",
+      autoclose: true
+    });
   }
 });

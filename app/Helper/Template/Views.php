@@ -98,6 +98,8 @@ class Views{
             'jquery-repeater' => 'vendors/general/jquery.repeater/src/repeater.js',
             'purify' => 'vendors/general/dompurify/dist/purify.js',
             'timeago-id' => 'vendors/custom/timeago/jquery.timeago.id.js',
+            'smartcrop' => 'vendors/custom/smartcrop/smartcrop.js',
+            'face-api' => 'vendors/custom/faceapi/face-api.js',
             'bundle' => 'js/demo1/scripts.bundle.js',
             'auth' => 'js/authentication/auth.js',
             'my-library' => 'js/library/all-library.js'
