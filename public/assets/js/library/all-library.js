@@ -688,6 +688,72 @@ var KTNotification = function(){
   };
 }();
 
+var KTDownload = function(){
+  var tgt = $('body');
+  var __ajax = function(t,u,d=null){
+    KTApp.block(tgt, {
+        overlayColor: '#000000',
+        type: 'v2',
+        state: 'primary',
+        message: 'Sedang memproses...'
+    });
+    var option = {
+      xhrFields: {
+        responseType: 'blob'
+      },
+      type: t==1?'POST':'GET',
+      url: u,
+      success: function(r,t,h){
+        var a = document.createElement('a'),
+           url = window.URL.createObjectURL(r);
+        a.href = url;
+        a.download = (h.getResponseHeader('Content-Disposition').split('"'))[1];
+        document.body.append(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        KTApp.unblock(tgt);
+      },
+      error: function(){
+        KTForm.notif({
+          text: 'Kesalahan sistem',
+          type: "error",
+          timer: 1500
+        });
+        KTApp.unblock(tgt);
+      }
+    };
+    if(d !== null){
+      if(typeof d === 'object'){
+        option['data'] = d;
+      }
+    }
+    $.ajax(option);
+  }
+
+  var _postDownload = function(u,d){
+    __ajax(1,u,d);
+  }
+
+  var _getDownload = function(u,d){
+    __ajax(0,u,d);
+  }
+
+  return {
+    post: function(u,d){
+      _postDownload(u,d);
+    },
+    get: function(u){
+      _getDownload(u);
+    }
+  };
+}();
+
+
+
+
+
+
 
 
 

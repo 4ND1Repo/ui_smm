@@ -442,4 +442,26 @@ $(document).ready(function(){
     $('#addPo .btn-submit').on('click', function(){
       $('#FPO').submit();
     });
+
+    // export excel
+    $('[data-export=excel]').on('click', function(){
+      var data = {
+        api: api_url,
+        page_code: window.Auth.page,
+        query: {
+          find:$('#generalSearch').val(),
+          status:$('.filter [name=status]').val()
+        }
+      };
+      if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
+        var tmp = {
+            'sort' : {
+              field: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.field,
+              sort: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.sort
+            }
+        };
+        Object.assign(data,tmp);
+      }
+      KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/req/po_pur', data);
+    });
 });

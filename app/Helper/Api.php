@@ -20,3 +20,68 @@ Class Api {
 	  return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || $_SERVER['SERVER_PORT'] == 443;
   }
 }
+
+Class ExcelHelper {
+  // $s for start Alphabeth
+  // $i for indexing
+  public static function getColumn($s,$i){
+    $l = strlen($s);
+    $ext = $l > 1?(26*((ord($s[0])+1)-ord('A')))+(ord($s[1])-ord('A')):(ord($s)-ord('A'));
+    return (floor(($i+$ext)/26) > 0?chr((ord('A')-1)+floor(($i+$ext)/26)):"").chr(65+(($i+$ext)%26));
+  }
+
+  public static function style($t){
+    $style = [
+      'center' => [
+          'alignment' => [
+              'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+          ],
+          'borders' => [
+              'outline' => [
+                  'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+              ]
+          ],
+      ],
+      'right' => [
+          'alignment' => [
+              'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+          ],
+          'borders' => [
+              'outline' => [
+                  'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+              ]
+          ],
+      ],
+      'left' => [
+          'alignment' => [
+              'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+          ],
+          'borders' => [
+              'outline' => [
+                  'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+              ]
+          ],
+      ],
+      'header' => [
+        'font' => [
+            'bold' => true,
+        ],
+        'alignment' => [
+            'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+        ],
+        'borders' => [
+            'outline' => [
+                'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+            ]
+        ],
+        'fill' => [
+            'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+            'color' => [
+                'argb' => 'FFA0A0A0',
+            ]
+        ]
+      ]
+    ];
+    return isset($style[$t])?$style[$t]:false;
+  }
+}

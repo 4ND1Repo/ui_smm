@@ -334,4 +334,27 @@ $(document).ready(function(){
     $("input[name=stock_min_qty]").inputmask('decimal', {
         rightAlignNumerics: false
     });
+
+    $('[data-export=excel]').on('click', function(){
+      var data = {
+        api: api_url,
+        page_code: window.Auth.page,
+        query: {
+          find:$('#generalSearch').val(),
+          stock_brand:$('.filter [name=stock_brand]').val(),
+          measure_code: $('.filter [name=measure_code]').val(),
+          stock_daily_use: $('.filter [name=stock_daily_use]').val()
+        }
+      };
+      if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
+        var tmp = {
+            'sort' : {
+              field: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.field,
+              sort: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.sort
+            }
+        };
+        Object.assign(data,tmp);
+      }
+      KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/mst/stock', data);
+    });
 });

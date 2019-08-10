@@ -313,4 +313,26 @@ jQuery(document).ready(function () {
 
     if(window.role.add != 1)
       $(".btn-add").addClass('kt-hidden');
+
+    // export excel
+    $('[data-export=excel]').on('click', function(){
+      var data = {
+        api: api_url,
+        page_code: window.Auth.page,
+        query: {
+          find:$('#generalSearch').val(),
+          status:$('.filter #kt_form_status').val(),
+        }
+      };
+      if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
+        var tmp = {
+            'sort' : {
+              field: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.field,
+              sort: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.sort
+            }
+        };
+        Object.assign(data,tmp);
+      }
+      KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/mst/supplier', data);
+    });
 });

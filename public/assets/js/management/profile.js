@@ -1,5 +1,91 @@
 "use strict";
 
+var KTChangePassword = function(){
+  var oldPwd = $('input[name=old_password]'),
+      newPwd = $('input[name=new_password]'),
+      verPwd = $('input[name=verify_password]');
+  var _validate = function(){
+    if($(oldPwd).val() == ""){
+      swal.fire({
+          "title": "",
+          "text": "Kata sandi sekarang tidak boleh kosong",
+          "type": "error",
+          "timer": 3000,
+          "showConfirmButton": false
+      });
+      return false;
+    } else if($(newPwd).val() != $(verPwd).val()){
+      swal.fire({
+          "title": "",
+          "text": "Kata sandi baru tidak tidak sama",
+          "type": "error",
+          "timer": 3000,
+          "showConfirmButton": false
+      });
+      return false;
+    } else if($(newPwd).val() == ""){
+      swal.fire({
+          "title": "",
+          "text": "Kata sandi baru tidak boleh kosong",
+          "type": "error",
+          "timer": 3000,
+          "showConfirmButton": false
+      });
+      return false;
+    }
+    return true;
+  };
+  var exec = function(){
+    $.ajax({
+      url: api_url + '/api/account/user/change_password',
+      type: 'POST',
+      data: {nik:window.Auth.nik, new_password:$(newPwd).val(), old_password:$(oldPwd).val()},
+      async: false,
+      success: function(r){
+        if(r.status){
+          $('input[type=password]').val('');
+        }
+
+        swal.fire({
+          "title": r.status?"Sukses":"Gagal",
+          "text": r.message,
+          "type": r.status?"success":"warning",
+          "timer": 3000,
+          "showConfirmButton": false
+        });
+      },
+      error: function(){
+        swal.fire({
+            "title": "",
+            "text": "Kesalahan Sistem",
+            "type": "error",
+            "timer": 3000,
+            "showConfirmButton": false
+        });
+      }
+    });
+    return true;
+  };
+  return {
+    process: function(){
+      var pwdtarget = $('#kt_apps_user_change_password');
+      KTApp.block(pwdtarget, {
+          overlayColor: '#000000',
+          type: 'v2',
+          state: 'warning',
+          message: 'Menunggu...'
+      });
+      if(_validate()){
+        exec();
+        KTApp.unblock(pwdtarget);
+      } else {
+        KTApp.unblock(pwdtarget);
+      }
+    }
+  };
+}();
+
+
 var faceDetect = function(el,callback){
   return faceapi.nets.tinyFaceDetector.loadFromUri('assets/vendors/custom/faceapi').then(function(){
     return faceapi.tinyFaceDetector(el);
@@ -158,7 +244,7 @@ $(document).ready(function(){
     });
   });
 
-  $('#kt_apps_user_edit input[type=text], #kt_apps_user_edit select, #kt_apps_user_edit textarea').on('focusout', function(){
+  $('#kt_apps_user_edit input[type=text], #kt_apps_user_edit select, #kt_apps_user_edit textarea').on('change', function(){
     var data = {},
         target = $(this).parent();
     data['nik'] = window.Auth.nik;
@@ -201,4 +287,8 @@ $(document).ready(function(){
     }
   });
 
+  // change password
+  $('.btn-submit').on('click', function(){
+    KTChangePassword.process();
+  });
 });

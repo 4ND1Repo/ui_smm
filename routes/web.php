@@ -24,7 +24,34 @@ Route::get('/', function () {
 });
 
 Route::post('temp',function(){
-  move_uploaded_file($_FILES['pic']['tmp_name'],storage_path().'/temp_'.$_POST['id']);
+  $tmp_files = storage_path().'/temp_'.$_POST['id'];
+  move_uploaded_file($_FILES['pic']['tmp_name'],$tmp_files);
+	if (function_exists('exif_read_data')) {
+    $exif = exif_read_data($tmp_files);
+    if($exif && isset($exif['Orientation'])) {
+      $orientation = $exif['Orientation'];
+      if($orientation != 1){
+        $img = imagecreatefromjpeg($tmp_files);
+        $deg = 0;
+        switch ($orientation) {
+          case 3:
+            $deg = 180;
+            break;
+          case 6:
+            $deg = 270;
+            break;
+          case 8:
+            $deg = 90;
+            break;
+        }
+        if ($deg) {
+          $img = imagerotate($img, $deg, 0);
+        }
+        // then rewrite the rotated image back to the disk as $filename
+        imagejpeg($img, $tmp_files, 95);
+      } // if there is some rotation necessary
+    } // if have the exif orientation info
+  } // if function exists
   return 'http://'.$_SERVER['HTTP_HOST'].'/storage/temp_'.$_POST['id'];
 });
 
@@ -98,9 +125,41 @@ if($response->status==200){
         });
 
 
-        // page test
-        Route::get('export', 'Warehouse\MainController@export');
-        Route::get('export/{ty}', 'Warehouse\MainController@export');
+        // Export Group
+        Route::group(['prefix' => 'export'], function() use($row){
+          // page test
+          Route::post('/', 'Warehouse\MainController@export');
+
+          // Excel Group
+          Route::group(['prefix' => 'excel'], function() use($row){
+            // master group
+            Route::group(['prefix' => 'mst'], function(){
+              Route::post('stock', 'Export\Excel\MainController@mst_stock');
+              Route::post('measure', 'Export\Excel\MainController@mst_measure');
+              Route::post('category', 'Export\Excel\MainController@mst_category');
+              Route::post('supplier', 'Export\Excel\MainController@mst_supplier');
+            });
+
+            // request group
+            Route::group(['prefix' => 'req'], function(){
+              Route::post('tools', 'Export\Excel\RequestController@tools');
+              Route::post('po', 'Export\Excel\RequestController@po');
+              Route::post('do', 'Export\Excel\RequestController@do');
+              // for Purchasing
+              Route::post('po_pur', 'Export\Excel\RequestController@po_pur');
+              Route::post('history_po_pur', 'Export\Excel\RequestController@history_po_pur');
+            });
+
+            // stock by warehouse type group
+            Route::group(['prefix' => 'stk'], function(){
+              Route::post('stock', 'Export\Excel\StockController@stock');
+              Route::post('list_buy', 'Export\Excel\StockController@list_buy');
+              Route::post('opname', 'Export\Excel\StockController@opname');
+            });
+          });
+        });
+
+
     });
   }
 }

@@ -36,11 +36,11 @@
                                     <span class="kt-nav__section-text">Choose an option</span>
                                 </li>
                                 <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
+                                    <a href="javascript:;" data-export="excel" class="kt-nav__link">
                                         <i class="kt-nav__link-icon la la-file-excel-o"></i>
                                         <span class="kt-nav__link-text">Excel</span>
                                     </a>
-                                </li>
+                                {{-- </li>
                                 <li class="kt-nav__item">
                                     <a href="javascript:;" class="kt-nav__link">
                                         <i class="kt-nav__link-icon la la-file-text-o"></i>
@@ -52,7 +52,7 @@
                                         <i class="kt-nav__link-icon la la-file-pdf-o"></i>
                                         <span class="kt-nav__link-text">PDF</span>
                                     </a>
-                                </li>
+                                </li> --}}
                             </ul>
                         </div>
                     </div>

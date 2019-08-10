@@ -160,7 +160,7 @@
                                     <div class="kt-section__body">
                                         <div class="alert alert-solid-danger alert-bold fade show kt-margin-t-20 kt-margin-b-40" role="alert">
                                             <div class="alert-icon"><i class="fa fa-exclamation-triangle"></i></div>
-                                            <div class="alert-text">Configure user passwords to expire periodically. <br>Users will need warning that their passwords are going to expire, or they might inadvertently get locked out of the system!</div>
+                                            <div class="alert-text">Ubahlah kata sandi secara periodical<br>Dan upayakan kata sandi yang mudah dihafal oleh sendiri.</div>
                                             <div class="alert-close">
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                     <span aria-hidden="true"><i class="la la-close"></i></span>
@@ -170,26 +170,25 @@
                                         <div class="row">
                                             <label class="col-xl-3"></label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <h3 class="kt-section__title kt-section__title-sm">Change Or Recover Your Password:</h3>
+                                                <h3 class="kt-section__title kt-section__title-sm">Mengubah data kata sandi:</h3>
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Current Password</label>
+                                            <label class="col-xl-3 col-lg-3 col-form-label">Kata sandi sekarang</label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <input type="password" class="form-control" value="" placeholder="Current password">
-                                                <a href="#" class="kt-link kt-font-sm kt-font-bold kt-margin-t-5">Forgot password ?</a>
+                                                <input type="password" name="old_password" class="form-control" value="" placeholder="Kata sandi sekarang">
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">New Password</label>
+                                            <label class="col-xl-3 col-lg-3 col-form-label">Kata sandi baru</label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <input type="password" class="form-control" value="" placeholder="New password">
+                                                <input type="password" name="new_password" class="form-control" value="" placeholder="Kata sandi baru">
                                             </div>
                                         </div>
                                         <div class="form-group form-group-last row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">Verify Password</label>
+                                            <label class="col-xl-3 col-lg-3 col-form-label">Ulang kata sandi baru</label>
                                             <div class="col-lg-9 col-xl-6">
-                                                <input type="password" class="form-control" value="" placeholder="Verify password">
+                                                <input type="password" name="verify_password" class="form-control" value="" placeholder="Ulang kata sandi baru">
                                             </div>
                                         </div>
                                     </div>
@@ -200,8 +199,7 @@
                                 <div class="row">
                                     <div class="col-xl-3"></div>
                                     <div class="col-lg-9 col-xl-6">
-                                        <a href="#" class="btn btn-label-brand btn-bold">Save changes</a>
-                                        <a href="#" class="btn btn-clean btn-bold">Cancel</a>
+                                        <a href="javascript:void(0);" class="btn btn-label-brand btn-bold btn-submit">Simpan Perubahan</a>
                                     </div>
                                 </div>
                             </div>

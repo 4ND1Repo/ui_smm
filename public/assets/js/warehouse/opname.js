@@ -451,4 +451,28 @@ $(document).ready(function(){
     $('#addOpname .btn-submit').on('click', function(){
       $('#FOpname').submit();
     });
+
+    // export excel
+    $('[data-export=excel]').on('click', function(){
+      var data = {
+        api: api_url,
+        page_code: window.Auth.page,
+        query: {
+          find:$('#generalSearch').val(),
+          stock_brand:$('.filter [name=stock_brand]').val(),
+          approve:$('.filter [name=approve]').val(),
+          opname_date_from:$('.filter [name=opname_date_from]').val()
+        }
+      };
+      if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
+        var tmp = {
+            'sort' : {
+              field: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.field,
+              sort: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.sort
+            }
+        };
+        Object.assign(data,tmp);
+      }
+      KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/stk/opname', data);
+    });
 });

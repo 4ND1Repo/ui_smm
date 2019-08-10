@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 
 // Add Helper
 use App\Helper\Template\Views;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use App\Helper\{Api,ExcelHelper};
+use PhpOffice\PhpSpreadsheet\{Spreadsheet,Writer\Xlsx,Worksheet\MemoryDrawing,IOFactory};
 
 class MainController extends Controller{
 
@@ -324,10 +324,124 @@ class MainController extends Controller{
         return View('admin',$v::colect());
     }
 
-    public function export($ty="excel"){
+    public function export(Request $r){
+        // initiate styling for header and body
+        $styleHeader = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                ]
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'color' => [
+                    'argb' => 'FFA0A0A0',
+                ]
+            ],
+        ];
+        $style = [
+          'center' => [
+              'alignment' => [
+                  'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+              ],
+              'borders' => [
+                  'outline' => [
+                      'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                  ]
+              ],
+          ],
+          'right' => [
+              'alignment' => [
+                  'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT,
+              ],
+              'borders' => [
+                  'outline' => [
+                      'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                  ]
+              ],
+          ],
+          'left' => [
+              'alignment' => [
+                  'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_LEFT,
+              ],
+              'borders' => [
+                  'outline' => [
+                      'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN
+                  ]
+              ],
+          ],
+        ];
+
+
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
+        $spreadsheet->getProperties()->setCreator("System SMM")
+        ->setLastModifiedBy($r->nik)
+        ->setTitle("Export Data");
+
+        // set active sheet
+        $sheet = $spreadsheet->setActiveSheetIndex(0);
+        // Set sheet title
+        $spreadsheet->getActiveSheet()->setTitle("export");
+
+        // get image
+        $path = public_path('assets/media/logos/logo-smm.png');
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $image = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+        $orig = imagecreatefrompng($image);
+        $imgWidth = imagesx($orig);
+        $imgHeight = imagesy($orig);
+        $newImgWidth = 200;
+        $newImgHeight = $imgHeight*($newImgWidth/$imgWidth);
+        $target = imagecreatetruecolor($newImgWidth, $newImgHeight);
+        imagealphablending($target, false);
+        imagesavealpha($target, true);
+        imagecopyresampled($target, $orig, 0, 0, 0, 0, $newImgWidth, $newImgHeight, $imgWidth, $imgHeight);
+
+        $objDrawing1 = new MemoryDrawing();
+        $objDrawing1->setName('Sample image');
+        $objDrawing1->setDescription('Sample image');
+        $objDrawing1->setImageResource($target);
+        $objDrawing1->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+        $objDrawing1->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+        $objDrawing1->setCoordinates("A1");
+        $objDrawing1->setWorksheet($spreadsheet->getActiveSheet());
+
+        $startRow = 6;
+        $startAlpha = 'A';
+        $this->level = 0;
+        $headerTitle = [
+          ['title' => 'No.', 'align' => 'center', 'width' => 5],
+          ['title' => 'Barang', 'align' => 'center', 'width' => 24],
+          ['title' => 'Ukuran', 'align' => 'center', 'width' => 17],
+          ['title' => 'Tipe', 'align' => 'center'],
+          ['title' => 'Merek', 'align' => 'center'],
+          ['title' => 'Satuan', 'align' => 'center']
+        ];
+
+        // config Header
+        foreach ($headerTitle as $i => $row) {
+          $col = ExcelHelper::getColumn($startAlpha, $i);
+          $sheet->setCellValue($col.$startRow, $row['title']);
+
+          // styling
+          $spreadsheet->getActiveSheet()->getStyle($col.$startRow)->applyFromArray($styleHeader);
+          if(isset($row['width']))
+            $spreadsheet->getActiveSheet()->getColumnDimension($col)->setWidth($row['width']);
+        }
+
+        // content data
+        $sheet->setCellValue('A7', 1);
+        $spreadsheet->getActiveSheet()->getStyle('A7')->applyFromArray($style['center']);
+        $sheet->setCellValue('B7', 'Hello '.$r->nik.' !');
+        $spreadsheet->getActiveSheet()->getStyle('B7')->applyFromArray($style['right']);
 
         $writer = new Xlsx($spreadsheet);
 
@@ -336,4 +450,5 @@ class MainController extends Controller{
     		header('Cache-Control: max-age=0');
         $writer->save("php://output");
     }
+
 }
