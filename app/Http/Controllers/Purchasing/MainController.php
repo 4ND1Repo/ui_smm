@@ -92,4 +92,30 @@ class MainController extends Controller{
 
         return View('admin',$v::colect());
     }
+
+    public function print_po(Request $r, Views $v){
+        // validate user is login
+        $v::js_head([
+            'js/authentication/storage.js',
+            'js/authentication/validate.js'
+        ]);
+
+        $v::all_css();
+        $v::all_js();
+
+        $v::css([
+            'css/demo1/pages/general/login/login-1.css',
+            'css/demo1/style.bundle.css',
+            'css/demo1/skins/header/base/light.css',
+            'css/demo1/skins/header/menu/light.css',
+            'css/demo1/skins/brand/dark.css',
+            'css/demo1/skins/aside/dark.css'
+        ]);
+        $v::js([
+            'js/purchasing/request/po.js'
+        ]);
+        $v::page('purchasing.request.po_print');
+
+        return View('template',$v::colect());
+    }
 }

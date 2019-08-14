@@ -423,10 +423,15 @@ $(document).ready(function(){
           data: {page_code:window.Auth.page, main_stock_code:map[selection]},
           success: function(r){
             if(r.status){
-              $('#FOpname input[name=opname_qty_from]').val(r.data);
+
+              $('#FOpname input[name=opname_qty_from]').val((r.data == null?0:r.data));
               $('#FOpname input[name=opname_qty]').focus();
               // set rules
-              KTFormOpname.rules("#FOpname input[name=opname_qty]", {required: true, max: parseFloat(r.data)});
+              var opt = {required:true};
+              console.log(r.data);
+              if(r.data)
+                Object.assign(opt, {max: parseFloat(r.data)})
+              KTFormOpname.rules("#FOpname input[name=opname_qty]", opt);
               KTFormOpname.rules("#FOpname textarea[name=opname_notes]", {maxlength: 254});
             }
           }

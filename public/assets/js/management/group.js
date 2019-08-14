@@ -174,7 +174,7 @@ var KTGrid = function(){
                   success: function(r){
                     if(r.status){
 
-                      $("#FUserMenu").html('<div class="row"><div class="col-md-9 text-center">Menu</div><div class="col-md-1 text-center"><i class="la la-plus"></i></div><div class="col-md-1 text-center"><i class="la la-pencil"></i></div><div class="col-md-1 text-center"><i class="la la-trash"></i></div></div>').append(KTUserMenu.generate(r.data));
+                      $("#FUserMenu").html('<div class="row"><div class="col-9 text-center">Menu</div><div class="col-1 text-center"><i class="la la-plus"></i></div><div class="col-1 text-center"><i class="la la-pencil"></i></div><div class="col-1 text-center"><i class="la la-trash"></i></div></div>').append(KTUserMenu.generate(r.data));
                       // get id menu by group id
                       console.log();
                       $.ajax({
@@ -285,7 +285,7 @@ var KTUserMenu = function(){
     n=0;
     m.forEach(function(v,k){
       mn += '<div class="row">';
-      mn += '<div class="col-md-9">\
+      mn += '<div class="col-9">\
       <label class="kt-checkbox">\
       <input type="checkbox" class="menu" data-id="'+v.id_menu+'" data-parent="'+v.id_parent+'" name="menu['+v.id_menu+']">';
       if(l > 0){
@@ -300,21 +300,21 @@ var KTUserMenu = function(){
       </div>';
 
       // add checkbox
-      mn += '<div class="col-md-1">';
+      mn += '<div class="col-1">';
       mn += (v.id_parent !== null || typeof v.children === 'undefined')?'<label class="kt-checkbox">\
         <input type="checkbox" class="add" data-id="'+v.id_menu+'" data-parent="'+v.id_parent+'" name="add['+v.id_menu+']" title="Add"><span></span>\
       </label>': "&nbsp;";
       mn += '</div>';
 
       // edit checkbox
-      mn += '<div class="col-md-1">';
+      mn += '<div class="col-1">';
       mn += (v.id_parent !== null || typeof v.children === 'undefined')?'<label class="kt-checkbox">\
         <input type="checkbox" class="edit" data-id="'+v.id_menu+'" data-parent="'+v.id_parent+'" name="edit['+v.id_menu+']" title="Edit"><span></span>\
       </label>': "&nbsp;";
       mn += '</div>';
 
       // delete checkbox
-      mn += '<div class="col-md-1">';
+      mn += '<div class="col-1">';
       mn += (v.id_parent !== null || typeof v.children === 'undefined')?'<label class="kt-checkbox">\
         <input type="checkbox" class="del" data-id="'+v.id_menu+'" data-parent="'+v.id_parent+'" name="del['+v.id_menu+']" title="Delete"><span></span>\
       </label>': "&nbsp;";

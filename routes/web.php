@@ -117,6 +117,8 @@ if($response->status==200){
                 Route::get('/', $row->page_name.'\MainController@po');
                 // History Purchasing
                 Route::get('history', $row->page_name.'\MainController@history');
+                // Print PO
+                Route::get('print', $row->page_name.'\MainController@print_po');
             });
             // Delivery Order
             Route::get('do', $row->page_name.'\MainController@do');
