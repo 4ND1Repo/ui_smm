@@ -13,6 +13,10 @@ var KTValidationForm = function(){
                 measure_type: {
                     required: true,
                     maxlength: 50
+                },
+                measure_name: {
+                    required: true,
+                    maxlength: 100
                 }
             },
 
@@ -47,7 +51,7 @@ var KTValidationForm = function(){
                     state: 'primary',
                     message: 'Processing...'
                 });
-
+console.log(link);
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -132,6 +136,9 @@ $(document).ready(function(){
             width: 80
         }, {
             field: 'measure_type',
+            title: 'Singkatan Satuan'
+        }, {
+            field: 'measure_name',
             title: 'Nama Satuan'
         }, {
             field: 'action',
@@ -165,6 +172,7 @@ $(document).ready(function(){
                             var tmp = res.data;
                             $('input[name=measure_code]').val(tmp.measure_code);
                             $('input[name=measure_type]').val(tmp.measure_type);
+                            $('input[name=measure_name]').val(tmp.measure_name);
                             $('.btn-submit').attr('edit',1);
 
                             $('#addMeasure').modal('show');

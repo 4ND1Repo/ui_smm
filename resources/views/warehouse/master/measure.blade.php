@@ -110,13 +110,17 @@
             <div class="modal-body">
                 <form class="kt-form" id="FMeasure">
                     <div class="row validated">
-                        <div class="form-group">
+                        <div class="form-group kt-hidden">
                             <label>Kode Satuan</label>
                             <input type="text" name="measure_code" class="form-control" placeholder="Generate otomatis" readonly>
                         </div>
                         <div class="form-group">
+                            <label>Singkatan Satuan</label>
+                            <input type="text" tabindex="1" name="measure_type" class="form-control" placeholder="Isian singkatan nama satuan">
+                        </div>
+                        <div class="form-group">
                             <label>Nama Satuan</label>
-                            <input type="text" tabindex="1" name="measure_type" class="form-control" placeholder="Isian nama satuan">
+                            <input type="text" tabindex="1" name="measure_name" class="form-control" placeholder="Isian nama satuan">
                         </div>
                     </div>
                 </form>
