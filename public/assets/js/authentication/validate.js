@@ -46,8 +46,10 @@ if(auth==null){
         if(window.AccessMenu.indexOf('/') == -1)
           window.AccessMenu.push('/');
 
-        var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,"");
-        if(link != "" && window.AccessMenu.indexOf(link) == -1){
+        var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,""),
+          spl = window.location.href.split('/');
+
+        if(link != "" && window.AccessMenu.indexOf(link) == -1 && spl[(spl.lenght-1)] !== 'print'){
           history.back(-1);
           window.stop();
         }

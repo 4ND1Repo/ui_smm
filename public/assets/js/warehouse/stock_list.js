@@ -18,15 +18,13 @@ var KTValidationForm = function(){
                     maxlength: 50
                 },
                 stock_size: {
-                    required: true,
-                    maxlength: 20
+                    maxlength: 50
                 },
                 stock_brand: {
-                    required: true,
-                    maxlength: 20
+                    maxlength: 50
                 },
                 stock_type: {
-                    maxlength: 20
+                    maxlength: 50
                 },
                 stock_color: {
                     maxlength: 20
