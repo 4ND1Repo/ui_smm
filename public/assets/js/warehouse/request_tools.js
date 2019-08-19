@@ -579,7 +579,7 @@ $(document).ready(function(){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',
                 type: 'POST',
-                data: {find:query},
+                data: {find:query, page_code:window.Auth.page},
                 async: false,
                 success: function(r){
                     res = [];
@@ -683,7 +683,7 @@ $(document).ready(function(){
         tmpHtml += '</div>';
         // input qty
         tmpHtml += '<div class="text-center">-</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+v.main_stock_code+']" placeholder="Kuantiti"></div>';
+        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+v.main_stock_code+']" placeholder="Kuantiti" value="'+v.need_qty+'"></div>';
         tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.main_stock_code+']" placeholder="Keterangan"></div>';
         tmpHtml += '</div>';

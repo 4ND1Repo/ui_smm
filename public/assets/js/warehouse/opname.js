@@ -392,7 +392,7 @@ $(document).ready(function(){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',
                 type: 'POST',
-                data: {find:query},
+                data: {find:query, page_code:window.Auth.page},
                 async: false,
                 success: function(r){
                     res = [];

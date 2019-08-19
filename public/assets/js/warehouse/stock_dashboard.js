@@ -18,12 +18,12 @@ var KTQuickCabinet = function(){
                     maxlength: 255
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -51,8 +51,8 @@ var KTQuickCabinet = function(){
                 });
 
                 swal.fire({
-                    title: "", 
-                    text: "Semua terisi, akan diproses segera", 
+                    title: "",
+                    text: "Semua terisi, akan diproses segera",
                     type: "success",
                     showConfirmButton: false,
                     timer: 1500
@@ -124,12 +124,12 @@ var KTStockForm = function(){
                     required: true
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -158,8 +158,8 @@ var KTStockForm = function(){
                             $('#addStockModal').modal('hide');
 
                             swal.fire({
-                                title: "", 
-                                text: "Semua terisi, akan diproses segera", 
+                                title: "",
+                                text: "Semua terisi, akan diproses segera",
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -168,8 +168,8 @@ var KTStockForm = function(){
                             });
                         } else
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -309,12 +309,12 @@ var KTStockCabinetForm = function(){
                     required: true
                 }
             },
-            
-            //display error alert on form submit  
+
+            //display error alert on form submit
             invalidHandler: function(event, validator) {
                 swal.fire({
-                    "title": "", 
-                    "text": "Mohon periksa kembali inputan anda.", 
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
                     "type": "error",
                     "confirmButtonClass": "btn btn-secondary",
                     "onClose": function(e) {
@@ -328,7 +328,7 @@ var KTStockCabinetForm = function(){
             submitHandler: function (form) {
                 var link = api_url+"/api/wh/stock/cabinet/add";
                 var data = $(formId).serializeArray();
-                
+
                 myStorage.set('auth');
                 Auth = JSON.parse(myStorage.get());
                 data.push({name:'page_code', value:Auth.page});
@@ -342,8 +342,8 @@ var KTStockCabinetForm = function(){
                             // $('#addStockCabinetModal').modal('hide');
 
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -353,8 +353,8 @@ var KTStockCabinetForm = function(){
                             });
                         } else {
                             swal.fire({
-                                title: "", 
-                                text: r.message, 
+                                title: "",
+                                text: r.message,
                                 type: "warning",
                                 showConfirmButton: false,
                                 timer: 1500
@@ -394,7 +394,7 @@ var KTModalGrid = function(){
         myGrid.set('height', '300');
         myGrid.set('url', api_url+'/api/wh/stock/cabinet/grid');
         myGrid.set('page', '10');
-        myGrid.set('column', 
+        myGrid.set('column',
             [{
                 field: 'cabinet_name',
                 title: 'Rak'
@@ -464,7 +464,7 @@ var KTModalGrid = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
-                
+
                 $('.btn-delete').click(function(){
                     Swal.fire({
                         title: 'Anda yakin?',
@@ -500,8 +500,8 @@ var KTModalGrid = function(){
                     });
                 });
             });
-        
-            
+
+
         });
         myGrid.init();
         // end: grid
@@ -544,7 +544,7 @@ var KTTreeCabinet = function(){
             "core" : {
                 "themes" : {
                     "responsive": false
-                }, 
+                },
                 // so that create works
                 "check_callback" : true,
                 'data' : {
@@ -568,18 +568,18 @@ var KTTreeCabinet = function(){
             "plugins" : [ "dnd", "state", "types" ]
         });
 
-        
-        $(LayoutCabinet).on('load_node.jstree', function(e,data) { 
+
+        $(LayoutCabinet).on('load_node.jstree', function(e,data) {
             console.log('Load tree');
             console.log(data);
         });
 
-        $(LayoutCabinet).on('refresh.jstree', function(e,data) { 
+        $(LayoutCabinet).on('refresh.jstree', function(e,data) {
             console.log('refresh tree');
         });
 
         // handle link clicks in tree nodes(support target="_blank" as well)
-        $(LayoutCabinet).on('select_node.jstree', function(e,data) { 
+        $(LayoutCabinet).on('select_node.jstree', function(e,data) {
             var link = $('#' + data.selected).find('a');
             if (link.attr("href") != "#" && link.attr("href") != "javascript:;" && link.attr("href") != "") {
                 _generateToLayout(link.attr("href"));
@@ -653,7 +653,7 @@ $(document).ready(function(){
         else
             KTModalGrid.reload();
     });
-    
+
     $('.locker > div').click(function(){
         window.cabinet_code = $(this).attr('id');
     });
@@ -681,7 +681,7 @@ $(document).ready(function(){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',
                 type: 'POST',
-                data: {find:query},
+                data: {find:query, page_code:window.Auth.page},
                 async: false,
                 success: function(r){
                     res = [];

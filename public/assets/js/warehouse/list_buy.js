@@ -175,10 +175,16 @@ $(document).ready(function(){
                 return price.format(row.stock_qty,2,",",'.');
             }
         }, {
+            field: 'qty.need_qty',
+            title: 'Kuantiti Kebutuhan',
+            autoHide: false,
+            overflow: 'visible',
+            template: function(row){
+                return price.format(row.need_qty,2,",",'.');
+            }
+        }, {
             field: 'stock_min_qty',
             title: 'Minimal Kuantiti',
-            overflow: 'visible',
-            autoHide: false,
             template: function(row){
                 return price.format(row.stock_min_qty,2,",",'.');
             }
@@ -340,7 +346,7 @@ $(document).ready(function(){
               tmpHtml += ' (' + $(v).children("td:nth-child(7)").text() + ')';
             tmpHtml += '</div>';
             // input qty
-            tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+$(v).find(":checked").val()+']" placeholder="Kuantiti"></div>';
+            tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+$(v).find(":checked").val()+']" placeholder="Kuantiti" value="'+($(v).children("td:nth-child(12)").text().replace('.','')).replace(',','.')+'"></div>';
             tmpHtml += '</div>';
             $('#FPO .list-body').append(tmpHtml);
 

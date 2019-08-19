@@ -320,14 +320,14 @@ $(document).ready(function(){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',
                 type: 'POST',
-                data: {find:query},
+                data: {find:query, page_code:window.Auth.page},
                 async: false,
                 success: function(r){
                     res = [];
                     map = {};
                     $.each(r, function(k,v){
                         res.push(v.label);
-                        map[v.label] = v.id;
+                        map[v.label] = {id: v.id, need: v.need};
                     });
 
                 }
@@ -339,7 +339,7 @@ $(document).ready(function(){
             tmpHtml = '';
 
         // data add from stock
-        tmpHtml += '<div id="'+map[selection]+'">';
+        tmpHtml += '<div id="'+map[selection].id+'">';
         // detail stock
         tmpHtml += '<div>';
         tmpHtml += data[0]+' - ';
@@ -349,12 +349,12 @@ $(document).ready(function(){
         tmpHtml += '</div>';
         // input qty
         tmpHtml += '<div class="text-center">-</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection]+']" placeholder="Kuantiti"></div>';
+        tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection].id+']" placeholder="Kuantiti" value="'+map[selection].need+'"></div>';
         tmpHtml += '<div class="text-center">'+data[5]+'</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+map[selection]+']" placeholder="Keterangan"></div>';
+        tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"></div>';
         tmpHtml += '</div>';
 
-        if($('#FPO').find("div[id='"+map[selection]+"']").length > 0){
+        if($('#FPO').find("div[id='"+map[selection].id+"']").length > 0){
             swal.fire({
                 title: "",
                 text: "Data sudah ada di daftar",
@@ -368,7 +368,7 @@ $(document).ready(function(){
                 rightAlignNumerics: false
             });
             // add rules
-            KTFormPO.rules('input[name="data['+map[selection]+']"]');
+            KTFormPO.rules('input[name="data['+map[selection].id+']"]');
         }
         stockAutocomplete.typeahead('val','');
     });
