@@ -186,7 +186,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">&nbsp;</div>
+                        <div class="col-md-6">
+                          <div class="form-group kt-hidden take-by">
+                            <label>Diambil Oleh</label>
+                            <div class="typeahead">
+                              <input type="text" name="req_take_nik" class="form-control" placeholder="Isian NIK Pengambil">
+                            </div>
+                          </div>
+                        </div>
                     </div>
                     <div class="row request_tools"></div>
                 </form>

@@ -184,7 +184,7 @@ var KTGridOpname = function(){
                             <i class="la la-search-plus"></i>\
                         </a>\
                     ';
-                    if(row.approve_by == null)
+                    if(row.approve_by == null && row.reject_by == null)
                         btn += '\
                             <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.main_stock_code+'|'+row.opname_date_from+'" title="Hapus data">\
                                 <i class="la la-trash"></i>\
@@ -237,6 +237,18 @@ var KTGridOpname = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+                // coloring for reject opname
+                var rw = $('.kt-datatable .kt-datatable__body tr'),
+                  rej = [];
+                $.each(rw,function(k,v){
+                  if($(v).children('td:nth-child(13)').text() !== "")
+                    rej.push(v);
+                });
+                $.each(rej, function(k,v){
+                  $(v).css({'background-color':'red'});
+                  $(v).children('td').children('span').css({'color':'black'});
+                });
+
                 $('.btn-detail').click(function(){
                     $.ajax({
                         url: link_find+$(this).attr('id'),
@@ -312,7 +324,16 @@ var KTGridOpname = function(){
                         confirmButtonText: 'Setujui',
                         cancelButtonText: 'Tidak Setujui',
                     }).then((result) => {
+                        var formModal = '#addOpname';
                         if (result.value) {
+                            // block ui modal
+                            var target = formModal+' .modal-content';
+                            KTApp.block(target, {
+                                overlayColor: '#000000',
+                                type: 'v2',
+                                state: 'primary',
+                                message: 'Processing...'
+                            });
                             $.ajax({
                                 url: link_approve,
                                 type: 'POST',
@@ -327,12 +348,22 @@ var KTGridOpname = function(){
                                     });
                                     _el.reload();
                                     $('#addOpname').modal('hide');
+                                    KTApp.unblock(target);
                                 },
                                 error: function(){
                                     console.log('error delete');
+                                    KTApp.unblock(target);
                                 }
                             });
                         } else if (result.dismiss == 'cancel'){
+                              // block ui modal
+                              var target = formModal+' .modal-content';
+                              KTApp.block(target, {
+                                  overlayColor: '#000000',
+                                  type: 'v2',
+                                  state: 'primary',
+                                  message: 'Processing...'
+                              });
                               $.ajax({
                                   url: link_reject,
                                   type: 'POST',
@@ -347,9 +378,11 @@ var KTGridOpname = function(){
                                       });
                                       _el.reload();
                                       $('#addOpname').modal('hide');
+                                      KTApp.unblock(target);
                                   },
                                   error: function(){
                                       console.log('error delete');
+                                      KTApp.unblock(target);
                                   }
                               });
                         }

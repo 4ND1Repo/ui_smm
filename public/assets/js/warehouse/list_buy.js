@@ -179,6 +179,7 @@ $(document).ready(function(){
             title: 'Kuantiti Kebutuhan',
             autoHide: false,
             overflow: 'visible',
+            sortable: false,
             template: function(row){
                 return price.format(row.need_qty,2,",",'.');
             }

@@ -357,9 +357,9 @@ var KTGridRequestTools = function(){
                         success: function(res){
                             if(res.status){
                                 var data = res.data;
-                                console.log(tmp);
                                 $('input[name=name_of_request]').val(data.request_tools.name_of_request).prop('readonly',true);
                                 $('input[name=req_nik]').val(data.request_tools.req_nik).prop('readonly',true);
+                                $('.take-by').removeClass('kt-hidden');
 
                                 var tmp = '';
                                 $.each(data.request_tools_detail, function(k,v){
@@ -372,6 +372,7 @@ var KTGridRequestTools = function(){
                                     tmp += '<div>'+v.stock_type+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_size+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_brand+'&nbsp;</div>';
+                                    tmp += '<div><textarea name="notes['+v.stock_code+']" rows="2" class="form-control form-control-sm" placeholder="keterangan" readonly>'+(v.req_tools_notes==null?"":v.req_tools_notes)+'</textarea></div>';
                                     tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
                                     tmp += '</div>';
                                     if(v.finish_by == null && v.fullfillment == 1)
@@ -389,7 +390,7 @@ var KTGridRequestTools = function(){
                                     rightAlignNumerics: false
                                 });
 
-                                $('.modal-footer,.validated.search').addClass('kt-hidden');
+                                $('.modal-footer,.validated.search').children('div:first-child').addClass('kt-hidden');
 
                                 $('#addReqtools').modal('show');
 
@@ -397,39 +398,55 @@ var KTGridRequestTools = function(){
                                 // send to stock
                                 $('.btn-send').click(function(){
                                     var id = ($(this).attr('id')).split('-'),
-                                        el = this;
-                                    // block ui modal
-                                    var target = $(el).parent().parent();
-                                    KTApp.block(target, {
+                                        el = this,
+                                        receiver = 'input[name=req_take_nik]';
+                                    if($(receiver).val() == ""){
+                                      KTForm.notif({
+                                        text: 'Mohon input NIK yang mengambil.',
+                                        type: 'warning',
+                                        timer: 1500,
+                                        fn:{
+                                          after: function(r){
+                                            setTimeout(function(){
+                                              $(receiver).focus();
+                                            },1000);
+                                          }
+                                        }
+                                      });
+                                    } else {
+                                      // block ui modal
+                                      var target = $(el).parent().parent();
+                                      KTApp.block(target, {
                                         overlayColor: '#000000',
                                         type: 'v2',
                                         state: 'primary',
                                         message: 'Processing...'
-                                    });
-                                    $.ajax({
+                                      });
+                                      $.ajax({
                                         url: api_url+"/api/wh/req/tools/send",
                                         type: "POST",
-                                        data: {stock_code:id[0],req_tools_code:id[1],nik:Window.Auth.nik},
+                                        data: {stock_code:id[0], req_tools_code:id[1], req_take_nik: $(receiver).val(), nik:Window.Auth.nik},
                                         success: function(r){
-                                            $(el).parent().remove();
-                                            _el.reload();
-                                            KTApp.unblock(target);
+                                          $(el).parent().remove();
+                                          _el.reload();
+                                          KTApp.unblock(target);
 
-                                            // send notification to target
-                                            $.ajax({
-                                              url: api_url+'/api/mng/user/notification/add',
-                                              type: 'POST',
-                                              data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/'+$(el).data('from')+'/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
-                                              success: function(r){
-                                                console.log(r);
-                                              }
-                                            });
+                                          // send notification to target
+                                          $.ajax({
+                                            url: api_url+'/api/mng/user/notification/add',
+                                            type: 'POST',
+                                            data:{notification_to:$('[name=req_nik]').val(), notification_from:window.Auth.nik, notification_content:'Barang('+id[1]+' -> '+id[0]+') diberikan', notification_url:base_url+'/'+$(el).data('from')+'/req/tools', notification_icon: "fa fa-box-open kt-font-success"},
+                                            success: function(r){
+                                              console.log(r);
+                                            }
+                                          });
                                         },
                                         error: function(){
-                                            KTApp.unblock(target);
-                                            console.log('error while send process');
+                                          KTApp.unblock(target);
+                                          console.log('error while send process');
                                         }
-                                    });
+                                      });
+                                    }
                                 });
 
                                 $('.btn-add-po').click(function(){
@@ -563,9 +580,10 @@ $(document).ready(function(){
         $('.request_tools').html('');
         $('input[name=name_of_request]').val('').prop('readonly',false);
         $('input[name=req_nik]').val('').prop('readonly',false);
-        $('.modal-footer,.validated.search').removeClass('kt-hidden');
+        $('.modal-footer,.validated.search').children('div:first-child').removeClass('kt-hidden');
         KTRequestTools.element().resetForm();
         $('#FReqtools').find('.invalid-feedback').remove();
+        $('.take-by').addClass('kt-hidden');
     });
 
 
@@ -604,6 +622,7 @@ $(document).ready(function(){
         tmp += '<div>'+data[2]+'&nbsp;</div>';
         tmp += '<div>'+data[3]+'&nbsp;</div>';
         tmp += '<div>'+data[4]+'&nbsp;</div>';
+        tmp += '<div><textarea name="notes['+data[0]+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
         tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
         tmp += '</div>';
         tmp += '</div>';
@@ -666,6 +685,41 @@ $(document).ready(function(){
           }
         });
     });
+
+
+    // autocomplete
+    var map = {};
+    var res = [],
+    nikAutocomplete = $('input[name=req_take_nik]').typeahead(null, {
+        name: 'req_take_nik',
+        source: function(query,psc){
+            $.ajax({
+                url: api_url+'/api/account/user/autocomplete',
+                type: 'POST',
+                data: {find:query},
+                async: false,
+                success: function(r){
+                    res = [];
+                    map = {};
+                    $.each(r, function(k,v){
+                        res.push(v.label);
+                        map[v.label] = v.id;
+                    });
+
+                }
+            });
+            psc(res);
+        }
+    }).on('typeahead:selected', function(event, selection) {
+        var tmp = '',
+            data = selection.split(' - ');
+        nikAutocomplete.typeahead('val',map[selection]);
+        $(nikAutocomplete).prop('readonly', true);
+    });
+    $("input[name=req_take_nik]").on('dblclick', function(){
+      $(this).prop('readonly',false);
+    });
+
 
 
     var tmpHtml = '',

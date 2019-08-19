@@ -231,6 +231,7 @@ var KTGridRequestTools = function(){
                                     tmp += '<div>'+v.stock_type+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_size+'&nbsp;</div>';
                                     tmp += '<div>'+v.stock_brand+'&nbsp;</div>';
+                                    tmp += '<div><textarea name="notes['+v.stock_code+']" rows="2" class="form-control form-control-sm" placeholder="keterangan" readonly>'+(v.req_tools_notes==null?"":v.req_tools_notes)+'</textarea></div>';
                                     tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
                                     tmp += '</div>';
                                     if(v.finish_by == null && v.fullfillment == 1)
@@ -388,6 +389,7 @@ $(document).ready(function(){
         tmp += '<div>'+data[2]+'&nbsp;</div>';
         tmp += '<div>'+data[3]+'&nbsp;</div>';
         tmp += '<div>'+data[4]+'&nbsp;</div>';
+        tmp += '<div><textarea name="notes['+data[0]+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
         tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
         tmp += '</div>';
         tmp += '</div>';
