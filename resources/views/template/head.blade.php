@@ -17,7 +17,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 		<!--begin::Fonts -->
-		<link href="./assets/vendors/google/fonts.css" rel="stylesheet" type='text/css'>
+		<link href="{{URL::to('public/assets/vendors/google/fonts.css')}}" rel="stylesheet" type='text/css'>
     <!--end::Fonts -->
 
 		<script>
@@ -28,7 +28,7 @@
         <!--begin:Generate default css -->
         @if(count($template['head']['css']) > 0)
             @foreach($template['head']['css'] AS $row)
-        <link href="./assets/{{$row}}" rel="stylesheet" type='text/css'>
+								<link href="./assets/{{$row}}" rel="stylesheet" type='text/css'>
             @endforeach
         @endif
         <!--end:Generate default css -->
@@ -36,7 +36,7 @@
         <!--begin:Generate custom css -->
         @if(count($template['foot']['css']) > 0)
             @foreach($template['foot']['css'] AS $row)
-        <link href="./assets/{{$row}}" rel="stylesheet" type='text/css'>
+								<link href="./assets/{{$row}}" rel="stylesheet" type='text/css'>
             @endforeach
         @endif
         <!--end:Generate custom css -->
@@ -50,7 +50,7 @@
 		<!--end::Generate Javascript on header -->
 
 		<!--end::Layout Skins -->
-		<link rel="shortcut icon" href="./../favicon.ico" />
+		<link rel="shortcut icon" href="{{URL::to('favicon.ico')}}" />
 	</head>
 
     <!-- end::Head -->

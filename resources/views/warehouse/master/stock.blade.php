@@ -95,7 +95,7 @@
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-form__group kt-form__group--inline">
                                     <div class="kt-form__label">
-                                        <label>Tipe Ukuran:</label>
+                                        <label>Tipe Satuan:</label>
                                     </div>
                                     <div class="kt-form__control">
                                         <select class="form-control bootstrap-select" name='measure_code'>

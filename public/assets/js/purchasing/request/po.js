@@ -176,9 +176,10 @@ var KTGridPO = function(){
                 field: 'action',
                 title: 'Aksi',
                 sortable: false,
-                width: 80,
+                width: 110,
                 overflow: 'visible',
                 autoHide: false,
+                class: 'text-center',
                 template: function(row) {
                     return (row.status != 'ST05')?'\
                         <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Proses PO">\
@@ -186,6 +187,9 @@ var KTGridPO = function(){
                         </a>\
                         <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-cancel" id="'+row.po_code+'" title="Batalkan PO">\
                             <i class="la la-remove text-danger"></i>\
+                        </a>\
+                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-print" id="'+row.po_code+'" title="Print PO">\
+                            <i class="la la-print"></i>\
                         </a>\
                     ':"&nbsp;";
                 },
@@ -261,6 +265,16 @@ var KTGridPO = function(){
                           });
                       }
                   });
+                });
+
+                $('.btn-print').click(function(){
+                  var el = this;
+                  var data = {
+                    api: api_url,
+                    nik: window.Auth.nik,
+                    po_code: $(el).attr('id')
+                  };
+                  KTDownload.post(location.href + '/print', data);
                 });
 
                 $('.btn-detail').click(function(){

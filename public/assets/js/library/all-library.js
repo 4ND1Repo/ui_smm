@@ -54,37 +54,40 @@ var myGrid = function(){
     var _render = function(){
 
         return $(target).KTDatatable({
-			data: {
-                type: 'remote',
-				source: {
-					read: {
-                        url: url,
-                        params: _data
-					}
-				},
-				pageSize: page,
-				serverPaging: true,
-				serverFiltering: true,
-                serverSorting: true
-			},
-			layout: {
-				scroll: true,
-				height: height,
-                footer: false
-			},
-			sortable: true,
-			filterable: false,
-            pagination: true,
-            toolbar: {
-                items: {
-                    pagination: {
-                        pageSizeSelect : [10, 25, 50, 100, "All"]
-                    }
-                }
-            },
-			search: {
-				input: $(_find)
-			},
+      			data: {
+              type: 'remote',
+      				source: {
+      					read: {
+                  url: url,
+                  params: _data
+      					}
+      				},
+      				pageSize: page,
+      				serverPaging: true,
+      				serverFiltering: true,
+              serverSorting: true
+              // saveState: {
+              //   webstorage: false
+              // }
+      			},
+      			layout: {
+      				scroll: true,
+      				height: height,
+              footer: false
+      			},
+      			sortable: true,
+      			filterable: false,
+                  pagination: true,
+                  toolbar: {
+                      items: {
+                          pagination: {
+                              pageSizeSelect : [10, 25, 50, 100, 500]
+                          }
+                      }
+                  },
+      			search: {
+      				input: $(_find)
+      			},
             columns: column
         });
     }
@@ -151,25 +154,25 @@ class myGrids {
     #render = function(){
         this._datatable = $(this._target).KTDatatable({
 			data: {
-                type: 'remote',
+        type: 'remote',
 				source: {
 					read: {
-                        url: this._url,
-                        params: this._data
+            url: this._url,
+            params: this._data
 					}
 				},
 				pageSize: this._page,
 				serverPaging: true,
 				serverFiltering: true,
-                serverSorting: true
+        serverSorting: true
 			},
 			layout: {
 				scroll: true,
 				height: this._height,
-                footer: false,
-                spinner: {
-                    message: "Mohon menunggu..."
-                }
+        footer: false,
+        spinner: {
+            message: "Mohon menunggu..."
+        }
 			},
 			sortable: true,
 			filterable: false,
@@ -177,7 +180,7 @@ class myGrids {
             toolbar: {
                 items: {
                     pagination: {
-                        pageSizeSelect : [10, 25, 50, 100, "All"]
+                        pageSizeSelect : [10, 25, 50, 100, 500]
                     }
                 }
             },
@@ -705,16 +708,18 @@ var KTDownload = function(){
       url: u,
       success: function(r,t,h){
         var a = document.createElement('a'),
-           url = window.URL.createObjectURL(r);
+        url = window.URL.createObjectURL((r instanceof Blob)?r:(new Blob(r, {type : h.getResponseHeader('Content-Type')})));
+
         a.href = url;
         a.download = (h.getResponseHeader('Content-Disposition').split('"'))[1];
         document.body.append(a);
         a.click();
         a.remove();
         window.URL.revokeObjectURL(url);
+
         KTApp.unblock(tgt);
       },
-      error: function(){
+      error: function(e){
         KTForm.notif({
           text: 'Kesalahan sistem',
           type: "error",

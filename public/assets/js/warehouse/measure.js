@@ -51,7 +51,7 @@ var KTValidationForm = function(){
                     state: 'primary',
                     message: 'Processing...'
                 });
-console.log(link);
+
                 $.ajax({
                     url: link,
                     type: "POST",

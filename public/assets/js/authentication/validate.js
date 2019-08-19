@@ -49,7 +49,7 @@ if(auth==null){
         var link = window.location.href.replace(base_url,"").replace('/'+window.Auth.page,""),
           spl = window.location.href.split('/');
 
-        if(link != "" && window.AccessMenu.indexOf(link) == -1 && spl[(spl.lenght-1)] !== 'print'){
+        if(link != "" && window.AccessMenu.indexOf(link) == -1 && spl[(spl.length-1)] !== 'print'){
           history.back(-1);
           window.stop();
         }

@@ -9,7 +9,7 @@ services:
     ports:
       - "127.0.2.4:80:80"
     volumes:
-      - ./:/app
+      - ./:/app:consistent
       - ./conf/default:/etc/nginx/sites-available/default
       - ./conf/www.conf:/opt/bitnami/php/etc/php-fpm.d/www.conf
     depends_on:
@@ -29,7 +29,7 @@ services:
     ports:
       - "127.0.2.3:80:80"
     volumes:
-      - ../api/:/app
+      - ../api/:/app:consistent
       - ./conf/default:/etc/nginx/sites-available/default
       - ./conf/www.conf:/opt/bitnami/php/etc/php-fpm.d/www.conf
     depends_on:
