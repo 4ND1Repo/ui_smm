@@ -47,14 +47,16 @@ var KTValidationForm = function(){
             },
 
             submitHandler: function (form) {
-                var link = api_url+"/api/wh/stock/add";
-                var bEdit = $(".btn-submit")[0].hasAttribute('edit');
+                var data = $("#FStock").serializeArray(),
+                    link = api_url+"/api/wh/stock/add",
+                    bEdit = $(".btn-submit")[0].hasAttribute('edit');
+
+                data.push({name:"nik", value:Auth.nik});
+                data.push({name:"page_code", value:Auth.page});
+
                 if(bEdit)
                     link = api_url+"/api/wh/stock/edit";
 
-                var data = $("#FStock").serializeArray();
-                data.push({name:"nik", value:Auth.nik});
-                data.push({name:"page_code", value:Auth.page});
                 // block ui modal
                 var target = formModal+' .modal-content';
                 KTApp.block(target, {
@@ -72,7 +74,6 @@ var KTValidationForm = function(){
                         if(r.status){
                             myGrid.element().reload();
                             $(formId)[0].reset();
-                            $(formId+" input[type=text]")[0].focus();
                             $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
 
                             if(bEdit){
@@ -88,7 +89,7 @@ var KTValidationForm = function(){
                                 showConfirmButton: false,
                                 timer: 1500
                             }).then((res) => {
-                                $(formId+" input[type=text]")[0].focus();
+                                console.log(res);
                             });
 
                             // generate brand
@@ -231,7 +232,8 @@ var KTQtyForm = function(){
                                 text: r.message,
                                 type: "success",
                                 showConfirmButton: false,
-                                timer: 1500
+                                timer: 1500,
+                                allowOutsideClick: false
                             }).then((res) => {
                                 console.log('success');
                             });
@@ -318,23 +320,23 @@ $(document).ready(function(){
             field: 'stock_code',
             title: 'Kode Stock'
         }, {
-            field: 'cabinet_name',
-            title: 'Rak'
-        }, {
             field: 'stock_name',
             title: 'Nama Stok'
         }, {
             field: 'stock_size',
             title: 'Ukuran'
         }, {
-            field: 'stock_brand',
-            title: 'Merek'
-        }, {
             field: 'stock_type',
             title: 'Tipe'
         }, {
             field: 'stock_color',
             title: 'Warna',
+        }, {
+            field: 'stock_brand',
+            title: 'Merek'
+        }, {
+            field: 'cabinet_name',
+            title: 'Rak'
         }, {
             field: 'master.master_measure.measure_type',
             title: 'Tipe Ukuran',
@@ -538,10 +540,12 @@ $(document).ready(function(){
     // end: grid
 
 
-    $("#addStock .btn-submit").click(function(){
+    $("#addStock .btn-submit").click(function(e){
+        e.preventDefault();
         $("#addStock form").submit();
     });
-    $("#addQty .btn-submit").click(function(){
+    $("#addQty .btn-submit").click(function(e){
+        e.preventDefault();
         $("#addQty form").submit();
     });
 
@@ -550,6 +554,7 @@ $(document).ready(function(){
         $('#FStock')[0].reset();
         $('.btn-submit')[0].removeAttribute('edit');
         $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
+        $('select[name=category_code],select[name=measure_code]').selectpicker('refresh');
         KTValidationForm.element().resetForm();
         $('#FStock').find('.invalid-feedback').remove();
     });

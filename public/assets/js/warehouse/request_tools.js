@@ -359,7 +359,7 @@ var KTGridRequestTools = function(){
                                 var data = res.data;
                                 $('input[name=name_of_request]').val(data.request_tools.name_of_request).prop('readonly',true);
                                 $('input[name=req_nik]').val(data.request_tools.req_nik).prop('readonly',true);
-                                $('.take-by').removeClass('kt-hidden');
+                                $('#addReqtools  .take-by').removeClass('kt-hidden');
 
                                 var tmp = '';
                                 $.each(data.request_tools_detail, function(k,v){
@@ -390,7 +390,7 @@ var KTGridRequestTools = function(){
                                     rightAlignNumerics: false
                                 });
 
-                                $('.modal-footer,.validated.search').children('div:first-child').addClass('kt-hidden');
+                                $('#addReqtools .modal-footer, #addReqtools .validated.search > div:first-child').addClass('kt-hidden');
 
                                 $('#addReqtools').modal('show');
 
@@ -580,7 +580,7 @@ $(document).ready(function(){
         $('.request_tools').html('');
         $('input[name=name_of_request]').val('').prop('readonly',false);
         $('input[name=req_nik]').val('').prop('readonly',false);
-        $('.modal-footer,.validated.search').children('div:first-child').removeClass('kt-hidden');
+        $('#addReqtools .modal-footer, #addReqtools .validated.search > div:first-child').removeClass('kt-hidden');
         KTRequestTools.element().resetForm();
         $('#FReqtools').find('.invalid-feedback').remove();
         $('.take-by').addClass('kt-hidden');
@@ -675,12 +675,12 @@ $(document).ready(function(){
         var tmp = '',
             data = selection.split(' - ');
         $('[name=name_of_request]').val(data[1]);
-        nikAutocomplete.typeahead('val',map[selection]);
+        nikAutocomplete.typeahead('val',data[0]);
         // get page from
         $.ajax({
           url: api_url+'/api/account/user/check/group',
           type: 'POST',
-          data: {nik : map[selection]},
+          data: {nik : data[0]},
           success: function(r){
             window.page_from = r.data.page_code;
           }
@@ -691,7 +691,7 @@ $(document).ready(function(){
     // autocomplete
     var map = {};
     var res = [],
-    nikAutocomplete = $('input[name=req_take_nik]').typeahead(null, {
+    takeNikAutocomplete = $('input[name=req_take_nik]').typeahead(null, {
         name: 'req_take_nik',
         source: function(query,psc){
             $.ajax({
@@ -714,8 +714,8 @@ $(document).ready(function(){
     }).on('typeahead:selected', function(event, selection) {
         var tmp = '',
             data = selection.split(' - ');
-        nikAutocomplete.typeahead('val',map[selection]);
-        $(nikAutocomplete).prop('readonly', true);
+        takeNikAutocomplete.typeahead('val',map[selection]);
+        $(takeNikAutocomplete).prop('readonly', true);
     });
     $("input[name=req_take_nik]").on('dblclick', function(){
       $(this).prop('readonly',false);

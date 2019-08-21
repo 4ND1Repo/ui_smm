@@ -251,7 +251,7 @@ var KTGridRequestTools = function(){
                                     rightAlignNumerics: false
                                 });
 
-                                $('.modal-footer,.validated.search').addClass('kt-hidden');
+                                $('#addReqtools .modal-footer, #addReqtools .validated.search').addClass('kt-hidden');
 
                                 $('#addReqtools').modal('show');
                             }
@@ -348,7 +348,7 @@ $(document).ready(function(){
     // reset form when hide
     $("#addReqtools").on('hide.bs.modal', function(){
         $('.request_tools').html('');
-        $('.modal-footer,.validated.search').removeClass('kt-hidden');
+        $('#addReqtools .modal-footer, #addReqtools .validated.search').removeClass('kt-hidden');
         KTRequestTools.element().resetForm();
         $('#FReqtools').find('.invalid-feedback').remove();
     });

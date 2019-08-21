@@ -58,7 +58,7 @@
                     </div>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
-                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addStock'>
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addStock' data-backdrop="static" data-keyboard="false">
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
                     </div>
