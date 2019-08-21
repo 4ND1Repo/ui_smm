@@ -180,6 +180,10 @@
                     overflow: hidden;
                     min-height: 40px;
                   }
+                  .typeahead .tt-dataset {
+                    max-height: 200px;
+                    overflow-y: auto;
+                  }
                 </style>
                 <div class="row typeahead">
                     <div class="col-md-3"><input type="text" class="form-control form-control-sm autocomplete" name="main_stock_code" placeholder="cari stok disini"></div>

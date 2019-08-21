@@ -145,7 +145,7 @@ $(document).ready(function(){
     KTValidationForm.init();
 
     // begin: grid
-    myGrid.set('target', '#datagrid-stock');
+    myGrid.set('target', '#datagrid-master-stock');
     myGrid.set('height', '550');
     myGrid.set('url', api_url+'/api/mst/stock/grid');
     myGrid.set('page', '10');

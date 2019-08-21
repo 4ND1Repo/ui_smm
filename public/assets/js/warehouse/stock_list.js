@@ -171,11 +171,142 @@ var KTValidationForm = function(){
 }();
 
 
+var KTQtyForm = function(){
+    var formId = "#FQty",
+        formModal = "#addQty";
+    var _el = null,
+        Auth;
+
+    var SupplierFormValidation = function () {
+        _el = $( formId ).validate({
+            // define validation rules
+            rules: {
+                stock_qty: {
+                    required: true
+                },
+            },
+
+            //display error alert on form submit
+            invalidHandler: function(event, validator) {
+                swal.fire({
+                    "title": "",
+                    "text": "Mohon periksa kembali inputan anda.",
+                    "type": "error",
+                    "confirmButtonClass": "btn btn-secondary",
+                    "onClose": function(e) {
+                        console.log('on close event fired!');
+                    }
+                });
+
+                event.preventDefault();
+            },
+
+            submitHandler: function (form) {
+                var link = api_url+"/api/wh/stock/qty/add";
+
+                var data = $("#FQty").serializeArray();
+                data.push({name:"nik", value:Auth.nik});
+                data.push({name:"page_code", value:Auth.page});
+                // block ui modal
+                var target = formModal+' .modal-content';
+                KTApp.block(target, {
+                    overlayColor: '#000000',
+                    type: 'v2',
+                    state: 'primary',
+                    message: 'Processing...'
+                });
+
+                $.ajax({
+                    url: link,
+                    type: "POST",
+                    data: data,
+                    success: function(r){
+                        if(r.status){
+                            myGrid.element().reload();
+                            $(formId)[0].reset();
+                            $('#addQty').modal('hide');
+
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "success",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                console.log('success');
+                            });
+
+                        } else {
+                            swal.fire({
+                                title: "",
+                                text: r.message,
+                                type: "warning",
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then((res) => {
+                                console.log('failed');
+                            });
+                        }
+                        KTApp.unblock(target);
+                    },
+                    error: function(e){
+                        swal.fire({
+                            title: "",
+                            text: "Kesalahan sistem",
+                            type: "error",
+                            showConfirmButton: false,
+                            timer: 1500
+                        }).then((res) => {
+                            console.log(e);
+                        });
+                        KTApp.unblock(target);
+                    }
+                });
+                return false;
+            }
+        });
+    };
+
+    var _auth = function(){
+        myStorage.set('auth');
+        Auth = JSON.parse(myStorage.get());
+    }
+
+    var GetCategory = function(){
+        $.ajax({
+            url: api_url+'/api/mst/category',
+            type: 'GET',
+            success: function(r){
+                if(r.status){
+                    $.each(r.data,function(k,v){
+                        $('select[name=category_code]').append('<option value="'+v.category_code+'">'+v.category_name+'</option>');
+                    });
+
+                    $('select[name=category_code]').selectpicker();
+                }
+            }
+        });
+    }
+
+    return {
+        element: function(){
+            return _el;
+        },
+        init: function(){
+            _auth();
+            SupplierFormValidation();
+            GetCategory();
+        }
+    };
+}();
+
+
 $(document).ready(function(){
     myStorage.set('auth');
     var Auth = JSON.parse(myStorage.get());
     // validation form
     KTValidationForm.init();
+    KTQtyForm.init();
 
     // begin: grid
     myGrid.set('target', '#datagrid-stock');
@@ -234,18 +365,27 @@ $(document).ready(function(){
             field: 'action',
             title: 'Aksi',
             sortable: false,
-            width: 80,
+            width: 110,
             overflow: 'visible',
             autoHide: false,
+            class: 'text-center',
             template: function(row) {
-                return '\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.main_stock_code+'" title="Ubah data">\
+                var btn = "";
+
+                btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-qty" id="'+row.main_stock_code+'" title="Ubah data">\
+                    <i class="la la-balance-scale"></i>\
+                </a>\ ';
+
+                if(window.role.edit == 1)
+                    btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.main_stock_code+'" title="Ubah data">\
                         <i class="la la-edit"></i>\
-                    </a>\
-                    <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.main_stock_code+'" title="Hapus">\
+                    </a>\ ';
+
+                if(window.role.del == 1)
+                    btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.main_stock_code+'" title="Hapus">\
                         <i class="la la-trash"></i>\
-                    </a>\
-                ';
+                    </a>\ ';
+                return btn;
             },
         }]
     );
@@ -323,6 +463,39 @@ $(document).ready(function(){
                 });
             });
 
+
+            $('.btn-qty').click(function(){
+
+                $.ajax({
+                    url: api_url+'/api/wh/stock/find/'+$(this).attr('id'),
+                    type: 'GET',
+                    success: function(res){
+                        if(res.status){
+                            var tmp = res.data,
+                              formModal = '#addQty';
+                            $(formModal+' input[name=stock_code]').val(tmp.stock_code);
+                            $(formModal+' input[name=stock_name]').val(tmp.stock_name);
+                            $(formModal+' input[name=stock_size]').val(tmp.stock_size);
+                            $(formModal+' input[name=stock_brand]').val(tmp.stock_brand);
+                            $(formModal+' input[name=stock_type]').val(tmp.stock_type);
+                            $(formModal+' input[name=stock_color]').val(tmp.stock_color);
+                            $(formModal+' input[name=stock_qty]').val(tmp.stock_qty);
+                            if(tmp.stock_qty == null){
+                              $(formModal+' input[name=stock_qty]').prev().html('Kuantiti');
+                            } else {
+                              $(formModal+' input[name=stock_qty]').prev().html('Potongan Kuantiti');
+                            }
+                            $(formModal+' input[name=main_stock_code]').val(tmp.main_stock_code);
+
+                            $(formModal).modal('show');
+                        }
+                    },
+                    error: function(){
+                        console.log('error getting data');
+                    }
+                });
+            });
+
             $('.btn-delete').click(function(){
                 Swal.fire({
                     title: 'Anda yakin?',
@@ -365,8 +538,11 @@ $(document).ready(function(){
     // end: grid
 
 
-    $(".btn-submit").click(function(){
+    $("#addStock .btn-submit").click(function(){
         $("#addStock form").submit();
+    });
+    $("#addQty .btn-submit").click(function(){
+        $("#addQty form").submit();
     });
 
     // reset form when hide
@@ -376,6 +552,13 @@ $(document).ready(function(){
         $('select[name=category_code]').parent().parent().removeClass('kt-hidden');
         KTValidationForm.element().resetForm();
         $('#FStock').find('.invalid-feedback').remove();
+    });
+
+    // reset form when hide
+    $("#addQty").on('hide.bs.modal', function(){
+        $('#FQty')[0].reset();
+        KTQtyForm.element().resetForm();
+        $('#FQty').find('.invalid-feedback').remove();
     });
 
     // form masking

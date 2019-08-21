@@ -383,11 +383,23 @@ var KTForm = function(){
         },
 
         submitHandler: function (form) {
-            if(typeof el.fn.before !== 'undefined')
-              el.fn.before(r);
+            var tmp = $(el.formId).serializeArray(),
+                data= {};
+
+            var callback = function(d=null,el){
+                  if(typeof d === 'object')
+                    Object.assign(el, d);
+                  console.log(el);
+                  return el;
+                };
+
+            if(typeof el.fn.before !== 'undefined'){
+              var ret = true;
+              if(!(ret = el.fn.before(el,callback)))
+                return;
+            }
 
             // collecting data
-            var tmp = $(el.formId).serializeArray(),data={};
             tmp.forEach(function(v,k){
               data[v.name] = v.value;
             });
@@ -422,6 +434,16 @@ var KTForm = function(){
                 }
             });
             return false;
+        },
+        errorElement: 'span',
+        errorClass: 'error invalid-feedback',
+        errorPlacement: function(error, element) {
+            if(element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+            element.addClass('is-invalid');
         }
     });
   }
@@ -961,6 +983,9 @@ $(document).ready(function(){
       changeYear:true,
       format:"yyyy-mm-dd",
       autoclose: true
-    });
+    }).on('hide',function(event){
+        event.preventDefault();
+        event.stopPropagation();
+    });;
   }
 });

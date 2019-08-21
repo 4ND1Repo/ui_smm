@@ -585,6 +585,7 @@ $(document).ready(function(){
     var res = [];
     var stockAutocomplete = $('input[name=stock_name].autocomplete').typeahead(null, {
         name: 'stock_name',
+        limit: 100,
         source: function(query,psc){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',

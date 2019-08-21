@@ -1,28 +1,4 @@
 <style>
-    .list-item {
-        border-radius: 5px;
-        box-shadow: 0 0 12px #BBB;
-        overflow: hidden;
-        position: relative;
-    }
-    .list-item .item_header {
-        padding: 4px 10px;
-        background: #C6CFFA;
-        font-weight: bold;
-    }
-    .list-item .item_body > div {
-        padding: 0 10px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-    .list-item .item_body > div:last-child {
-        margin-bottom: 6px;
-    }
-    .list-item .item_header span {
-        position: absolute;
-        right: 6px;
-    }
     .typeahead .tt-dataset {
       max-height: 200px;
       overflow-y: auto;
@@ -32,7 +8,7 @@
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">Request Barang</h3>
+        <h3 class="kt-subheader__title">Pinjam Barang</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -47,7 +23,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Request Barang
+                    Pinjam Barang
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">
@@ -58,7 +34,7 @@
                     </a>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
-                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addReqtools'>
+                        <button type="button" class="btn btn-brand btn-icon-sm" data-toggle="modal" data-target='#addBorrow'>
                             <i class="flaticon2-plus"></i> Tambah
                         </button>
                     </div>
@@ -90,8 +66,6 @@
                                         <select class="form-control bootstrap-select" name='status'>
                                             <option value="">All</option>
                                             <option value="ST02">Process</option>
-                                            <option value="ST03">Tidak Cukup</option>
-                                            <option value="ST04">Pembelian</option>
                                             <option value="ST05">Selesai</option>
                                         </select>
                                     </div>
@@ -108,7 +82,7 @@
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-req-tools-opr"></div>
+            <div class="kt-datatable" id="datagrid-borrow"></div>
             <!--end: Datatable -->
         </div>
 
@@ -118,30 +92,66 @@
 
 
 <!-- modal for add stock -->
-<div class="modal fade" id="addReqtools" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+<div class="modal fade" id="addBorrow" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Request Barang</h5>
+                <h5 class="modal-title" id="longModal">Pinjam Barang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="kt-form" id="FReqtools">
-                    <div class="row validated search">
-                        <input type="hidden" name="req_nik">
-                        <input type="hidden" name="name_of_request">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Cari Stock</label>
-                                <div class="input-group typeahead">
-                                    <input type="text" class="form-control autocomplete" name="stock_name" placeholder="Cari stok" autocomplete="off">
+                <form class="kt-form" id="FBorrow">
+                  <div class="row borrow validated">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Kode Stok</label>
+                              <div class="typeahead">
+                                <input type="text" class="form-control autocomplete" name="stock_code" value="" placeholder="Kode Stok">
+                                <input type="hidden" name="main_stock_code" value="">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Nama Stok</label>
+                              <input type="text" class="form-control disabled" name="stock_name" value="" placeholder="Nama stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Ukuran</label>
+                              <input type="text" class="form-control disabled" name="stock_size" value="" placeholder="Ukuran stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Tipe</label>
+                              <input type="text" class="form-control disabled" name="stock_type" value="" placeholder="Tipe stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Kuantiti</label>
+                              <input type="text" class="form-control disabled" name="stock_qty" value="" placeholder="Kuantiti" disabled>
+                          </div>
+                      </div>
+                      <div class="col-md-6 validated">
+                          <div class="form-group">
+                              <label>Lama Pinjam</label>
+                              <div class="input-group">
+                                <input type="text" class="form-control" name="borrowed_long_term" value="" placeholder="Lama Pinjam" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Hari</span>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">&nbsp;</div>
-                    </div>
-                    <div class="row request_tools"></div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Tanggal Peminjaman</label>
+                              <input type="text" class="form-control date-picker" name="borrowed_date" value="" placeholder="Tanggal Pinjaman" readonly>
+                          </div>
+                          <div class="form-group">
+                              <label>Kuantiti yang dipinjam</label>
+                              <input type="text" class="form-control" name="borrowed_qty" value="" placeholder="Kuantiti Pinjaman" >
+                          </div>
+                          <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea name="borrowed_notes" class="form-control" placeholder="keterangan"></textarea>
+                          </div>
+                      </div>
+                  </div>
                 </form>
             </div>
             <div class="modal-footer">

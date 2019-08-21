@@ -208,3 +208,57 @@
 </div>
 
 <!--end::Modal-->
+
+<!-- modal for add stock -->
+<div class="modal fade" id="addQty" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Stok Awal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="kt-form" id="FQty">
+                    <div class="row validated">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Kode Stok</label>
+                                <input type="text" name="stock_code" class="form-control" placeholder="Generate otomatis" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Stok</label>
+                                <input type="text" tabindex="2" name="stock_name" class="form-control" placeholder="Isian nama stok" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Ukuran</label>
+                                <input type="text" tabindex="3" name="stock_size" class="form-control" placeholder="Isian ukuran" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Merek</label>
+                                <input type="text" tabindex="4" name="stock_brand" class="form-control" placeholder="Isian merek" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipe</label>
+                                <input type="text" tabindex="5" name="stock_type" class="form-control" placeholder="Isian tipe" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Kuantiti</label>
+                                <input type="text" tabindex="8" name="stock_qty" class="form-control" placeholder="Isian jumlah stok">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="main_stock_code" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="11" class="btn btn-primary btn-submit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->

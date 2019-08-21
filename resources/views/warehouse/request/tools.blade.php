@@ -23,6 +23,10 @@
         position: absolute;
         right: 6px;
     }
+    .typeahead .tt-dataset {
+      max-height: 200px;
+      overflow-y: auto;
+    }
 </style>
 
 <!-- begin:: Content Head -->

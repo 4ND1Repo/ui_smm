@@ -1,3 +1,10 @@
+<style>
+.typeahead .tt-dataset {
+  max-height: 200px;
+  overflow-y: auto;
+}
+</style>
+
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">

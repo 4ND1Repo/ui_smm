@@ -125,6 +125,8 @@ if($response->status==200){
             Route::get('do', $row->page_name.'\MainController@do');
             // Goods
             Route::get('tools', $row->page_name.'\MainController@tools');
+            // Borrow
+            Route::get('borrow', 'Warehouse\MainController@borrow');
         });
 
 

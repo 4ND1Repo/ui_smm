@@ -128,7 +128,7 @@
         <div class="kt-portlet__body kt-portlet__body--fit">
 
             <!--begin: Datatable -->
-            <div class="kt-datatable" id="datagrid-stock"></div>
+            <div class="kt-datatable" id="datagrid-master-stock"></div>
 
             <!--end: Datatable -->
         </div>

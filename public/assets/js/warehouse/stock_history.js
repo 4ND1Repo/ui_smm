@@ -8,7 +8,7 @@ $(document).ready(function(){
     var gridIn = new myGrids(api_url+'/api/wh/stock/history','#datagrid-history-stock');
     gridIn.set('height', '550');
     gridIn.set('page', '10');
-    gridIn.set('column', 
+    gridIn.set('column',
         [{
             field: 'stock_code',
             title: 'Kode Stock',
@@ -26,12 +26,6 @@ $(document).ready(function(){
         }, {
             field: 'stock_name',
             title: 'Nama Stok'
-        }, {
-            field: 'stock.qty.stock_price',
-            title: 'Harga',
-            template: function(row){
-                return price.format(row.stock_price,2,",",'.');
-            }
         }, {
             field: 'supplier_name',
             title: 'Nama Supplier'
@@ -127,7 +121,7 @@ $(document).ready(function(){
     gridOut.set('height', '550');
     gridOut.set('page', '10');
     gridOut.set('find', '#generalSearchOut');
-    gridOut.set('column', 
+    gridOut.set('column',
         [{
             field: 'stock_code',
             title: 'Kode Stock',
@@ -145,12 +139,6 @@ $(document).ready(function(){
         }, {
             field: 'stock_name',
             title: 'Nama Stok'
-        }, {
-            field: 'stock.qty_out.stock_price',
-            title: 'Harga',
-            template: function(row){
-                return price.format(row.stock_price,2,",",'.');
-            }
         }, {
             field: 'supplier_name',
             title: 'Nama Supplier'

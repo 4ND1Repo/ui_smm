@@ -107,7 +107,11 @@
         position: absolute;
         width: 100%;
         top: 16px;
-        text-align: center; 
+        text-align: center;
+    }
+    .typeahead .tt-dataset {
+      max-height: 200px;
+      overflow-y: auto;
     }
 
 </style>
