@@ -51,9 +51,9 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint" role="tab">Komplain</a>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_settings" role="tab">Settings</a>
-            </li> --}}
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint_me" role="tab">Komplain Ke Saya</a>
+            </li>
         </ul>
     </div>
     <div class="kt-quick-panel__content">
@@ -137,201 +137,16 @@
             <div class="tab-pane fade kt-scroll" id="kt_quick_panel_tab_complaint" role="tabpanel">
               <div id='complaint-list' class="col-sm-12">
                 <div class="kt-timeline-v2">
-									<div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30">
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">10:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-danger"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text  kt-padding-top-5">
-												Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-												incididunt ut labore et dolore magna
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">12:45</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-success"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-timeline-v2__item-text--bold">
-												AEOL Meeting With
-											</div>
-											<div class="kt-list-pics kt-list-pics--sm kt-padding-l-20">
-												<a href="#"><img src="./assets/media/users/100_4.jpg" title=""></a>
-												<a href="#"><img src="./assets/media/users/100_13.jpg" title=""></a>
-												<a href="#"><img src="./assets/media/users/100_11.jpg" title=""></a>
-												<a href="#"><img src="./assets/media/users/100_14.jpg" title=""></a>
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">14:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-brand"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												Make Deposit <a href="#" class="kt-link kt-link--brand kt-font-bolder">USD 700</a> To ESL.
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">16:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-warning"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-												incididunt ut labore et dolore magna elit enim at minim<br>
-												veniam quis nostrud
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">17:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-info"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												Placed a new order in <a href="#" class="kt-link kt-link--brand kt-font-bolder">SIGNATURE MOBILE</a> marketplace.
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">16:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-brand"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												Lorem ipsum dolor sit amit,consectetur eiusmdd tempor<br>
-												incididunt ut labore et dolore magna elit enim at minim<br>
-												veniam quis nostrud
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">17:00</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-danger"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												Received a new feedback on <a href="#" class="kt-link kt-link--brand kt-font-bolder">FinancePro App</a> product.
-											</div>
-										</div>
-										<div class="kt-timeline-v2__item">
-											<span class="kt-timeline-v2__item-time">15:30</span>
-											<div class="kt-timeline-v2__item-cricle">
-												<i class="fa fa-genderless kt-font-danger"></i>
-											</div>
-											<div class="kt-timeline-v2__item-text kt-padding-top-5">
-												New notification message has been received on <a href="#" class="kt-link kt-link--brand kt-font-bolder">LoopFin Pro</a> product.
-											</div>
-										</div>
-									</div>
+									<div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30"></div>
 								</div>
               </div>
             </div>
-            <div class="tab-pane kt-quick-panel__content-padding-x fade kt-scroll" id="kt_quick_panel_tab_settings" role="tabpanel">
-                <form class="kt-form">
-                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Customer Care</div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Enable Notifications:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_1">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Enable Case Tracking:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
-                                <label>
-                                    <input type="checkbox" name="quick_panel_notifications_2">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-last form-group-xs row">
-                        <label class="col-8 col-form-label">Support Portal:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--success kt-switch--sm">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_2">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
-                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Reports</div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Generate Reports:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--danger">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_3">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Enable Report Export:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--danger">
-                                <label>
-                                    <input type="checkbox" name="quick_panel_notifications_3">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-last form-group-xs row">
-                        <label class="col-8 col-form-label">Allow Data Collection:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--danger">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_4">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="kt-separator kt-separator--space-md kt-separator--border-dashed"></div>
-                    <div class="kt-heading kt-heading--sm kt-heading--space-sm">Memebers</div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Enable Member singup:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--brand">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_5">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-xs row">
-                        <label class="col-8 col-form-label">Allow User Feedbacks:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--brand">
-                                <label>
-                                    <input type="checkbox" name="quick_panel_notifications_5">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="form-group form-group-last form-group-xs row">
-                        <label class="col-8 col-form-label">Enable Customer Portal:</label>
-                        <div class="col-4 kt-align-right">
-                            <span class="kt-switch kt-switch--sm kt-switch--brand">
-                                <label>
-                                    <input type="checkbox" checked="checked" name="quick_panel_notifications_6">
-                                    <span></span>
-                                </label>
-                            </span>
-                        </div>
-                    </div>
-                </form>
+            <div class="tab-pane fade kt-scroll" id="kt_quick_panel_tab_complaint_me" role="tabpanel">
+              <div id='complaint-list-me' class="col-sm-12">
+                <div class="kt-timeline-v2">
+									<div class="kt-timeline-v2__items  kt-padding-top-25 kt-padding-bottom-30"></div>
+								</div>
+              </div>
             </div>
         </div>
     </div>

@@ -292,10 +292,15 @@ var KTInfinite = function(){
 
   var _load = function(el){
     _loading(el,true);
+    console.log(el);
+    if(el.config.data !== null)
+      Object.assign(el.config.data, {last:el.config.last, length:(typeof el.config.length !== 'undefined'?el.config.length:5)});
+    else
+      el.config.data = {last:el.config.last, length:(typeof el.config.length !== 'undefined'?el.config.length:5)};
     return $.ajax({
       url: el.config.url,
       type: "POST",
-      data: {last:el.config.last, length:(typeof el.config.length !== 'undefined'?el.config.length:5)},
+      data: el.config.data,
       success: function(r){
         if(r.status){
           el.config.last = r.data.last;
@@ -333,7 +338,8 @@ var KTInfinite = function(){
         element: null,
         target: null,
         template: null,
-        last: null
+        last: null,
+        data: null
       },
       this.ajx = "";
 
@@ -595,6 +601,43 @@ var KTComplaintLoad = function(){
 
           window.ktI1.config.last = $('#complaint-list .kt-timeline-v2__items > div').length;
           KTInfinite.reload(window.ktI1);
+        }
+      }
+      if($(this.id).text !== "")
+        $(this.id).html("");
+
+      proccess(this);
+    },
+    complaintme: function(){
+      this['id'] = '#complaint-list-me .kt-timeline-v2__items';
+      this['link'] = api_url+'/api/mng/user/complaint/infinite/0';
+      this['data'] = {length:10, nik:window.Auth.nik};
+      this['fn'] = function(r){
+        if(r.status){
+          r.data.content.forEach(function(v,k){
+            var t = v.create_date.split(" "),
+                tm = t[1].split(":"),
+                icon = {
+                  'CMPT003': 'kt-font-danger',
+                  'CMPT002': 'kt-font-warning',
+                  'CMPT001' : 'kt-font-success',
+                  'CMPT004': 'kt-font-info'
+                },
+                tmp = '<div class="kt-timeline-v2__item">\
+                  <span class="kt-timeline-v2__item-time">'+tm[0]+":"+tm[1]+'</span>\
+                  <div class="kt-timeline-v2__item-cricle">\
+                  <i class="fa fa-genderless '+icon[v.complaint_type]+'"></i>\
+                  </div>\
+                  <div class="kt-timeline-v2__item-text  kt-padding-top-5">\
+                  '+(v.complaint_anonymous==0?v.create_by:"*****")+' ('+t[0]+')'+' :<br/>'+v.complaint_description+'\
+                  </div>\
+                  </div>';
+            $('#complaint-list-me .kt-timeline-v2__items').append(tmp);
+          });
+
+
+          window.ktI3.config.last = $('#complaint-list-me .kt-timeline-v2__items > div').length;
+          KTInfinite.reload(window.ktI3);
         }
       }
       if($(this.id).text !== "")
@@ -888,10 +931,40 @@ $(document).ready(function(){
         </a>';
       }
     });
+    // infinite Scroll
+    window.ktI3 = new KTInfinite.init({
+      element:"#complaint-list-me",
+      target:"#complaint-list-me .kt-timeline-v2__items",
+      url: api_url+"/api/mng/user/complaint/infinite/0",
+      length: 5,
+      data: {nik:window.Auth.nik},
+      last: $("#complaint-list-me .kt-timeline-v2__items > div").length,
+      end: 'Sudah di akhir',
+      template: function(r){
+        var t = r.create_date.split(' '),
+            tm = t[1].split(":"),
+            icon = {
+              'CMPT003': 'kt-font-danger',
+              'CMPT002': 'kt-font-warning',
+              'CMPT001' : 'kt-font-success',
+              'CMPT004': 'kt-font-info'
+            };
+        return '<div class="kt-timeline-v2__item">\
+          <span class="kt-timeline-v2__item-time">'+tm[0]+":"+tm[1]+'</span>\
+          <div class="kt-timeline-v2__item-cricle">\
+            <i class="fa fa-genderless '+icon[r.complaint_type]+'"></i>\
+          </div>\
+          <div class="kt-timeline-v2__item-text  kt-padding-top-5">\
+            '+(r.complaint_anonymous==0?r.create_by:"*****")+' ('+t[0]+')'+' :<br/>'+r.complaint_description+'\
+          </div>\
+        </div>';
+      }
+    });
 
     // initiate complaint
     KTComplaintLoad.mycomplaint();
     KTComplaintLoad.complaint();
+    KTComplaintLoad.complaintme();
     // initiate notification
     KTNotification.init({
       link: api_url+'/api/mng/user/notification'
