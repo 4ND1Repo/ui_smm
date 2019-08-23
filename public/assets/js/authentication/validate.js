@@ -35,7 +35,6 @@ if(auth==null){
     if(window.location == base_url+'/auth/login'){
         window.location = base_url+'/'+window.Auth.page;
     } else {
-      console.log(window.Auth);
       // validate uri are exist in rules
       if(typeof window.Auth !== 'undefined'){
         window.AccessMenu = KTAccessMenu.get(window.Auth.menu);

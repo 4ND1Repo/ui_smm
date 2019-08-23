@@ -58,7 +58,7 @@ var KTTreeCabinet = function(){
 
     var _generateToLayout= function(code){
         $.ajax({
-            url: api_url+'/api/mst/cabinet/tree_child?parent='+code+'&cnt=6',
+            url: api_url+'/api/mst/cabinet/tree_child?parent='+code+'&cnt=15',
             type: 'GET',
             success: function(r){
                 if(typeof r == 'object'){

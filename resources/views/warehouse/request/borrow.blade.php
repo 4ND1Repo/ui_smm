@@ -65,7 +65,8 @@
                                     <div class="kt-form__control">
                                         <select class="form-control bootstrap-select" name='status'>
                                             <option value="">All</option>
-                                            <option value="ST02">Process</option>
+                                            <option value="ST06">Menunggu</option>
+                                            <option value="ST02">Proses</option>
                                             <option value="ST05">Selesai</option>
                                         </select>
                                     </div>
@@ -102,6 +103,44 @@
             </div>
             <div class="modal-body">
                 <form class="kt-form" id="FBorrow">
+                  <div class="row request_user kt-hidden">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Perusahaan</label>
+                              <select tabindex="1" class="form-control" name="company_code" data-live-search="true"></select>
+                          </div>
+                          <div class="form-group">
+                              <label>NIK yang meminjam</label>
+                              <div class="typeahead">
+                                  <input type="text" class="form-control autocomplete" name="nik" value="" placeholder="NIK yang meminjam">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Nama yang meminjam</label>
+                              <input type="text" class="form-control" name="borrowed_req_name" value="" placeholder="Nama yang meminjam">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group take kt-hidden">
+                              <label>NIK yang mengambil</label>
+                              <div class="typeahead">
+                                  <input type="text" class="form-control autocomplete" name="take_nik" value="" placeholder="NIK yang ambil">
+                              </div>
+                          </div>
+                          <div class="form-group take kt-hidden">
+                              <label>Nama yang mengambil</label>
+                              <input type="text" class="form-control" name="borrowed_take_name" value="" placeholder="Nama yang mengambil">
+                          </div>
+                          <div class="form-group">
+                              <div class="kt-checkbox-list">
+                                  <label class="kt-checkbox">
+                                      <input type="checkbox" tabindex="10" value="1" name="borrowed_self" checked> Pengambil dirinya sendiri
+                                      <span></span>
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
                   <div class="row borrow validated">
                       <div class="col-md-6">
                           <div class="form-group">
@@ -151,6 +190,127 @@
                               <textarea name="borrowed_notes" class="form-control" placeholder="keterangan"></textarea>
                           </div>
                       </div>
+                  </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="13" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="12" class="btn btn-primary btn-submit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+
+<!-- modal for add stock -->
+<div class="modal fade" id="addReturn" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Pengembalian Barang</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="kt-form" id="FReturn">
+                  <div class="row request_user kt-hidden">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Perusahaan</label>
+                              <select tabindex="1" class="form-control" name="company_code" data-live-search="true"></select>
+                          </div>
+                          <div class="form-group">
+                              <label>NIK yang meminjam</label>
+                              <div class="typeahead">
+                                  <input type="text" class="form-control autocomplete" name="nik" value="" placeholder="NIK yang meminjam">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Nama yang meminjam</label>
+                              <input type="text" class="form-control" name="borrowed_req_name" value="" placeholder="Nama yang meminjam">
+                          </div>
+                      </div>
+                      <div class="col-md-6">
+                          <div class="form-group take kt-hidden">
+                              <label>NIK yang mengambil</label>
+                              <div class="typeahead">
+                                  <input type="text" class="form-control autocomplete" name="take_nik" value="" placeholder="NIK yang ambil">
+                              </div>
+                          </div>
+                          <div class="form-group take kt-hidden">
+                              <label>Nama yang mengambil</label>
+                              <input type="text" class="form-control" name="borrowed_take_name" value="" placeholder="Nama yang mengambil">
+                          </div>
+                          <div class="form-group">
+                              <div class="kt-checkbox-list">
+                                  <label class="kt-checkbox">
+                                      <input type="checkbox" tabindex="10" value="1" name="borrowed_self" checked> Pengambil dirinya sendiri
+                                      <span></span>
+                                  </label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row borrow validated">
+                      <div class="col-md-6">
+                          <div class="form-group">
+                              <label>Kode Stok</label>
+                              <div class="typeahead">
+                                <input type="text" class="form-control autocomplete" name="stock_code" value="" placeholder="Kode Stok">
+                                <input type="hidden" name="main_stock_code" value="">
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Nama Stok</label>
+                              <input type="text" class="form-control disabled" name="stock_name" value="" placeholder="Nama stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Ukuran</label>
+                              <input type="text" class="form-control disabled" name="stock_size" value="" placeholder="Ukuran stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Tipe</label>
+                              <input type="text" class="form-control disabled" name="stock_type" value="" placeholder="Tipe stok" disabled>
+                          </div>
+                          <div class="form-group">
+                              <label>Kuantiti</label>
+                              <input type="text" class="form-control disabled" name="stock_qty" value="" placeholder="Kuantiti" disabled>
+                          </div>
+                      </div>
+                      <div class="col-md-6 validated">
+                          <div class="form-group">
+                              <label>Lama Pinjam</label>
+                              <div class="input-group">
+                                <input type="text" class="form-control" name="borrowed_long_term" value="" placeholder="Lama Pinjam" >
+                                <div class="input-group-append">
+                                    <span class="input-group-text">Hari</span>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label>Tanggal Peminjaman</label>
+                              <input type="text" class="form-control date-picker" name="borrowed_date" value="" placeholder="Tanggal Pinjaman" readonly>
+                          </div>
+                          <div class="form-group">
+                              <label>Kuantiti yang dipinjam</label>
+                              <input type="text" class="form-control" name="borrowed_qty" value="" placeholder="Kuantiti Pinjaman" >
+                          </div>
+                          <div class="form-group">
+                              <label>Keterangan</label>
+                              <textarea name="borrowed_notes" class="form-control" placeholder="keterangan"></textarea>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                          <label>Kuantiti yang dikembalikan</label>
+                          <input type="text" class="form-control" name="returned_qty" value="" placeholder="Kuantiti Kembali" >
+                      </div>
+                    </div>
                   </div>
                 </form>
             </div>

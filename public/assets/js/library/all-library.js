@@ -97,6 +97,37 @@ var myGrid = function(){
             fn();
     }
 
+    var _action_button = function(tmp){
+      var btn = "";
+      tmp.forEach(function(v,k){
+        var elm = $(v).removeClass('btn btn-sm btn-clean btn-icon btn-icon-md');
+
+        if(tmp.length > 3 && k == 2){
+          btn += '<div class="dropdown">\
+            <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md" data-toggle="dropdown">\
+                              <i class="la la-ellipsis-h"></i>\
+                          </a>\
+            <div class="dropdown-menu dropdown-menu-right">\
+            ';
+            btn += '<a class="dropdown-item '+$(elm).attr('class')+'" id="'+$(elm).attr('id')+'" href="javascript:;">'+$(elm).html()+' '+$(elm).attr('title')+'</a>\
+            ';
+        }
+        else if(tmp.length > 3 && k > 2 && (k+1) < tmp.length){
+          btn += '<a class="dropdown-item '+$(elm).attr('class')+'" id="'+$(elm).attr('id')+'" href="javascript:;">'+$(elm).html()+' '+$(elm).attr('title')+'</a>\
+        ';
+        }
+        else if(tmp.length > 3 && (k+1) == tmp.length){
+          btn += '<a class="dropdown-item '+$(elm).attr('class')+'" id="'+$(elm).attr('id')+'" href="javascript:;">'+$(elm).html()+' '+$(elm).attr('title')+'</a>\
+        ';
+          btn += '</div> </div>\
+          ';
+        }
+        else
+          btn += v;
+      });
+      return btn;
+    }
+
     return {
         element: function(){
             return this[(target.replace("#",'',target)).replace(".",'',target)];
@@ -104,6 +135,9 @@ var myGrid = function(){
         set: function(ty,v){
             _set(ty,v);
             return this;
+        },
+        action: function(v){
+          return _action_button(v);
         },
         init: function(){
             var res = _check_var();
@@ -389,7 +423,6 @@ var KTForm = function(){
             var callback = function(d=null,el){
                   if(typeof d === 'object')
                     Object.assign(el, d);
-                  console.log(el);
                   return el;
                 };
 
@@ -671,14 +704,11 @@ var KTNotification = function(){
                   });
                 }
               });
-              console.log('ok');
             }
 
             // update infinite scroll
-            console.log($('#topbar_notifications_notifications .kt-notification > a').length);
             window.ktN1.config.last = $('#topbar_notifications_notifications .kt-notification > a').length;
             KTInfinite.reload(window.ktN1);
-            console.log(window.ktN1);
           }
         }
       }
