@@ -302,13 +302,186 @@ var KTQtyForm = function(){
     };
 }();
 
+var KTGridQtyIn = function(){
+  var grid = function(cf){
+    if(cf.main_stock_code !== null){
+      var gridElement = new myGrids(cf.url,cf.gridID);
+      gridElement.set('height', cf.height);
+      gridElement.set('page', cf.page);
+      gridElement.set('column', cf.column);
+      gridElement.set('data', {page_code:Auth.page, main_stock_code:cf.main_stock_code});
+      gridElement.set('fn', cf.fn);
+      gridElement.init();
+      return gridElement.get('datatable');
+    }
+    return null;
+  }
+  return {
+    init: function(){
+      this.config = {
+        main_stock_code: window.main_stock_code,
+        gridID: '#datagrid-stock-qty-in',
+        height: '400',
+        page: '10',
+        url: api_url+'/api/wh/stock/qty/grid/in',
+        column: [{
+            field: 'stock_name',
+            title: 'Nama Stok'
+        }, {
+            field: 'supplier_name',
+            title: 'Nama Supplier'
+        }, {
+            field: 'stock_size',
+            title: 'Ukuran'
+        }, {
+            field: 'stock_brand',
+            title: 'Merek'
+        }, {
+            field: 'stock_type',
+            title: 'Tipe'
+        }, {
+            field: 'stock_color',
+            title: 'Warna',
+        }, {
+            field: 'stock_date',
+            title: 'Tanggal',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
+            field: 'master.master_measure.measure_type',
+            title: 'Tipe Ukuran',
+            template: function(row){
+                return row.measure_code+" - "+row.measure_type;
+            }
+        }, {
+            field: 'stock.qty.qty',
+            title: 'Kuantiti',
+            overflow: 'visible',
+            sortable: false,
+            autoHide: false,
+            template: function(row){
+                return price.format(row.stock_qty,2,",",'.');
+            }
+        }, {
+            field: 'stock_notes',
+            title: 'Keterangan',
+            sortable: false,
+            width: 100,
+            overflow: 'visible',
+            autoHide: false,
+        }],
+        fn: function(){
+            console.log(KTGridQtyIn.element);
+        }
+      }
+
+      this.element = grid(this.config);
+    },
+    reload: function(){
+      if(this.element !== null)
+        this.element.destroy();
+      this.config.main_stock_code = window.main_stock_code;
+      this.element = grid(this.config);
+    }
+  };
+}();
+
+var KTGridQtyOut = function(){
+  var grid = function(cf){
+    if(cf.main_stock_code !== null){
+      var gridElement = new myGrids(cf.url,cf.gridID);
+      gridElement.set('height', cf.height);
+      gridElement.set('page', cf.page);
+      gridElement.set('column', cf.column);
+      gridElement.set('data', {page_code:Auth.page, main_stock_code:cf.main_stock_code});
+      gridElement.set('fn', cf.fn);
+      gridElement.init();
+      return gridElement.get('datatable');
+    }
+    return null;
+  }
+  return {
+    init: function(){
+      this.config = {
+        main_stock_code: window.main_stock_code,
+        gridID: '#datagrid-stock-qty-out',
+        height: '400',
+        page: '10',
+        url: api_url+'/api/wh/stock/qty/grid/out',
+        column: [{
+            field: 'stock_name',
+            title: 'Nama Stok'
+        }, {
+            field: 'supplier_name',
+            title: 'Nama Supplier'
+        }, {
+            field: 'stock_size',
+            title: 'Ukuran'
+        }, {
+            field: 'stock_brand',
+            title: 'Merek'
+        }, {
+            field: 'stock_type',
+            title: 'Tipe'
+        }, {
+            field: 'stock_color',
+            title: 'Warna',
+        }, {
+            field: 'stock_date',
+            title: 'Tanggal',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
+            field: 'master.master_measure.measure_type',
+            title: 'Tipe Ukuran',
+            template: function(row){
+                return row.measure_code+" - "+row.measure_type;
+            }
+        }, {
+            field: 'stock.qty.qty',
+            title: 'Kuantiti',
+            overflow: 'visible',
+            sortable: false,
+            autoHide: false,
+            template: function(row){
+                return price.format(row.stock_qty,2,",",'.');
+            }
+        }, {
+            field: 'stock_notes',
+            title: 'Keterangan',
+            sortable: false,
+            width: 100,
+            overflow: 'visible',
+            autoHide: false,
+        }],
+        fn: function(){
+            console.log(KTGridQtyOut.element);
+        }
+      }
+
+      this.element = grid(this.config);
+    },
+    reload: function(){
+      if(this.element !== null)
+        this.element.destroy();
+      this.config.main_stock_code = window.main_stock_code;
+      this.element = grid(this.config);
+    }
+  };
+}();
+
 
 $(document).ready(function(){
     myStorage.set('auth');
     var Auth = JSON.parse(myStorage.get());
+    window.main_stock_code = null;
     // validation form
     KTValidationForm.init();
     KTQtyForm.init();
+    KTGridQtyIn.init();
+    KTGridQtyOut.init();
 
     // begin: grid
     myGrid.set('target', '#datagrid-stock');
@@ -372,21 +545,28 @@ $(document).ready(function(){
             autoHide: false,
             class: 'text-center',
             template: function(row) {
-                var btn = "";
+                var btn = [];
 
-                btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-qty" id="'+row.main_stock_code+'" title="Ubah data">\
+                btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-qty" id="'+row.main_stock_code+'" title="Ubah data">\
                     <i class="la la-balance-scale"></i>\
-                </a>\ ';
+                </a>\ ');
+
+                btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-history" id="'+row.main_stock_code+'" title="Riwayat">\
+                    <i class="la la-book"></i>\
+                </a>\ ');
 
                 if(window.role.edit == 1)
-                    btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.main_stock_code+'" title="Ubah data">\
+                    btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-edit" id="'+row.main_stock_code+'" title="Ubah data">\
                         <i class="la la-edit"></i>\
-                    </a>\ ';
+                    </a>\ ');
 
                 if(window.role.del == 1)
-                    btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.main_stock_code+'" title="Hapus">\
+                    btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.main_stock_code+'" title="Hapus">\
                         <i class="la la-trash"></i>\
-                    </a>\ ';
+                    </a>\ ');
+
+                // joining array button to grid
+                btn = myGrid.action(btn);
                 return btn;
             },
         }]
@@ -463,6 +643,13 @@ $(document).ready(function(){
                         console.log('error getting data');
                     }
                 });
+            });
+
+            $('.btn-history').click(function(){
+              window.main_stock_code = $(this).attr('id');
+              KTGridQtyIn.reload();
+              KTGridQtyOut.reload();
+              $('#detailHistory').modal('show');
             });
 
 

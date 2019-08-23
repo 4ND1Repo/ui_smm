@@ -262,3 +262,49 @@
 </div>
 
 <!--end::Modal-->
+
+
+
+<!-- modal for add stock -->
+<style>
+  #detailHistory .modal-dialog {
+    width: 99%;
+    margin: 0 auto;
+    padding: 0;
+    max-width: none;
+  }
+  #detailHistory .modal-body-fit {
+    padding-top: 10px;
+  }
+</style>
+<div class="modal fade" id="detailHistory" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Riwayat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body modal-body-fit">
+              <div class="row">
+                <div class="col-sm-12 col-md-12"><h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuantiti Masuk</h5></div>
+                <div class="col-sm-12 col-md-12">
+                  <!--begin: Datatable -->
+                  <div id="datagrid-stock-qty-in"></div>
+                  <!--end: Datatable -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 col-md-12"><h5>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kuantiti Keluar</h5></div>
+                <div class="col-sm-12 col-md-12">
+                  <!--begin: Datatable -->
+                  <div id="datagrid-stock-qty-out"></div>
+                  <!--end: Datatable -->
+                </div>
+              </div>
+      			</div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
