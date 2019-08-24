@@ -472,6 +472,48 @@ var KTGridQtyOut = function(){
   };
 }();
 
+var KTUpload = function(){
+  var _link_template = function(){
+    _link();
+
+    $('.template-download').unbind('click');
+    $('.template-download').click(function(){
+      var data = {
+        api: api_url,
+        target: '#uploadStock',
+        page_code: window.Auth.page,
+        query: {
+          find: null,
+          stock_brand: null,
+          measure_code: null,
+          stock_daily_use: null
+        }
+      };
+      KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/stk/template/stock', data);
+    });
+  }
+
+  var _link = function(){
+    $(KTUpload.config.elStock).prepend('<a href="javascript:;" class="float-right template-download"><i class="fa fa-download"></i>Template</a>');
+  }
+
+  return {
+    init: function(){
+      this.config = {
+        elStock: $('[name=FUploadStock]'),
+        elQty: $('[name=FUploadStock]'),
+        fModal: "#uploadStock"
+      };
+      _link_template();
+    },
+    stock: function(){
+    }
+  };
+}();
+
+
+
+
 
 $(document).ready(function(){
     myStorage.set('auth');
@@ -780,5 +822,13 @@ $(document).ready(function(){
         Object.assign(data,tmp);
       }
       KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/stk/stock', data);
+    });
+
+
+    // import process
+    KTUpload.init();
+    KTUpload.stock();
+    $('form[name=FUploadStock] [type=file]').on('change', function(){
+      console.log(this);
     });
 });

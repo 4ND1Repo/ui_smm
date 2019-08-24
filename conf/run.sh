@@ -1,5 +1,9 @@
 #!/bin/bash
 
+apt-get -y --no-install-recommends install sed
+sed -i s/^max_execution_time.*/max_execution_time\ =\ 300/g /opt/bitnami/php/etc/php.ini
+
+
 if [ -d "storage" ]; then
 	chmod -Rf 777 storage/
 fi

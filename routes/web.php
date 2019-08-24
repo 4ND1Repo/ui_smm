@@ -160,6 +160,10 @@ if($response->status==200){
               Route::post('stock', 'Export\Excel\StockController@stock');
               Route::post('list_buy', 'Export\Excel\StockController@list_buy');
               Route::post('opname', 'Export\Excel\StockController@opname');
+              // template data
+              Route::group(['prefix' => 'template'], function(){
+                Route::post('stock', 'Export\Excel\StockController@template');
+              });
             });
           });
         });

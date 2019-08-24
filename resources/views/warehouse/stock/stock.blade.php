@@ -27,6 +27,9 @@
                     </a>
                     &nbsp;
                     <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-default btn-icon-sm" data-toggle="modal" data-target="#uploadStock" aria-expanded="false">
+                            <i class="la la-upload"></i> Import
+                        </button>
                         <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="la la-download"></i> Export
                         </button>
@@ -301,6 +304,47 @@
                   <div id="datagrid-stock-qty-out"></div>
                   <!--end: Datatable -->
                 </div>
+              </div>
+      			</div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+
+<!-- modal for add stock -->
+<div class="modal fade" id="uploadStock" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Import Data</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body modal-body-fit">
+              <div class="col-sm-12 col-md-12">
+                <form name="FUploadStock">
+                  <div class="form-group">
+                    <label>Upload Data Stok</label>
+                    <div class="custom-file form-control-sm input-sm">
+                      <input type="file" class="custom-file-input" id="stock_upload" name="stock_upload">
+                      <label class="custom-file-label" for="stock_upload" data-browse="Cari">Pilih data</label>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="col-sm-12 col-md-12">
+                <form name="FUploadQty">
+                  <div class="form-group">
+                    <label>Upload Data Kuantiti</label>
+                    <div class="custom-file form-control-sm input-sm">
+                      <input type="file" class="custom-file-input" id="qty_upload" name="qty_upload">
+                      <label class="custom-file-label" for="qty_upload" data-browse="Cari">Pilih data</label>
+                    </div>
+                  </div>
+                </form>
               </div>
       			</div>
         </div>

@@ -287,4 +287,69 @@ class StockController extends Controller{
       $writer->save("php://output");
     }
 
+    public function template(Request $r){
+      // initiate styling for header and body
+
+      $spreadsheet = new Spreadsheet();
+      $spreadsheet->getProperties()->setCreator("System SMM")
+      ->setLastModifiedBy($r->nik)
+      ->setTitle("Template Import");
+
+      // set active sheet
+      $sheet = $spreadsheet->setActiveSheetIndex(0);
+      // Set sheet title
+      $spreadsheet->getActiveSheet()->setTitle("Stock");
+
+      $startRow = 1;
+      $startAlpha = 'A';
+      $headerTitle = [
+        ['title' => 'No.', 'field' => 'incremental', 'width' => 5, 'style' => 'center'],
+        ['title' => 'Kode Barang', 'field' => 'stock_code', 'width' => 20, 'style' => 'center'],
+        ['title' => 'Kategori', 'field' => 'stock_code', 'width' => 10, 'style' => 'center'],
+        ['title' => 'Barang', 'field' => 'stock_name', 'width' => 24, 'style' => 'left'],
+        ['title' => 'Ukuran', 'field' => 'stock_size', 'width' => 16, 'style' => 'center'],
+        ['title' => 'Tipe', 'field' => 'stock_type', 'width' => 16, 'style' => 'center'],
+        ['title' => 'Merek', 'field' => 'stock_brand', 'width' => 24, 'style' => 'left'],
+        ['title' => 'Warna', 'field' => 'stock_color', 'width' => 16, 'style' => 'left'],
+        ['title' => 'Minimum', 'field' => 'stock_min_qty', 'width' => 14, 'style' => 'right'],
+        ['title' => 'Satuan', 'field' => 'measure_type', 'width' => 16, 'style' => 'center'],
+        ['title' => 'Pinjaman', 'field' => 'stock_daily_use', 'width' => 10, 'style' => 'center'],
+        ['title' => 'Kuantiti', 'field' => 'stock_qty', 'width' => 10, 'style' => 'right']
+      ];
+
+      // config Header
+      foreach ($headerTitle as $i => $row) {
+        $col = ExcelHelper::getColumn($startAlpha, $i);
+        $sheet->setCellValue($col.$startRow, $row['title']);
+
+        // styling
+        $spreadsheet->getActiveSheet()->getStyle($col.$startRow)->applyFromArray(ExcelHelper::style('header'));
+        if(isset($row['width']))
+          $spreadsheet->getActiveSheet()->getColumnDimension($col)->setWidth($row['width']);
+      }
+
+      // get data from API
+      $data = RestCurl::post($r->input('api')."/api/wh/stock/get", $r->except(['api']));
+      if(count($data->data) > 0){
+        foreach ($data->data as $i => $row) {
+          $row = (array) $row;
+          // content data
+          foreach ($headerTitle as $j => $rows) {
+            $col = ExcelHelper::getColumn($startAlpha, $j);
+            $sheet->setCellValue($col.(($startRow+1)+$i), $rows['field']=='incremental'?(1+$i):($rows['title'] == 'Kategori'?(explode(substr($row[$rows['field']],-7,7),$row[$rows['field']]))[0]:$row[$rows['field']]));
+            if(ExcelHelper::style($rows['style']))
+              $spreadsheet->getActiveSheet()->getStyle($col.(($startRow+1)+$i))->applyFromArray(ExcelHelper::style($rows['style']));
+          }
+        }
+      }
+
+
+      $writer = new Xlsx($spreadsheet);
+
+      header('Content-Type: application/vnd.ms-excel');
+      header('Content-Disposition: attachment;filename="template_import.xlsx"');
+      header('Cache-Control: max-age=0');
+      $writer->save("php://output");
+    }
+
 }

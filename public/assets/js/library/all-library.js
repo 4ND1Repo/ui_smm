@@ -789,12 +789,6 @@ var KTNotification = function(){
 var KTDownload = function(){
   var tgt = $('body');
   var __ajax = function(t,u,d=null){
-    KTApp.block(tgt, {
-        overlayColor: '#000000',
-        type: 'v2',
-        state: 'primary',
-        message: 'Sedang memproses...'
-    });
     var option = {
       xhrFields: {
         responseType: 'blob'
@@ -823,6 +817,15 @@ var KTDownload = function(){
         KTApp.unblock(tgt);
       }
     };
+    if(typeof d.target !== 'undefined')
+      tgt = d.target;
+
+    KTApp.block(tgt, {
+      overlayColor: '#000000',
+      type: 'v2',
+      state: 'primary',
+      message: 'Sedang memproses...'
+    });
     if(d !== null){
       if(typeof d === 'object'){
         option['data'] = d;
