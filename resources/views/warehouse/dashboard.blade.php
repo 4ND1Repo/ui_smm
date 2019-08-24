@@ -20,60 +20,15 @@
                 <div class="kt-portlet__head kt-portlet__head--noborder kt-portlet__space-x">
                     <div class="kt-portlet__head-label">
                         <h3 class="kt-portlet__head-title">
-                            Activity
+                            Aktivitas Stock Keluar
                         </h3>
-                    </div>
-                    <div class="kt-portlet__head-toolbar">
-                        <a href="javascript:;" class="btn btn-label-light btn-sm btn-bold dropdown-toggle" data-toggle="dropdown">
-                            Export
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right">
-                            <ul class="kt-nav">
-                                <li class="kt-nav__section kt-nav__section--first">
-                                    <span class="kt-nav__section-text">Finance</span>
-                                </li>
-                                <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
-                                        <i class="kt-nav__link-icon flaticon2-graph-1"></i>
-                                        <span class="kt-nav__link-text">Statistics</span>
-                                    </a>
-                                </li>
-                                <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
-                                        <i class="kt-nav__link-icon flaticon2-calendar-4"></i>
-                                        <span class="kt-nav__link-text">Events</span>
-                                    </a>
-                                </li>
-                                <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
-                                        <i class="kt-nav__link-icon flaticon2-layers-1"></i>
-                                        <span class="kt-nav__link-text">Reports</span>
-                                    </a>
-                                </li>
-                                <li class="kt-nav__section kt-nav__section--first">
-                                    <span class="kt-nav__section-text">HR</span>
-                                </li>
-                                <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
-                                        <i class="kt-nav__link-icon flaticon2-calendar-4"></i>
-                                        <span class="kt-nav__link-text">Notifications</span>
-                                    </a>
-                                </li>
-                                <li class="kt-nav__item">
-                                    <a href="javascript:;" class="kt-nav__link">
-                                        <i class="kt-nav__link-icon flaticon2-file-1"></i>
-                                        <span class="kt-nav__link-text">Files</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="kt-portlet__body kt-portlet__body--fit">
                     <div class="kt-widget17">
                         <div class="kt-widget17__visual kt-widget17__visual--chart kt-portlet-fit--top kt-portlet-fit--sides" style="background-color: #fd397a">
                             <div class="kt-widget17__chart" style="height:320px;">
-                                <canvas id="kt_chart_activities"></canvas>
+                                <canvas id="kt_stock_out_chart"></canvas>
                             </div>
                         </div>
                         <div class="kt-widget17__stats">
@@ -88,10 +43,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Delivered
+                                        Surat Jalan Masuk Bulan ini
                                     </span>
-                                    <span class="kt-widget17__desc">
-                                        15 New Paskages
+                                    <span class="kt-widget17__desc do_goods">
+                                        0 Surat Jalan
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">
@@ -104,10 +59,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Ordered
+                                        Permintaan Barang Bulan ini
                                     </span>
-                                    <span class="kt-widget17__desc">
-                                        72 New Items
+                                    <span class="kt-widget17__desc req_tools">
+                                        0 barang
                                     </span>
                                 </div>
                             </div>
@@ -122,10 +77,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Reported
+                                        Komplain Untuk Saya Bulan ini
                                     </span>
-                                    <span class="kt-widget17__desc">
-                                        72 Support Cases
+                                    <span class="kt-widget17__desc complaint_to_me">
+                                        0 komplain
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">
@@ -138,10 +93,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Arrived
+                                        Pembelian Barang Bulan ini
                                     </span>
-                                    <span class="kt-widget17__desc">
-                                        34 Upgraded Boxes
+                                    <span class="kt-widget17__desc po_goods">
+                                        0 barang
                                     </span>
                                 </div>
                             </div>
