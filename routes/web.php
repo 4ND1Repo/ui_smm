@@ -130,6 +130,15 @@ if($response->status==200){
         });
 
 
+        // Import Group
+        Route::group(['prefix' => 'import'], function() use($row){
+          // stock group
+          Route::group(['prefix' => 'stk'], function() use($row){
+            Route::post('stock', 'Import\StockController@stock');
+            Route::post('qty', 'Import\StockController@qty');
+          });
+        });
+
         // Export Group
         Route::group(['prefix' => 'export'], function() use($row){
           // page test

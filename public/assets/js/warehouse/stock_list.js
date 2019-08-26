@@ -501,12 +501,129 @@ var KTUpload = function(){
     init: function(){
       this.config = {
         elStock: $('[name=FUploadStock]'),
-        elQty: $('[name=FUploadStock]'),
+        elQty: $('[name=FUploadQty]'),
         fModal: "#uploadStock"
       };
       _link_template();
     },
     stock: function(){
+      var data = new FormData(),
+          el = this,
+          fl = ($(el.config.elStock).find('[type=file]'))[0].files[0],
+          tmp = null,
+          target = "#uploadStock";
+
+      tmp = fl.name.split('.');
+      if(tmp[(tmp.length-1)] == 'xlsx'){
+        data.append('file', fl);
+        data.append('api', api_url);
+        data.append('nik', window.Auth.nik);
+        data.append('page_code', window.Auth.page);
+
+        KTApp.block(target, {
+            overlayColor: '#000000',
+            type: 'v2',
+            state: 'primary',
+            message: ''
+        });
+        $.ajax({
+          url: base_url + '/' + window.Auth.page + '/import/stk/stock',
+          type: 'POST',
+          data: data,
+          contentType: false,
+          processData: false,
+          success: function(r){
+            KTForm.notif({
+              type: r.status ==1?'success':'warning',
+              text: r.message,
+              timer: 1500
+            });
+
+            $(el.config.elStock)[0].reset();
+            KTApp.unblock(target);
+            myGrid.element().reload();
+          },
+          error: function(e){
+            if(e.status == 413)
+              swal.fire({
+                  "title": "",
+                  "text": "Ukuran file terlalu besar, harus kurang dari 1.5Mb.",
+                  "type": "error",
+                  "confirmButtonClass": "btn btn-secondary",
+                  "onClose": function(e) {
+                      console.log('on close event fired!');
+                  }
+              });
+            KTApp.unblock(target);
+            $(el.config.elStock)[0].reset();
+          }
+        });
+      } else {
+        KTForm.notif({
+          type: 'warning',
+          text: 'File tidak didukung! Coba kembali template-nya, kemudian isi kembali',
+          timer: 1500
+        });
+      }
+    },
+    qty: function(){
+      var data = new FormData(),
+          el = this,
+          fl = ($(el.config.elQty).find('[type=file]'))[0].files[0],
+          tmp = null,
+          target = "#uploadStock";
+
+      tmp = fl.name.split('.');
+      if(tmp[(tmp.length-1)] == 'xlsx'){
+        data.append('file', fl);
+        data.append('api', api_url);
+        data.append('nik', window.Auth.nik);
+        data.append('page_code', window.Auth.page);
+
+        KTApp.block(target, {
+            overlayColor: '#000000',
+            type: 'v2',
+            state: 'primary',
+            message: ''
+        });
+        $.ajax({
+          url: base_url + '/' + window.Auth.page + '/import/stk/qty',
+          type: 'POST',
+          data: data,
+          contentType: false,
+          processData: false,
+          success: function(r){
+            KTForm.notif({
+              type: r.status ==1?'success':'warning',
+              text: r.message,
+              timer: 1500
+            });
+            $(el.config.elQty)[0].reset();
+            KTApp.unblock(target);
+            myGrid.element().reload();
+          },
+          error: function(e){
+            if(e.status == 413)
+              swal.fire({
+                  "title": "",
+                  "text": "Ukuran file terlalu besar, harus kurang dari 1.5Mb.",
+                  "type": "error",
+                  "confirmButtonClass": "btn btn-secondary",
+                  "onClose": function(e) {
+                      console.log('on close event fired!');
+                  }
+              });
+            KTApp.unblock(target);
+            $(el.config.elQty)[0].reset();
+          }
+        });
+      } else {
+        KTForm.notif({
+          type: 'warning',
+          text: 'File tidak didukung! Coba kembali template-nya, kemudian isi kembali',
+          timer: 1500
+        });
+      }
     }
   };
 }();
@@ -827,8 +944,10 @@ $(document).ready(function(){
 
     // import process
     KTUpload.init();
-    KTUpload.stock();
     $('form[name=FUploadStock] [type=file]').on('change', function(){
-      console.log(this);
+      KTUpload.stock();
+    });
+    $('form[name=FUploadQty] [type=file]').on('change', function(){
+      KTUpload.qty();
     });
 });
