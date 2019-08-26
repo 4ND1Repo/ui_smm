@@ -147,6 +147,7 @@ var KTCabinetForm = function(){
                 var data = $(formId).serializeArray();
 
                 data.push({name:'page_code', value:window.Auth.page});
+                data.push({name:'nik', value:window.Auth.nik});
                 $.ajax({
                     url: link,
                     type: "POST",
@@ -322,7 +323,7 @@ var KTModalGrid = function(){
                             $.ajax({
                                 url: api_url+'/api/wh/stock/cabinet/delete',
                                 type: 'POST',
-                                data: {stock_cabinet_code:$(this).attr('id')},
+                                data: {stock_cabinet_code:$(this).attr('id'), nik: window.Auth.nik},
                                 success: function(r){
                                     Swal.fire({
                                         title: 'Terhapus!',

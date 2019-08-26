@@ -547,6 +547,7 @@ jQuery(document).ready(function () {
           data = $('#FUserMenu').serializeArray();
 
       data.push({name:'group_code', value:$(this).attr('group_code')});
+      data.push({name:'nik', value:window.Auth.nik});
       KTApp.block(target, {
           overlayColor: '#000000',
           type: 'v2',

@@ -43,6 +43,7 @@ var KTValidationForm = function(){
                     link = api_url+"/api/mst/measure/edit";
 
                 var data = $(formId).serializeArray();
+                data.push({name:'nik', value: window.Auth.nik});
                 // block ui modal
                 var target = formModal+' .modal-content';
                 KTApp.block(target, {
@@ -199,7 +200,7 @@ $(document).ready(function(){
                         $.ajax({
                             url: api_url+'/api/mst/measure/delete',
                             type: 'POST',
-                            data: {'measure_code':$(this).attr('id')},
+                            data: {'measure_code':$(this).attr('id'), nik: window.Auth.nik},
                             success: function(r){
                                 Swal.fire({
                                     title: 'Terhapus!',

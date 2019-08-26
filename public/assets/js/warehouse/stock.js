@@ -14,11 +14,9 @@ var KTValidationForm = function(){
                     maxlength: 50
                 },
                 stock_size: {
-                    required: true,
                     maxlength: 20
                 },
                 stock_brand: {
-                    required: true,
                     maxlength: 20
                 },
                 stock_type: {
@@ -289,7 +287,7 @@ $(document).ready(function(){
                         $.ajax({
                             url: api_url+'/api/mst/stock/delete',
                             type: 'POST',
-                            data: {'stock_code':$(this).attr('id')},
+                            data: {'stock_code':$(this).attr('id'), nik: window.Auth.nik},
                             success: function(r){
                                 Swal.fire({
                                     title: 'Terhapus!',

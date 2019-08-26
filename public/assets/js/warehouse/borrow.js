@@ -556,6 +556,32 @@ $(document).ready(function(){
                       });
                     }
                     console.log('Success');
+
+                    // action for warehouse add Borrowed of Goods
+                    if(window.Auth.page == 'wh'){
+                      $('.request_user').removeClass('kt-hidden');
+
+                      $('[name=borrowed_self]').on('change', function(){
+                        if($(this).is(':checked')){
+                          $('.take').addClass('kt-hidden');
+                          $('[name=take_nik]').val($('[name=nik]').val());
+                          $('[name=borrowed_take_name]').val($('[name=borrowed_req_name]').val());
+                        } else {
+                          $('.take').removeClass('kt-hidden');
+                          $('[name=take_nik]').val('');
+                          $('[name=borrowed_take_name]').val('');
+                        }
+
+                        if($('#FBorrow').find('[name="create_by"]').length == 0)
+                          $('#FBorrow').append('<input type="hidden" name="create_by" value="'+window.Auth.nik+'">');
+                      })
+                    } else {
+                        $('.take').addClass('kt-hidden');
+                        $('[name=nik]').val(window.Auth.nik);
+                        $('[name=borrowed_self]').prop('checked', false).removeAttr('checked');
+                        $('[name=borrowed_req_name]').val(window.Auth.name);
+                        $('[name=company_code]').val(window.Auth.company);
+                    }
                   }
                 }
               });

@@ -52,6 +52,8 @@ var KTValidationForm = function(){
 
                 // block ui modal
                 var target = formModal+' .modal-content';
+                var data = $("#FSupplier").serializeArray();
+                data.push({name:'nik', value:window.Auth.nik});
                 KTApp.block(target, {
                     overlayColor: '#000000',
                     type: 'v2',
@@ -62,7 +64,7 @@ var KTValidationForm = function(){
                 $.ajax({
                     url: link,
                     type: "POST",
-                    data: $("#FSupplier").serialize(),
+                    data: data,
                     success: function(r){
                         if(r.status){
                             myGrid.element().reload();
@@ -252,7 +254,7 @@ jQuery(document).ready(function () {
                         $.ajax({
                             url: api_url+'/api/mst/supplier/delete',
                             type: 'POST',
-                            data: {'supplier_code':$(this).attr('id')},
+                            data: {'supplier_code':$(this).attr('id'), nik: window.Auth.nik},
                             success: function(r){
                                 Swal.fire({
                                     title: 'Terhapus!',

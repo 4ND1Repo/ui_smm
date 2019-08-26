@@ -859,7 +859,7 @@ $(document).ready(function(){
                         $.ajax({
                             url: api_url+'/api/wh/stock/delete',
                             type: 'POST',
-                            data: {'main_stock_code':$(this).attr('id')},
+                            data: {'main_stock_code':$(this).attr('id'), nik: window.Auth.nik},
                             success: function(r){
                                 Swal.fire({
                                     title: 'Terhapus!',
