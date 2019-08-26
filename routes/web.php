@@ -80,6 +80,8 @@ if($response->status==200){
             Route::get('menu', 'Management\MainController@menu');
             // Role Menu Management
             Route::get('group', 'Management\MainController@group');
+            // Activity Management
+            Route::get('activity', 'Management\MainController@activity');
         });
 
         // Master group
