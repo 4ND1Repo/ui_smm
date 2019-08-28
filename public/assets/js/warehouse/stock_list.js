@@ -628,6 +628,74 @@ var KTUpload = function(){
   };
 }();
 
+var KTFilter = function(){
+  var ajaxProcess = function(el, uri, obj){
+    $(el).selectpicker('destroy');
+    $.ajax({
+      type: 'GET',
+      url: uri,
+      success: function(r){
+        var tmp = '<option value="">Semua</option>';
+        $.each(r.data, function(k,v){
+          tmp += '<option value="'+encodeURI(v[obj.value])+'">'+v[obj.label]+'</option>';
+        });
+        $(el).html(tmp);
+        $(el).selectpicker();
+      }
+    });
+  }
+
+  var stock_type_filter = function(){
+    var selectID = "select[name=stock_type]",
+        filter = {
+          value: 'stock_type',
+          label: 'stock_type'
+        },
+        url = api_url+'/api/mst/stock/type';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_size_filter = function(){
+    var selectID = "select[name=stock_size]",
+        filter = {
+          value: 'stock_size',
+          label: 'stock_size'
+        },
+        url = api_url+'/api/mst/stock/size';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_color_filter = function(){
+    var selectID = "select[name=stock_color]",
+        filter = {
+          value: 'stock_color',
+          label: 'stock_color'
+        },
+        url = api_url+'/api/mst/stock/color';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  return {
+    init: function(){
+      KTFilter.filter_type();
+      KTFilter.filter_size();
+      KTFilter.filter_color();
+    },
+    filter_type: function(){
+      stock_type_filter();
+    },
+    filter_size: function(){
+      stock_size_filter();
+    },
+    filter_color: function(){
+      stock_color_filter();
+    }
+  };
+}();
+
 
 
 
@@ -641,6 +709,7 @@ $(document).ready(function(){
     KTQtyForm.init();
     KTGridQtyIn.init();
     KTGridQtyOut.init();
+    KTFilter.init();
 
     // begin: grid
     myGrid.set('target', '#datagrid-stock');
@@ -738,6 +807,18 @@ $(document).ready(function(){
 
         $('.filter select[name=stock_brand]').on('change', function() {
             myGrid.element().search($(this).val(), 'stock_brand');
+        });
+
+        $('.filter select[name=stock_size]').on('change', function() {
+            myGrid.element().search($(this).val(), 'stock_size');
+        });
+
+        $('.filter select[name=stock_type]').on('change', function() {
+            myGrid.element().search($(this).val(), 'stock_type');
+        });
+
+        $('.filter select[name=stock_color]').on('change', function() {
+            myGrid.element().search($(this).val(), 'stock_color');
         });
 
         $('.filter select[name=stock_daily_use]').on('change', function() {
@@ -925,6 +1006,9 @@ $(document).ready(function(){
         query: {
           find:$('#generalSearch').val(),
           stock_brand:$('.filter [name=stock_brand]').val(),
+          stock_size:$('.filter [name=stock_size]').val(),
+          stock_type:$('.filter [name=stock_type]').val(),
+          stock_color:$('.filter [name=stock_color]').val(),
           measure_code: $('.filter [name=measure_code]').val(),
           stock_daily_use: $('.filter [name=stock_daily_use]').val()
         }

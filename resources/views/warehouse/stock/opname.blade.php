@@ -87,43 +87,97 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                  <div class="kt-form__group kt-form__group--inline">
-                                      <div class="kt-form__label">
-                                          <label>Tanggal Opname:</label>
+                            <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
+                              <div class="row">
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                      <div class="kt-form__group kt-form__group--inline">
+                                          <div class="kt-form__label">
+                                              <label>Tanggal Opname:</label>
+                                          </div>
+                                          <div class="kt-form__control">
+                                              <select class="form-control bootstrap-select" name='opname_date_from' data-live-search="true">
+                                                  <option value="">Semua</option>
+                                              </select>
+                                          </div>
                                       </div>
-                                      <div class="kt-form__control">
-                                          <select class="form-control bootstrap-select" name='opname_date_from' data-live-search="true">
-                                              <option value="">Semua</option>
-                                          </select>
-                                      </div>
-                                  </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Merek:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_brand' data-live-search="true">
-                                            <option value="">Semua</option>
-                                        </select>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Merek:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_brand' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>status:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='approve'>
-                                            <option value="">Semua</option>
-                                            <option value="1">Disetujui</option>
-                                            <option value="0">Tidak Disetujui</option>
-                                        </select>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Tipe:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_type' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Ukuran:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_size' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Warna:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_color' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Pinjaman:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_daily_use'>
+                                                <option value="">Semua</option>
+                                                <option value="0">Tidak</option>
+                                                <option value="1">Ya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>status:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='approve'>
+                                                <option value="">Semua</option>
+                                                <option value="1">Disetujui</option>
+                                                <option value="0">Tidak Disetujui</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>

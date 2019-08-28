@@ -200,6 +200,22 @@ var KTGridOpname = function(){
                 myGrid.element().search($(this).val(), 'stock_brand');
             });
 
+            $('.filter select[name=stock_size]').on('change', function() {
+                myGrid.element().search($(this).val(), 'stock_size');
+            });
+
+            $('.filter select[name=stock_type]').on('change', function() {
+                myGrid.element().search($(this).val(), 'stock_type');
+            });
+
+            $('.filter select[name=stock_color]').on('change', function() {
+                myGrid.element().search($(this).val(), 'stock_color');
+            });
+
+            $('.filter select[name=stock_daily_use]').on('change', function() {
+                myGrid.element().search($(this).val(), 'stock_daily_use');
+            });
+
             $('.filter select[name=approve]').on('change', function() {
                 myGrid.element().search($(this).val(), 'approve');
             });
@@ -405,6 +421,76 @@ var KTGridOpname = function(){
     }
 }();
 
+var KTFilter = function(){
+  var ajaxProcess = function(el, uri, obj){
+    $(el).selectpicker('destroy');
+    $.ajax({
+      type: 'GET',
+      url: uri,
+      success: function(r){
+        var tmp = '<option value="">Semua</option>';
+        $.each(r.data, function(k,v){
+          tmp += '<option value="'+encodeURI(v[obj.value])+'">'+v[obj.label]+'</option>';
+        });
+        $(el).html(tmp);
+        $(el).selectpicker();
+      }
+    });
+  }
+
+  var stock_type_filter = function(){
+    var selectID = "select[name=stock_type]",
+        filter = {
+          value: 'stock_type',
+          label: 'stock_type'
+        },
+        url = api_url+'/api/mst/stock/type';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_size_filter = function(){
+    var selectID = "select[name=stock_size]",
+        filter = {
+          value: 'stock_size',
+          label: 'stock_size'
+        },
+        url = api_url+'/api/mst/stock/size';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_color_filter = function(){
+    var selectID = "select[name=stock_color]",
+        filter = {
+          value: 'stock_color',
+          label: 'stock_color'
+        },
+        url = api_url+'/api/mst/stock/color';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  return {
+    init: function(){
+      KTFilter.filter_type();
+      KTFilter.filter_size();
+      KTFilter.filter_color();
+    },
+    filter_type: function(){
+      stock_type_filter();
+    },
+    filter_size: function(){
+      stock_size_filter();
+    },
+    filter_color: function(){
+      stock_color_filter();
+    }
+  };
+}();
+
+
+
 $(document).ready(function(){
     myStorage.set('auth');
     window.Auth = JSON.parse(myStorage.get());
@@ -413,6 +499,7 @@ $(document).ready(function(){
     // initiate
     KTGridOpname.init();
     KTFormOpname.init();
+    KTFilter.init();
     // set rules
     KTFormOpname.rules("#FOpname input[name=stock_code]", {required: true});
 
@@ -499,6 +586,10 @@ $(document).ready(function(){
         query: {
           find:$('#generalSearch').val(),
           stock_brand:$('.filter [name=stock_brand]').val(),
+          stock_size:$('.filter [name=stock_size]').val(),
+          stock_type:$('.filter [name=stock_type]').val(),
+          stock_color:$('.filter [name=stock_color]').val(),
+          stock_daily_use:$('.filter [name=stock_daily_use]').val(),
           approve:$('.filter [name=approve]').val(),
           opname_date_from:$('.filter [name=opname_date_from]').val()
         }
@@ -514,4 +605,6 @@ $(document).ready(function(){
       }
       KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/stk/opname', data);
     });
+
+    $('select[name=stock_daily_use]').selectpicker();
 });

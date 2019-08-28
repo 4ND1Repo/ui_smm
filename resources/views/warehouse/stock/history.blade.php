@@ -43,43 +43,83 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Merek:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_brand_in' data-live-search="true">
-                                            <option value="">All</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Tipe Satuan:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='measure_code_in'>
-                                            <option value="">All</option>
-                                        </select>
+                            <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
+                              <div class="row">
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Merek:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_brand_in' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Pinjaman:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_daily_use_in'>
-                                            <option value="">All</option>
-                                            <option value="0">Tidak</option>
-                                            <option value="1">Ya</option>
-                                        </select>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Tipe:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_type_in' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Ukuran:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_size_in' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Warna:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_color_in' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Tipe Satuan:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='measure_code_in'>
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Pinjaman:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_daily_use_in'>
+                                                <option value="">Semua</option>
+                                                <option value="0">Tidak</option>
+                                                <option value="1">Ya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
@@ -123,43 +163,83 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Merek:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_brand_out' data-live-search="true">
-                                            <option value="">All</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Tipe Satuan:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='measure_code_out'>
-                                            <option value="">All</option>
-                                        </select>
+                            <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
+                              <div class="row">
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Merek:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_brand_out' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Pinjaman:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='stock_daily_use_out'>
-                                            <option value="">All</option>
-                                            <option value="0">Tidak</option>
-                                            <option value="1">Ya</option>
-                                        </select>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Tipe:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_type_out' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Ukuran:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_size_out' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Warna:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_color_out' data-live-search="true">
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Tipe Satuan:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='measure_code_out'>
+                                                <option value="">Semua</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                    <div class="kt-form__group kt-form__group--inline">
+                                        <div class="kt-form__label">
+                                            <label>Pinjaman:</label>
+                                        </div>
+                                        <div class="kt-form__control">
+                                            <select class="form-control bootstrap-select" name='stock_daily_use_out'>
+                                                <option value="">Semua</option>
+                                                <option value="0">Tidak</option>
+                                                <option value="1">Ya</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>

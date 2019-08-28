@@ -1,8 +1,148 @@
 "use strict";
 
+var KTFilterIn = function(){
+  var ajaxProcess = function(el, uri, obj){
+    $(el).selectpicker('destroy');
+    $.ajax({
+      type: 'GET',
+      url: uri,
+      success: function(r){
+        var tmp = '<option value="">Semua</option>';
+        $.each(r.data, function(k,v){
+          tmp += '<option value="'+encodeURI(v[obj.value])+'">'+v[obj.label]+'</option>';
+        });
+        $(el).html(tmp);
+        $(el).selectpicker();
+      }
+    });
+  }
+
+  var stock_type_filter = function(){
+    var selectID = "select[name=stock_type_in]",
+        filter = {
+          value: 'stock_type',
+          label: 'stock_type'
+        },
+        url = api_url+'/api/mst/stock/type';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_size_filter = function(){
+    var selectID = "select[name=stock_size_in]",
+        filter = {
+          value: 'stock_size',
+          label: 'stock_size'
+        },
+        url = api_url+'/api/mst/stock/size';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_color_filter = function(){
+    var selectID = "select[name=stock_color_in]",
+        filter = {
+          value: 'stock_color',
+          label: 'stock_color'
+        },
+        url = api_url+'/api/mst/stock/color';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  return {
+    init: function(){
+      KTFilterIn.filter_type();
+      KTFilterIn.filter_size();
+      KTFilterIn.filter_color();
+    },
+    filter_type: function(){
+      stock_type_filter();
+    },
+    filter_size: function(){
+      stock_size_filter();
+    },
+    filter_color: function(){
+      stock_color_filter();
+    }
+  };
+}();
+
+var KTFilterOut = function(){
+  var ajaxProcess = function(el, uri, obj){
+    $(el).selectpicker('destroy');
+    $.ajax({
+      type: 'GET',
+      url: uri,
+      success: function(r){
+        var tmp = '<option value="">Semua</option>';
+        $.each(r.data, function(k,v){
+          tmp += '<option value="'+encodeURI(v[obj.value])+'">'+v[obj.label]+'</option>';
+        });
+        $(el).html(tmp);
+        $(el).selectpicker();
+      }
+    });
+  }
+
+  var stock_type_filter = function(){
+    var selectID = "select[name=stock_type_out]",
+        filter = {
+          value: 'stock_type',
+          label: 'stock_type'
+        },
+        url = api_url+'/api/mst/stock/type';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_size_filter = function(){
+    var selectID = "select[name=stock_size_out]",
+        filter = {
+          value: 'stock_size',
+          label: 'stock_size'
+        },
+        url = api_url+'/api/mst/stock/size';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  var stock_color_filter = function(){
+    var selectID = "select[name=stock_color_out]",
+        filter = {
+          value: 'stock_color',
+          label: 'stock_color'
+        },
+        url = api_url+'/api/mst/stock/color';
+
+    ajaxProcess(selectID, url, filter);
+  }
+
+  return {
+    init: function(){
+      KTFilterOut.filter_type();
+      KTFilterOut.filter_size();
+      KTFilterOut.filter_color();
+    },
+    filter_type: function(){
+      stock_type_filter();
+    },
+    filter_size: function(){
+      stock_size_filter();
+    },
+    filter_color: function(){
+      stock_color_filter();
+    }
+  };
+}();
+
+
 $(document).ready(function(){
     myStorage.set('auth');
     var Auth = JSON.parse(myStorage.get());
+
+    KTFilterIn.init();
+    KTFilterOut.init();
 
     // begin:  history grid
     var gridIn = new myGrids(api_url+'/api/wh/stock/history','#datagrid-history-stock');
@@ -79,6 +219,18 @@ $(document).ready(function(){
 
         $('select[name=stock_brand_in]').on('change', function() {
             gridIn.get('datatable').search($(this).val(), 'stock_brand');
+        });
+
+        $('select[name=stock_size_in]').on('change', function() {
+            gridIn.get('datatable').search($(this).val(), 'stock_size');
+        });
+
+        $('select[name=stock_type_in]').on('change', function() {
+            gridIn.get('datatable').search($(this).val(), 'stock_type');
+        });
+
+        $('select[name=stock_color_in]').on('change', function() {
+            gridIn.get('datatable').search($(this).val(), 'stock_color');
         });
 
         $('select[name=stock_daily_use_in]').on('change', function() {
@@ -198,6 +350,18 @@ $(document).ready(function(){
 
         $('select[name=stock_brand_out]').on('change', function() {
             gridOut.get('datatable').search($(this).val(), 'stock_brand');
+        });
+
+        $('select[name=stock_size_out]').on('change', function() {
+            gridOut.get('datatable').search($(this).val(), 'stock_size');
+        });
+
+        $('select[name=stock_type_out]').on('change', function() {
+            gridOut.get('datatable').search($(this).val(), 'stock_type');
+        });
+
+        $('select[name=stock_color_out]').on('change', function() {
+            gridOut.get('datatable').search($(this).val(), 'stock_color');
         });
 
         $('select[name=stock_daily_use_out]').on('change', function() {
