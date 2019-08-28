@@ -64,7 +64,7 @@ var KTFormPO = function(){
                                 $.ajax({
                                   url: api_url+'/api/mng/user/notification/add',
                                   type: 'POST',
-                                  data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada barang masuk gudang', notification_url:base_url+'/pur/req/po/history', notification_icon: "fa fa-box-open kt-font-success"},
+                                  data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada barang masuk gudang', notification_url:base_url+'/pur/req/do', notification_icon: "fa fa-box-open kt-font-success"},
                                   success: function(r){
                                     console.log(r);
                                   }

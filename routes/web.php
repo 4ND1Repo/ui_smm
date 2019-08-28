@@ -179,6 +179,15 @@ if($response->status==200){
                 Route::post('stock', 'Export\Excel\StockController@template');
               });
             });
+
+
+            // for purchasing export
+            Route::group(['prefix' => 'pur'], function(){
+              // Request group
+              Route::group(['prefix' => 'req'], function(){
+                Route::post('do', 'Export\Excel\PurchasingController@do');
+              });
+            });
           });
         });
 

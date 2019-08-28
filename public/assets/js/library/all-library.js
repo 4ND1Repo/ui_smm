@@ -1088,7 +1088,8 @@ $(document).ready(function(){
       changeMonth:true,
       changeYear:true,
       format:"yyyy-mm-dd",
-      autoclose: true
+      autoclose: true,
+      clearBtn: true
     }).on('hide',function(event){
         event.preventDefault();
         event.stopPropagation();
