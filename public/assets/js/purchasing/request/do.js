@@ -17,6 +17,9 @@ var KTGrid = function(){
                 field: 'do_code',
                 title: 'Surat Jalan'
             }, {
+                field: 'supplier_name',
+                title: 'Supplier'
+            }, {
                 field: 'create_date',
                 title: 'Tanggal'
             }, {

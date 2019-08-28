@@ -56,8 +56,9 @@ class PurchasingController extends Controller{
       $headerTitle = [
         ['title' => 'No.', 'field' => 'incremental', 'width' => 5, 'style' => 'center'],
         ['title' => 'Surat Jalan', 'field' => 'do_code', 'width' => 16, 'style' => 'center'],
+        ['title' => 'Supplier', 'field' => 'supplier_name', 'width' => 20, 'style' => 'left'],
         ['title' => 'Nomor PO', 'field' => 'po_code', 'width' => 16, 'style' => 'center'],
-        ['title' => 'Tanggal SJ', 'field' => 'create_date', 'width' => 16, 'style' => 'left'],
+        ['title' => 'Tanggal SJ', 'field' => 'create_date', 'width' => 20, 'style' => 'left'],
         ['title' => 'Kode Barang', 'field' => 'stock_code', 'width' => 16, 'style' => 'left'],
         ['title' => 'Nama Barang', 'field' => 'stock_name', 'width' => 24, 'style' => 'left'],
         ['title' => 'Ukuran', 'field' => 'stock_size', 'width' => 14, 'style' => 'center'],
