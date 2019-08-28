@@ -108,8 +108,10 @@ if($response->status==200){
             Route::get('history','Warehouse\MainController@history');
             // Waiting for buy Stock
             Route::get('list_buy','Warehouse\MainController@list_buy');
-            // Dashboard Stock
+            // Stock Opname
             Route::get('opname','Warehouse\MainController@opname');
+            // Pricing list stock
+            Route::get('pricing','Warehouse\MainController@pricing');
         });
 
         // Request group
@@ -171,6 +173,7 @@ if($response->status==200){
               Route::post('stock', 'Export\Excel\StockController@stock');
               Route::post('list_buy', 'Export\Excel\StockController@list_buy');
               Route::post('opname', 'Export\Excel\StockController@opname');
+              Route::post('pricing', 'Export\Excel\StockController@pricing');
               // template data
               Route::group(['prefix' => 'template'], function(){
                 Route::post('stock', 'Export\Excel\StockController@template');
