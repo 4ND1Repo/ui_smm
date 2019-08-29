@@ -181,27 +181,29 @@ var KTGridPO = function(){
                 autoHide: false,
                 class: 'text-center',
                 template: function(row) {
-                    return (row.status != 'ST05')?'\
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Proses PO">\
-                            <i class="la la-automobile"></i>\
-                        </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-cancel" id="'+row.po_code+'" title="Batalkan PO">\
-                            <i class="la la-remove text-danger"></i>\
-                        </a>\
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-print" id="'+row.po_code+'" title="Print PO">\
-                            <i class="la la-print"></i>\
-                        </a>\
-                    ':"&nbsp;";
+                    var btn = [];
+                    if(window.role.edit == 1)
+                      btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Proses PO">\
+                          <i class="la la-automobile"></i>\
+                      </a>');
+
+                    if(window.role.del == 1)
+                      btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-cancel" id="'+row.po_code+'" title="Batalkan PO">\
+                          <i class="la la-remove text-danger"></i>\
+                      </a>');
+
+                    if((['ST02','ST05']).indexOf(row.status) != -1)
+                      btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-print" id="'+row.po_code+'" title="Print PO">\
+                          <i class="la la-print"></i>\
+                      </a>');
+
+                    btn = myGrid.action(btn);
+                    return btn;
                 },
             }]
         );
         myGrid.set('data',{page_code:window.Auth.page});
         myGrid.set('function', function(){
-            $('select[name=status]').on('change', function() {
-                myGrid.element().search($(this).val(), 'status');
-            });
-            $('select[name=status]').selectpicker();
-
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
                 $('.btn-cancel').click(function(){
@@ -304,6 +306,8 @@ var KTGridPO = function(){
                                     tmpHtml += '</div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    // input income qty
+                                    tmpHtml += '<div class="text-right">'+price.format((v.po_qty-v.qty),2,',','.')+'</div>';
                                     // input measure
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     var tmp = (v.po_date_delivery == null?false:v.po_date_delivery),

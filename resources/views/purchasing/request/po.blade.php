@@ -78,7 +78,7 @@
                 <div class="row align-items-center">
                     <div class="col-xl-8 order-2 order-xl-1">
                         <div class="row align-items-center filter">
-                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
+                            <div class="col-md-9 kt-margin-b-20-tablet-and-mobile">
                                 &nbsp;
                             </div>
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
@@ -87,21 +87,6 @@
                                     <span class="kt-input-icon__icon kt-input-icon__icon--left">
                                         <span><i class="la la-search"></i></span>
                                     </span>
-                                </div>
-                            </div>
-                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
-                                <div class="kt-form__group kt-form__group--inline">
-                                    <div class="kt-form__label">
-                                        <label>Status:</label>
-                                    </div>
-                                    <div class="kt-form__control">
-                                        <select class="form-control bootstrap-select" name='status'>
-                                            <option value="">All</option>
-                                            <option value="ST02">Proses</option>
-                                            <option value="ST06">Menunggu</option>
-                                            <option value="ST05">Selesai</option>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -123,6 +108,17 @@
 
 
 <!-- modal for add stock to PO -->
+<style>
+  #addPo .modal-dialog {
+    width: 99%;
+    margin: 0 auto;
+    padding: 0;
+    max-width: none;
+  }
+  #addPo .modal-body-fit {
+    padding-top: 10px;
+  }
+</style>
 <div class="modal fade" id="addPo" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -148,14 +144,12 @@
                     white-space: nowrap;
                     width: 30%;
                   }
-                  #FPO .list-header > div:last-child, #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(4), #FPO .list-header > div:nth-child(6) {
+                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(4), #FPO .list-header > div:nth-child(5), #FPO .list-header > div:nth-child(6), #FPO .list-header > div:nth-child(7), #FPO .list-header > div:last-child {
                     text-align: center;
                     width: 10%;
                   }
-                  #FPO .list-header > div:nth-child(5) {
-                    text-align: center;
-                    width: 20%;
-                  }
+
+                  /* body style */
                   #FPO .list-data > div {
                     width: 100%;
                     min-height: 40px;
@@ -169,12 +163,11 @@
                     overflow: hidden;
                     white-space: nowrap;
                   }
-                  #FPO .list-data > div > div:last-child, #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(4), #FPO .list-data > div > div:nth-child(6) {
+                  #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(4), #FPO .list-data > div > div:nth-child(5), #FPO .list-data > div > div:nth-child(6), #FPO .list-data > div > div:nth-child(7), #FPO .list-data > div > div:last-child {
                     width: 10%;
                   }
-                  #FPO .list-data > div > div:nth-child(5) {
-                    width: 20%;
-                  }
+
+                  /* notified price */
                   #FPO .list-data > div input.is-higher {
                     border-color: red;
                   }
@@ -210,6 +203,7 @@
                             <div class="list-header">
                                 <div>Stok</div>
                                 <div>Kuantiti</div>
+                                <div>Kuantiti Masuk</div>
                                 <div>Satuan</div>
                                 <div title="Target Kirim">Target Kirim</div>
                                 <div>Supplier</div>

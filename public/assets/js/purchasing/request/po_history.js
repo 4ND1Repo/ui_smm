@@ -54,13 +54,19 @@ var KTGridPO = function(){
                 title: 'Warna'
             }, {
                 field: 'do_qty',
-                title: 'Kuantiti masuk'
+                title: 'Kuantiti masuk',
+                template: function(row){
+                    return price.format(row.do_qty,2,",",'.');
+                }
             }, {
                 field: 'measure_type',
                 title: 'Satuan'
             }, {
                 field: 'stock_price',
-                title: 'Harga'
+                title: 'Harga',
+                template: function(row){
+                    return price.format(row.stock_price,2,",",'.');
+                }
             }, {
                 field: 'finish_by',
                 title: 'Diselesaikan oleh'
@@ -72,6 +78,24 @@ var KTGridPO = function(){
                   date = tmp[0].split('-');
                   return (tmp.length > 1?(date[2]+"/"+date[1]+"/"+date[0]+' '+tmp[1]):row.po_date);
                 }
+            }, {
+                field: 'action',
+                title: 'Aksi',
+                sortable: false,
+                width: 60,
+                overflow: 'visible',
+                autoHide: false,
+                class: 'text-center',
+                template: function(row) {
+                    var btn = [];
+
+                    btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-print" id="'+row.po_code+'" title="Print PO">\
+                        <i class="la la-print"></i>\
+                    </a>');
+
+                    btn = myGrid.action(btn);
+                    return btn;
+                },
             }]
         );
         myGrid.set('data',{page_code:window.Auth.page});
@@ -83,6 +107,16 @@ var KTGridPO = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+
+                $('.btn-print').click(function(){
+                  var el = this;
+                  var data = {
+                    api: api_url,
+                    nik: window.Auth.nik,
+                    po_code: $(el).attr('id')
+                  };
+                  KTDownload.post(location.href + '/../print', data);
+                });
 
             });
         });

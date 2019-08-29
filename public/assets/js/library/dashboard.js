@@ -114,12 +114,54 @@ var KTChart = function(){
     });
   }
 
+  var activityMotivation = function(){
+    $.ajax({
+      url: api_url + '/api/chart/motivation',
+      type: 'GET',
+      success: function(r){
+        if(r.status){
+          $('.quotes').html(r.data.words);
+          $('.author').html(r.data.author);
+        }
+      }
+    });
+  }
+
+  var activityIncomeStock = function(){
+    $.ajax({
+      url: api_url + '/api/chart/stock/in',
+      type: 'GET',
+      success: function(r){
+        if(r.status){
+          var tmp="";
+          r.data.forEach(function(v,k){
+            tmp += '<div class="kt-widget4__item">\
+              <a href="javascript:;" class="kt-widget4__title kt-widget4__title--light">\
+                '+(v.stock_name+((v.stock_size != null && v.stock_size != "")?" "+v.stock_size:"")+((v.stock_type != null && v.stock_type != "")?" "+v.stock_type:"")+((v.stock_brand != null && v.stock_brand != "")?" "+v.stock_brand:"")+((v.stock_color != null && v.stock_color != "")?" "+v.stock_color:""))+'\
+              </a>\
+              <span class="kt-widget4__number '+(k==0?'kt-font-success':(k==1?'kt-font-warning':(k==2?'kt-font-danger':'kt-font-default')))+'">+'+price.format(v.qty, 0, ',', '.')+'</span>\
+            </div>';
+          });
+          $('.best-income .kt-widget4').html(tmp);
+        }
+      }
+    });
+  }
+
   return {
     init: function(){
       KTChart.stockOut();
+      KTChart.motivation();
+      KTChart.income_stock();
     },
     stockOut: function(){
       activityStockOut();
+    },
+    motivation: function(){
+      activityMotivation();
+    },
+    income_stock: function(){
+      activityIncomeStock();
     }
   };
 }();
