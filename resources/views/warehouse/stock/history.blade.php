@@ -1,3 +1,8 @@
+<style>
+    .datepicker tbody tr > td.day.disabled, .datepicker tbody tr > td span.month.disabled, .datepicker tbody tr > td span.year.disabled {
+        color: #ccc;
+    }
+</style>
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
@@ -25,6 +30,25 @@
                         <i class="la la-long-arrow-left"></i>
                         Kembali
                     </a>
+
+                    <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="la la-download"></i> Export
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__section kt-nav__section--first">
+                                    <span class="kt-nav__section-text">Choose an option</span>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="javascript:;" data-export="excel" data-id="in" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon la la-file-excel-o"></i>
+                                        <span class="kt-nav__link-text">Excel</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,7 +57,7 @@
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
-                    <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
@@ -119,6 +143,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                  <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                      <div class="kt-input-icon kt-input-icon--left">
+                                          <input type="text" class="form-control date-picker" placeholder="Mulai Dari" name="in[start]" readonly>
+                                          <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                      <span><i class="la la-calendar"></i></span>
+                                  </span>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                      <div class="kt-input-icon kt-input-icon--left">
+                                          <input type="text" class="form-control date-picker" placeholder="Sampai" name="in[end]" readonly>
+                                          <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                      <span><i class="la la-calendar"></i></span>
+                                  </span>
+                                      </div>
+                                  </div>
                               </div>
                             </div>
                         </div>
@@ -147,13 +187,35 @@
                     Stok Keluar
                 </h3>
             </div>
+            <div class="kt-portlet__head-toolbar">
+                <div class="kt-portlet__head-wrapper">
+                    <div class="dropdown dropdown-inline">
+                        <button type="button" class="btn btn-default btn-icon-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="la la-download"></i> Export
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <ul class="kt-nav">
+                                <li class="kt-nav__section kt-nav__section--first">
+                                    <span class="kt-nav__section-text">Choose an option</span>
+                                </li>
+                                <li class="kt-nav__item">
+                                    <a href="javascript:;" data-export="excel" data-id="out" class="kt-nav__link">
+                                        <i class="kt-nav__link-icon la la-file-excel-o"></i>
+                                        <span class="kt-nav__link-text">Excel</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="kt-portlet__body">
 
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
-                    <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
@@ -239,6 +301,22 @@
                                         </div>
                                     </div>
                                 </div>
+                                  <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                      <div class="kt-input-icon kt-input-icon--left">
+                                          <input type="text" class="form-control date-picker" placeholder="Mulai Dari" name="out[start]" readonly>
+                                          <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                      <span><i class="la la-calendar"></i></span>
+                                  </span>
+                                      </div>
+                                  </div>
+                                  <div class="col-md-4 kt-margin-b-20-tablet-and-mobile">
+                                      <div class="kt-input-icon kt-input-icon--left">
+                                          <input type="text" class="form-control date-picker" placeholder="Sampai" name="out[end]" readonly>
+                                          <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                      <span><i class="la la-calendar"></i></span>
+                                  </span>
+                                      </div>
+                                  </div>
                               </div>
                             </div>
                         </div>

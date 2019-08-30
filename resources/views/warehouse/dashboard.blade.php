@@ -117,6 +117,7 @@
     font-weight: 300;
     padding: 10px;
     quotes: "”" "“" "‘" "’";
+    margin-bottom: 30px;
   }
   .quotes-header .quotes:before {
     content: open-quote;

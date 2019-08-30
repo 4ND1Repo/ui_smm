@@ -136,13 +136,43 @@ var KTFilterOut = function(){
   };
 }();
 
+var KTDateRange = function(){
+    var dateRange = function(opt){
+        if(typeof opt.elStart !== 'undefined' && typeof opt.elEnd !== 'undefined'){
+            $(opt.elStart).on('changeDate', function(selected) {
+                if($(this).val() != ""){
+                    var startDate = new Date(selected.date.valueOf());
+                    $(opt.elEnd).datepicker('setStartDate', startDate);
+                    if($(opt.elStart).val() > $(opt.elEnd).val()){
+                        $(opt.elEnd).val($(opt.elStart).val());
+                    }
+                }
+            });
+            $(opt.elEnd).on('changeDate', function(selected) {
+                if($(this).val() != ""){
+                    var endDate = new Date(selected.date.valueOf());
+                    $(opt.elStart).datepicker('setEndDate', endDate);
+                    if($(opt.elStart).val() > $(opt.elEnd).val()){
+                        $(opt.elStart).val($(opt.elEnd).val());
+                    }
+                }
+            });
+        }
+    }
+    return {
+        set: function(opt){
+            new dateRange(opt);
+        }
+    };
+}();
+
 
 $(document).ready(function(){
-    myStorage.set('auth');
-    var Auth = JSON.parse(myStorage.get());
-
+    // initiate
     KTFilterIn.init();
     KTFilterOut.init();
+    KTDateRange.set({elStart:'[name="in[start]"]', elEnd:'[name="in[end]"]'});
+    KTDateRange.set({elStart:'[name="out[start]"]', elEnd:'[name="out[end]"]'});
 
     // begin:  history grid
     var gridIn = new myGrids(api_url+'/api/wh/stock/history','#datagrid-history-stock');
@@ -235,6 +265,14 @@ $(document).ready(function(){
 
         $('select[name=stock_daily_use_in]').on('change', function() {
             gridIn.get('datatable').search($(this).val(), 'stock_daily_use');
+        });
+
+        $('input[name="in[start]"]').on('change', function() {
+            gridIn.get('datatable').search($(this).val(), 'start_date');
+        });
+
+        $('input[name="in[end]"]').on('change', function() {
+            gridIn.get('datatable').search($(this).val(), 'end_date');
         });
 
         $.ajax({
@@ -367,6 +405,14 @@ $(document).ready(function(){
         $('select[name=stock_daily_use_out]').on('change', function() {
             gridOut.get('datatable').search($(this).val(), 'stock_daily_use');
         });
+
+        $('input[name="out[start]"]').on('change', function() {
+            gridOut.get('datatable').search($(this).val(), 'start_date');
+        });
+
+        $('input[name="out[end]"]').on('change', function() {
+            gridOut.get('datatable').search($(this).val(), 'end_date');
+        });
     });
 
     gridOut.init();
@@ -374,5 +420,34 @@ $(document).ready(function(){
 
 
 
+    // export Excel
+    $('[data-export=excel]').on('click', function(){
+        var data = {
+            api: api_url,
+            page_code: window.Auth.page,
+            query: {
+                type:$(this).data('id'),
+                find:$('#generalSearch').val(),
+                start_date:$('[name="'+$(this).data('id')+'[start]"]').val(),
+                end_date:$('[name="'+$(this).data('id')+'[end]"]').val(),
+                stock_brand:$('[name=stock_brand_'+$(this).data('id')+']').val(),
+                stock_type:$('[name=stock_type_'+$(this).data('id')+']').val(),
+                stock_size:$('[name=stock_size_'+$(this).data('id')+']').val(),
+                stock_color:$('[name=stock_color_'+$(this).data('id')+']').val(),
+                measure_code:$('[name=measure_code_'+$(this).data('id')+']').val(),
+                stock_daily_use:$('[name=stock_daily_use_'+$(this).data('id')+']').val()
+            }
+        };
+        if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
+            var tmp = {
+                'sort' : {
+                    field: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.field,
+                    sort: $('.kt-datatable th.kt-datatable__cell--sorted')[0].dataset.sort
+                }
+            };
+            Object.assign(data,tmp);
+        }
+        KTDownload.post(base_url + '/' + window.Auth.page + '/export/excel/stk/history', data);
+    });
 
 });
