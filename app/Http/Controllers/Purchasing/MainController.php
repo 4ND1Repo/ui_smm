@@ -99,7 +99,7 @@ class MainController extends Controller{
     public function print_po(Request $r, Views $v){
         $v::page('purchasing.request.po_print');
 
-        $tmp = RestCurl::post($r->get('api')."/api/pur/req/po/print_data", ['po_code' => $r->get('po_code')]);
+        $tmp = RestCurl::post($r->get('api')."/api/pur/req/po/print_data", ['po_code' => $r->get('po_code'), 'supplier_code' => $r->get('supplier_code')]);
         if($tmp->status == 200){
           $nik = RestCurl::post($r->get('api')."/api/account/user/biodata", ['nik' => $r->get('nik')]);
           if($nik->data->status !== 0 && $nik->data->status !== false)
@@ -136,7 +136,7 @@ class MainController extends Controller{
 
         // $pdf = $pdf->output();
         // $pdf->stream();
-        return $pdf->stream($r->get('po_code').'.pdf');
+        return $pdf->stream($r->get('po_code')."_".$r->get('supplier_code').'.pdf');
     }
 
     public function do(Request $r, Views $v){

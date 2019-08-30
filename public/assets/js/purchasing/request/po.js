@@ -270,13 +270,28 @@ var KTGridPO = function(){
                 });
 
                 $('.btn-print').click(function(){
-                  var el = this;
-                  var data = {
+                  var el = this,
+                      data = {
                     api: api_url,
                     nik: window.Auth.nik,
                     po_code: $(el).attr('id')
                   };
-                  KTDownload.post(location.href + '/print', data);
+                  // get supplier collection
+                  $.ajax({
+                      url: api_url+"/api/pur/req/po/supplier",
+                      type: "POST",
+                      data: {po_code:$(el).attr('id')},
+                      success: function(r){
+                          if(r.status){
+                              if(r.data.length > 0){
+                                  r.data.forEach(function(v,k){
+                                      Object.assign(data, {supplier_code:v});
+                                      KTDownload.post(location.href + '/print', data);
+                                  });
+                              }
+                          }
+                      }
+                  });
                 });
 
                 $('.btn-detail').click(function(){
