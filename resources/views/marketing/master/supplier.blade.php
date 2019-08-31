@@ -84,7 +84,7 @@
             <!--begin: Search Form -->
             <div class="kt-form kt-form--label-right">
                 <div class="row align-items-center">
-                    <div class="col-xl-8 order-2 order-xl-1">
+                    <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center">
                             <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
                                 &nbsp;

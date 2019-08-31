@@ -13,7 +13,7 @@
 
     <!--Begin::Section-->
     <div class="row">
-        <div class="col-xl-8 col-md-12 col-sm-12">
+        <div class="col-xl-12 col-md-12 col-sm-12">
 
             <!--begin:: Widgets/Activity-->
             <div class="kt-portlet kt-portlet--fit kt-portlet--head-lg kt-portlet--head-overlay kt-portlet--skin-solid kt-portlet--height-fluid">
