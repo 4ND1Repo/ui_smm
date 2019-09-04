@@ -46,7 +46,7 @@ services:
     ports:
       - "127.0.2.2:1433:1433"
     volumes:
-      - /srv/database/sqlsrv/data:/var/opt/mssql/data
+      - /home/programmer/Work/db/sqlsrv/data:/var/opt/mssql/data
     networks:
       bridge:
         aliases:

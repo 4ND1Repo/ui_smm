@@ -196,6 +196,10 @@ if ($response->status == 200) {
                 });
             });
 
+            // About Page
+            Route::get('about', 'General\MainController@about');
+            Route::get('about/vid/{id}', 'General\MainController@get_video');
+
         });
     }
 }

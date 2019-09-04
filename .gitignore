@@ -29,6 +29,12 @@ app/Http/Controllers/Auth
 !public/assets/*/*/*/*/*/*/*
 !public/assets/*/*/*/*/*/*/*/*
 !public/assets/*/*/*/*/*/*/*/*/*
+!public/tutorial
+!public/tutorial/*
+!public/tutorial/*/*
+!public/video
+!public/video/*
+!public/video/*/*
 !routes
 !routes/web.php
 !resources

@@ -33,7 +33,8 @@ class Views{
             'line-awesome' => 'vendors/custom/vendors/line-awesome/css/line-awesome.css',
             'flaticon' => 'vendors/custom/vendors/flaticon/flaticon.css',
             'flaticon2' => 'vendors/custom/vendors/flaticon2/flaticon.css',
-            'fontawesome' => 'vendors/general/@fortawesome/fontawesome-free/css/all.min.css'
+            'fontawesome' => 'vendors/general/@fortawesome/fontawesome-free/css/all.min.css',
+            'plyr' => 'vendors/custom/plyr/dist/plyr.css'
         ],
         'js_mandatory' => [
             'jquery' => 'vendors/general/jquery/dist/jquery.js',
@@ -102,7 +103,8 @@ class Views{
             'face-api' => 'vendors/custom/faceapi/face-api.js',
             'bundle' => 'js/demo1/scripts.bundle.js',
             'auth' => 'js/authentication/auth.js',
-            'my-library' => 'js/library/all-library.js'
+            'my-library' => 'js/library/all-library.js',
+            'plyr' => 'vendors/custom/plyr/dist/plyr.js'
         ]
     ];
 
