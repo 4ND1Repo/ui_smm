@@ -116,7 +116,7 @@ class RequestController extends Controller{
             foreach ($dataDetail->data->data->request_tools_detail as $k => $rowDetail) {
               $row = (array) $rowDetail;
               // content data
-              $index += $k + 1;
+              $index += 1;
               foreach ($detailData as $l => $rows) {
                 $col = ExcelHelper::getColumn('B', $l);
                 $cellRow = (($startRow+1)+$i+$index);
@@ -244,7 +244,7 @@ class RequestController extends Controller{
             foreach ($dataDetail->data->data->purchase_order_detail as $k => $rowDetail) {
               $row = (array) $rowDetail;
               // content data
-              $index += $k + 1;
+              $index += 1;
               foreach ($detailData as $l => $rows) {
                 $col = ExcelHelper::getColumn('B', $l);
                 $cellRow = (($startRow+1)+$i+$index);
@@ -371,7 +371,7 @@ class RequestController extends Controller{
             foreach ($dataDetail->data->data->purchase_order_detail as $k => $rowDetail) {
               $row = (array) $rowDetail;
               // content data
-              $index += $k + 1;
+              $index += 1;
               foreach ($detailData as $l => $rows) {
                 $col = ExcelHelper::getColumn('B', $l);
                 $cellRow = (($startRow+1)+$i+$index);
@@ -501,7 +501,7 @@ class RequestController extends Controller{
             foreach ($dataDetail->data->data->purchase_order_detail as $k => $rowDetail) {
               $row = (array) $rowDetail;
               // content data
-              $index += $k + 1;
+              $index += 1;
               foreach ($detailData as $l => $rows) {
                 $col = ExcelHelper::getColumn('B', $l);
                 $cellRow = (($startRow+1)+$i+$index);

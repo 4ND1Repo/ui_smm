@@ -420,6 +420,11 @@ $(document).ready(function(){
         });
         stockAutocomplete.typeahead('val',data[0]);
     });
+    $('#FBorrow .typeahead').on('keyup', function(e) {
+        if(e.which == 13) {
+            $(".tt-suggestion:first-child", this).trigger('click');
+        }
+    });
 
 
     // autocomplete

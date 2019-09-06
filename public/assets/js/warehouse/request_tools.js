@@ -594,6 +594,7 @@ $(document).ready(function(){
     stockAutocomplete = $('input[name=stock_name].autocomplete').typeahead(null, {
         name: 'stock_name',
         limit: 100,
+        autoselect: true,
         source: function(query,psc){
             $.ajax({
                 url: api_url+'/api/wh/stock/autocomplete',
@@ -645,6 +646,11 @@ $(document).ready(function(){
             $('.request_tools input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
+    });
+    $('#FReqtools .typeahead').on('keyup', function(e) {
+        if(e.which == 13) {
+            $(".tt-suggestion:first-child", this).trigger('click');
+        }
     });
 
 

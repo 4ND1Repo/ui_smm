@@ -648,6 +648,11 @@ $(document).ready(function(){
             }
         });
     });
+    $('#listStockModal .typeahead').on('keyup', function(e) {
+        if(e.which == 13) {
+            $(".tt-suggestion:first-child", this).trigger('click');
+        }
+    });
 
     // form masking
     $("input[name=stock_min_qty],input[name=stock_max_qty]").inputmask('decimal', {

@@ -352,7 +352,7 @@ $(document).ready(function(){
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection].id+']" placeholder="Kuantiti" value="'+map[selection].need+'"></div>';
         tmpHtml += '<div class="text-center">'+data[5]+'</div>';
-        tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"></div>';
+        tmpHtml += '<div style="position:relative; overflow:visible;"><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"><span style="position:absolute; right:-15px; top:6px;" onclick="$(this).parent().parent().remove();"><i class="fa fa-trash-alt"></i></span></span></div>';
         tmpHtml += '</div>';
 
         if($('#FPO').find("div[id='"+map[selection].id+"']").length > 0){
@@ -372,6 +372,11 @@ $(document).ready(function(){
             KTFormPO.rules('input[name="data['+map[selection].id+']"]');
         }
         stockAutocomplete.typeahead('val','');
+    });
+    $('#addPo .typeahead').on('keyup', function(e) {
+        if(e.which == 13) {
+            $(".tt-suggestion:first-child", this).trigger('click');
+        }
     });
 
 

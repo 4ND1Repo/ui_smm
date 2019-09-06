@@ -46,13 +46,13 @@
     <div class="kt-quick-panel__nav">
         <ul class="nav nav-tabs nav-tabs-line nav-tabs-bold nav-tabs-line-3x nav-tabs-line-brand  kt-notification-item-padding-x" role="tablist">
             <li class="nav-item active">
-                <a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_tab_my_complaint" role="tab">Komplain Saya</a>
+                <a class="nav-link active" data-toggle="tab" href="#kt_quick_panel_tab_my_complaint" role="tab">Pesan</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint" role="tab">Komplain</a>
+                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint" role="tab">Pengumuman</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint_me" role="tab">Komplain Ke Saya</a>
+                <a class="nav-link" data-toggle="tab" href="#kt_quick_panel_tab_complaint_me" role="tab">Pesan Masuk</a>
             </li>
         </ul>
     </div>
@@ -73,8 +73,8 @@
                         <div class="form-group form-group-sm">
                           <select name="complaint_type" class="form-control form-control-sm">
                             <option value="CMPT001">Biasa</option>
-                            <option value="CMPT002">Sedang</option>
-                            <option value="CMPT003">Berat</option>
+                            <option value="CMPT002">Peringatan</option>
+                            <option value="CMPT003">Penting</option>
                           </select>
                         </div>
                       </div>

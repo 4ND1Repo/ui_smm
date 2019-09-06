@@ -23,6 +23,9 @@ API::check_env();
 Route::get('/', function () {
     return redirect('auth/login');
 });
+Route::get('print/label', function () {
+    return view('template.label');
+});
 
 Route::post('temp', function () {
     $tmp_files = storage_path() . '/temp_' . $_POST['id'];
@@ -115,6 +118,8 @@ if ($response->status == 200) {
                 Route::get('opname', 'Warehouse\MainController@opname');
                 // Pricing list stock
                 Route::get('pricing', 'Warehouse\MainController@pricing');
+                // Pricing list stock
+                Route::get('barcode', 'Warehouse\MainController@barcode');
             });
 
             // Request group
