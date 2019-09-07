@@ -25,7 +25,7 @@
                         Kembali
                     </a>
 
-                    <button type="button" class="btn btn-default btn-icon-sm">
+                    <button type="button" class="btn btn-default btn-icon-sm btn-print">
                         <i class="la la-print"></i> Print
                     </button>
                 </div>
@@ -59,10 +59,10 @@
                     border-radius: 8px;
                 }
                 </style>
-                <form id="Fbarcode" method="POST">
+                <form id="Fbarcode" method="POST" target="_blank">
                     <div class="grid-container">
                         @for($i=0;$i < 40;$i++)
-                        <div class="grid-list" data-id="barcode_{{$i}}"><input type="hidden" name="barcode[{{$i}}]" value=""><div>Tidak Ada Barcode</div></div>
+                        <div class="grid-list" data-id="barcode_{{$i}}"><input type="hidden" name="barcode[{{$i}}][stock_code]" value=""><input type="hidden" name="barcode[{{$i}}][label]" value=""><div>Tidak Ada Barcode</div></div>
                         @endfor
                     </div>
                 </form>
@@ -73,14 +73,13 @@
 
 <style>
     .popup-search {
-        width: 250px;
-        position: fixed;
-        bottom: 0;
+        width: 180px;
+        position: absolute;
         background: white;
-        border-radius: 8px 8px 0 0;
+        border-radius: 8px;
         box-shadow: 0 -4px 5px grey;    
         padding: 8px;
-        left: 50%;
+        display: none;
     }
     .btn-full {
         width: 100%;
@@ -90,8 +89,8 @@
     }
 </style>
 <div class="popup-search">
-    <div class="form-group no-margin">
+    <div class="form-group no-margin typeahead">
         <input type="text" id="find-goods" class="form-control form-control-sm">
-        <button type="button" class="btn btn-danger btn-sm btn-full">Batalkan</button>
+        <button type="button" class="btn btn-danger btn-sm btn-full btn-cancel">Batalkan</button>
     </div>
 </div>

@@ -104,7 +104,8 @@ class Views{
             'bundle' => 'js/demo1/scripts.bundle.js',
             'auth' => 'js/authentication/auth.js',
             'my-library' => 'js/library/all-library.js',
-            'plyr' => 'vendors/custom/plyr/dist/plyr.js'
+            'plyr' => 'vendors/custom/plyr/dist/plyr.js',
+            'jsbarcode' => 'vendors/custom/jsbarcode/JsBarcode.all.min.js'
         ]
     ];
 

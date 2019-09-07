@@ -47,7 +47,7 @@
             <div class="kt-portlet kt-portlet--fit kt-portlet--body-lg kt-portlet--body-overlay kt-portlet--skin-solid height-full">
                 <div class="kt-portlet__body kt-portlet__body--noborder kt-portlet__space-x height-full">
                     <video id="player" playsinline controls>
-                        <source src="http://smm.co.id/public/video/MARS_SMM.mp4" type="video/mp4" />
+                        <source src="{{URL::to('/public/video/MARS_SMM.mp4')}}" type="video/mp4" />
                     </video>
                 </div>
             </div>

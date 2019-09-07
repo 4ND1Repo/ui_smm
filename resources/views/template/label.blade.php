@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Print Barcode</title>
+    <script src="{{URL::to('public/assets/vendors/custom/jsbarcode/JsBarcode.all.min.js')}}"></script>
 </head>
 <body>
 <style>
@@ -27,55 +28,29 @@
         text-transform: uppercase;
         padding: 4px 6px;
     }
-    .container .container-row .template-label span {
+    .container .container-row .template-label div {
         font-size: 9px;
     }
-    .container .container-row .template-label img {
+    .container .container-row .template-label img, .container .container-row .template-label svg {
         width: 100%;
     }
 </style>
     <div class="container">
         <div class="container-row">
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
-            <div class="template-label"><span>Bearing - 10293 - 1" - FAG</span><img src="{{URL::to('public/br.png')}}" /></div>
+            @for($i=0;$i < 40;$i++)
+            <div class="template-label"><div>{!!urldecode($data['barcode'][$i]['label'])!!}</div><svg id="barcode_{{$i}}"></svg></div>
+            @if(!is_null($data['barcode'][$i]['stock_code']) && !empty($data['barcode'][$i]['stock_code']))
+            <script>
+                JsBarcode("#barcode_{{$i}}", "{{$data['barcode'][$i]['stock_code']}}", {
+                    format: "CODE128",
+                    width: 1,
+                    height: 25,
+                    fontSize: 10,
+                    margin: 1
+                });
+            </script>
+            @endif
+            @endfor
         </div>
     </div>
 </body>
