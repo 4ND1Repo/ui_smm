@@ -654,13 +654,37 @@ var KTNotification = function(){
         target_icon = '.kt-header__topbar-icon',
         target_notif = '#topbar_notifications_notifications .kt-notification';
 
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": false,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    };
+
     $.ajax({
       url: el.link,
       type: 'POST',
       data: {nik:window.Auth.nik,init:(typeof t.init !== 'undefined'?1:0)},
       success: function(r){
+        var data = r.data;
+        if(data.unread > 0){
+          $('.info-notif .kt-notification-badge').remove();
+          $('.info-notif').prepend('<span class="kt-notification-badge kt-badge kt-badge--success kt-badge--inline kt-badge--pill">'+(data.unread > 99?99:data.unread)+'</span>');
+        } else
+          $('.info-notif .kt-notification-badge').remove();
+
         if(r.status){
-          var data = r.data;
           if(data.count > 0 || (typeof t.init !== 'undefined')){
             $.each(data.content, function(k,v){
               var tmp = '<a href="'+(v.notification_url !== null?v.notification_url:"javascript:void(0);")+'" target="_self" data-id="'+v.notification_id+'" class="kt-notification__item'+(v.notification_read==1?' kt-notification__item--read':'')+'">\
@@ -677,6 +701,10 @@ var KTNotification = function(){
               $(target_notif).prepend(tmp);
               $(target_notif+' a[data-id="'+v.notification_id+'"] .kt-notification__item-time').timeago();
               $(target_notif+' a[data-id="'+v.notification_id+'"] [data-toggle="kt-tooltip"]').tooltip();
+
+              // toaster
+              if(v.notification_read==0)
+                toastr.info(((v.notification_title!=null?v.notification_title+" : ":"")+v.notification_content));
 
 
               // stop propagation
@@ -696,6 +724,7 @@ var KTNotification = function(){
                 e.stopPropagation()
               });
             });
+
             if($(target_notif).find('.kt-notification__item--read').length < $(target_notif+' a').length){
               // if(! $(target_icon).hasClass('kt-pulse')){
                 $(target_icon).addClass('kt-pulse kt-pulse--brand');
@@ -1049,6 +1078,10 @@ $(document).ready(function(){
 
     $('a[href="#kt_quick_panel_tab_complaint"]').click(function(){
       KTComplaintLoad.complaint();
+    });
+
+    $('a[href="#kt_quick_panel_tab_complaint_me"]').click(function(){
+      KTComplaintLoad.complaintme();
     });
 
     // autocomplete for complaint_to

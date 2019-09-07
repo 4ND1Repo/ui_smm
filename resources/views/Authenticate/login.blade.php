@@ -47,16 +47,16 @@
                         <!--begin::Form-->
                         <form class="kt-form" action="" novalidate="novalidate">
                             <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Email" name="u" autocomplete="off">
+                                <input class="form-control" type="text" placeholder="NIK" name="u" autocomplete="off">
                             </div>
                             <div class="form-group">
-                                <input class="form-control" type="password" placeholder="Password" name="p">
+                                <input class="form-control" type="password" placeholder="Kata Sandi" name="p">
                             </div>
 
                             <!--begin::Action-->
                             <div class="kt-login__actions">
                                 <a href="javascript:void(0)" class="kt-link kt-login__link-forgot">
-                                    Lupa Kata Sandi
+                                    &nbsp;
                                 </a>
                                 <button id="kt_login_signin_submit" class="btn btn-primary btn-elevate kt-login__btn-primary">Masuk</button>
                             </div>

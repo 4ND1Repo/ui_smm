@@ -105,6 +105,14 @@ var KTGridPO = function(){
             });
             $('select[name=status]').selectpicker();
 
+            $('input[name="in[start]"]').on('change', function() {
+                myGrid.element().search($(this).val(), 'start_date');
+            });
+    
+            $('input[name="in[end]"]').on('change', function() {
+                myGrid.element().search($(this).val(), 'end_date');
+            });
+
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
 
@@ -148,9 +156,40 @@ var KTGridPO = function(){
     }
 }();
 
+var KTDateRange = function(){
+    var dateRange = function(opt){
+        if(typeof opt.elStart !== 'undefined' && typeof opt.elEnd !== 'undefined'){
+            $(opt.elStart).on('changeDate', function(selected) {
+                if($(this).val() != ""){
+                    var startDate = new Date(selected.date.valueOf());
+                    $(opt.elEnd).datepicker('setStartDate', startDate);
+                    if($(opt.elStart).val() > $(opt.elEnd).val()){
+                        $(opt.elEnd).val($(opt.elStart).val());
+                    }
+                }
+            });
+            $(opt.elEnd).on('changeDate', function(selected) {
+                if($(this).val() != ""){
+                    var endDate = new Date(selected.date.valueOf());
+                    $(opt.elStart).datepicker('setEndDate', endDate);
+                    if($(opt.elStart).val() > $(opt.elEnd).val()){
+                        $(opt.elStart).val($(opt.elEnd).val());
+                    }
+                }
+            });
+        }
+    }
+    return {
+        set: function(opt){
+            new dateRange(opt);
+        }
+    };
+}();
+
 $(document).ready(function(){
     // initiate
     KTGridPO.init();
+    KTDateRange.set({elStart:'[name="in[start]"]', elEnd:'[name="in[end]"]'});
 
     // export excel
     $('[data-export=excel]').on('click', function(){
@@ -162,6 +201,12 @@ $(document).ready(function(){
           status:$('.filter [name=status]').val()
         }
       };
+
+      if($('[name="in[start]"]').val() != "")
+        Object.assign(data.query, {start_date:$('[name="in[start]"]').val()});
+      if($('[name="in[end]"]').val() != "")
+        Object.assign(data.query, {end_date:$('[name="in[end]"]').val()});
+
       if($('.kt-datatable th.kt-datatable__cell--sorted').length > 0){
         var tmp = {
             'sort' : {

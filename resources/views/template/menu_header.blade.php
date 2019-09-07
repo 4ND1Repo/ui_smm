@@ -10,11 +10,18 @@
 
     <!-- begin:: Header Topbar -->
     <div class="kt-header__topbar">
+        <style>
+            .kt-notification-badge {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        </style>
 
         <!--begin: Notifications -->
         <div class="kt-header__topbar-item dropdown">
             <div class="kt-header__topbar-wrapper" data-toggle="dropdown" data-offset="30px,0px" aria-expanded="true">
-                <span class="kt-header__topbar-icon">
+                <span class="kt-header__topbar-icon info-notif">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
                         <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                             <rect id="bound" x="0" y="0" width="24" height="24" />

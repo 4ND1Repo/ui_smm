@@ -72,14 +72,28 @@
                 <div class="row align-items-center">
                     <div class="col-xl-12 order-2 order-xl-1">
                         <div class="row align-items-center filter">
-                            <div class="col-md-6 kt-margin-b-20-tablet-and-mobile">
-                                &nbsp;
-                            </div>
                             <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
                                 <div class="kt-input-icon kt-input-icon--left">
                                     <input type="text" class="form-control" placeholder="Search..." id="generalSearch" name="find">
                                     <span class="kt-input-icon__icon kt-input-icon__icon--left">
                                         <span><i class="la la-search"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input type="text" class="form-control date-picker" placeholder="Mulai Dari" name="in[start]" readonly>
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                        <span><i class="la la-calendar"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-md-3 kt-margin-b-20-tablet-and-mobile">
+                                <div class="kt-input-icon kt-input-icon--left">
+                                    <input type="text" class="form-control date-picker" placeholder="Sampai" name="in[end]" readonly>
+                                    <span class="kt-input-icon__icon kt-input-icon__icon--left">
+                                        <span><i class="la la-calendar"></i></span>
                                     </span>
                                 </div>
                             </div>
@@ -90,7 +104,7 @@
                                     </div>
                                     <div class="kt-form__control">
                                         <select class="form-control bootstrap-select" name='status'>
-                                            <option value="">All</option>
+                                            <option value="">Semua</option>
                                             <option value="ST05">Selesai</option>
                                             <option value="ST09">Dibatalkan</option>
                                         </select>
