@@ -310,7 +310,8 @@ class MainController extends Controller{
         ['title' => 'Telepon', 'field' => 'supplier_phone', 'width' => 16, 'style' => 'center'],
         ['title' => 'Alamat', 'field' => 'supplier_address', 'width' => 24, 'style' => 'left'],
         ['title' => 'Kota', 'field' => 'city_name', 'width' => 16, 'style' => 'center'],
-        ['title' => 'Kategori', 'field' => 'supplier_category', 'width' => 10, 'style' => 'center']
+        ['title' => 'Kategori', 'field' => 'supplier_category', 'width' => 10, 'style' => 'center'],
+        ['title' => 'NPWP', 'field' => 'supplier_npwp', 'width' => 20, 'style' => 'center']
       ];
 
       // config Header

@@ -511,6 +511,28 @@ var KTForm = function(){
   }
 }();
 
+var Dates = function(){
+  var _convert = function(t,d){
+    var tmp = null;
+    if(t == 'id'){
+      tmp = d.split(' ');
+      console.log(typeof tmp);
+      if(typeof tmp == 'object')
+        tmp = tmp[0].split('-');
+      else
+        tmp = tmp.split('-');
+
+      return tmp[2]+"/"+tmp[1]+"/"+tmp[0];
+    }
+  }
+
+  return {
+    indonesia: function(d){
+      return _convert('id',d);
+    }
+  };
+}();
+
 var KTComplaintLoad = function(){
   var proccess = function(el){
     $.ajax({
@@ -574,7 +596,7 @@ var KTComplaintLoad = function(){
     complaint: function(){
       this['id'] = '#complaint-list .kt-timeline-v2__items';
       this['link'] = api_url+'/api/mng/user/complaint/infinite/0';
-      this['data'] = {length:10};
+      this['data'] = {length:10,info:1};
       this['fn'] = function(r){
         if(r.status){
           r.data.content.forEach(function(v,k){
@@ -592,7 +614,7 @@ var KTComplaintLoad = function(){
                   <i class="fa fa-genderless '+icon[v.complaint_type]+'"></i>\
                   </div>\
                   <div class="kt-timeline-v2__item-text  kt-padding-top-5">\
-                  '+(v.complaint_anonymous==0?v.create_by:"*****")+' ('+t[0]+')'+' :<br/>'+v.complaint_description+'\
+                  '+(v.complaint_anonymous==0?v.create_by:"*****")+' ('+Dates.indonesia(t[0])+')'+' :<br/>'+v.complaint_description+'\
                   </div>\
                   </div>';
             $('#complaint-list .kt-timeline-v2__items').append(tmp);
@@ -629,7 +651,7 @@ var KTComplaintLoad = function(){
                   <i class="fa fa-genderless '+icon[v.complaint_type]+'"></i>\
                   </div>\
                   <div class="kt-timeline-v2__item-text  kt-padding-top-5">\
-                  '+(v.complaint_anonymous==0?v.create_by:"*****")+' ('+t[0]+')'+' :<br/>'+v.complaint_description+'\
+                  '+(v.complaint_anonymous==0?v.create_by:"*****")+' ('+Dates.indonesia(t[0])+')'+' :<br/>'+v.complaint_description+'\
                   </div>\
                   </div>';
             $('#complaint-list-me .kt-timeline-v2__items').append(tmp);
@@ -881,6 +903,36 @@ var KTDownload = function(){
   };
 }();
 
+var KTIdleTimer = function(){
+  var _idle_process = function(){
+    var idleInterval = setInterval(function(){
+      window.idle_timer = window.idle_timer + 1;
+      console.log(window.idle_timer);
+      if (window.idle_timer >= window.idle_stop) {
+        myStorage.set('auth');
+        myStorage.delete();
+        if(myStorage.get()==null)
+            window.location = base_url;
+      }
+    }, 60000);
+    
+    $(document).mousemove(function (e) {
+      window.idle_timer = 0;
+    });
+    $(document).keypress(function (e) {
+      window.idle_timer = 0;
+    });
+  }
+
+  return {
+    init: function(){
+      window.idle_timer = 0;
+      window.idle_stop = 60;
+      _idle_process();
+    }
+  };
+}();
+
 
 
 
@@ -1001,6 +1053,7 @@ $(document).ready(function(){
     KTNotification.init({
       link: api_url+'/api/mng/user/notification'
     });
+    KTIdleTimer.init();
 
     // form validation for complaint
     var cmpt = new KTForm.init({
@@ -1030,7 +1083,7 @@ $(document).ready(function(){
                       $.ajax({
                         url: api_url+'/api/mng/user/notification/add',
                         type: 'POST',
-                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Ada komplain untuk anda', notification_icon: "fa fa-bullhorn kt-font-warning"},
+                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Ada pesan untuk anda', notification_icon: "fa fa-bullhorn kt-font-warning"},
                         success: function(r){
                           console.log(r);
                         }

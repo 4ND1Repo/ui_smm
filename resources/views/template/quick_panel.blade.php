@@ -83,7 +83,7 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group form-group-sm">
-                          <textarea rows='4' class="form-control form-control-sm" name="complaint_description" placeholder="Isi Komplain"></textarea>
+                          <textarea rows='4' class="form-control form-control-sm" name="complaint_description" placeholder="Isi Pesan"></textarea>
                         </div>
                       </div>
                     </div>
@@ -92,14 +92,14 @@
                       <div class="col-sm-12">
                         <div class="form-group form-group-sm float-left">
                           <div class="kt-checkbox-list">
-                            <label class="kt-checkbox kt-checkbox--warning">
-                              <input type="checkbox" name="complaint_anonymous" value="1"> User Anonim
+                            <label class="kt-checkbox kt-checkbox--info">
+                              <input type="checkbox" name="complaint_anonymous" value="1"> Sembunyikan
                               <span></span>
                             </label>
                           </div>
                         </div>
                         <div class="form-group form-group-sm float-right">
-                          <input type="submit" class="btn btn-sm btn-wide btn-outline-warning" value="Kirim">
+                          <input type="submit" class="btn btn-sm btn-wide btn-outline-info" value="Kirim">
                         </div>
                       </div>
                     </div>

@@ -140,7 +140,7 @@
                 <form class="kt-form" id="FSupplier">
                     <div class="row validated">
                         <div class="col-md-6">
-                            <div class="form-group">
+                            <div class="form-group kt-hidden">
                                 <label>Kode Supplier</label>
                                 <input type="text" name="supplier_code" class="form-control" placeholder="Generate otomatis" readonly>
                             </div>
@@ -152,12 +152,12 @@
                                 <label>Telepon Supplier</label>
                                 <input type="text" tabindex="2" name="supplier_phone" class="form-control" placeholder="Isian nomor telepon supplier">
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Alamat Supplier</label>
                                 <input type="text" tabindex="3" name="supplier_address" class="form-control" placeholder="Isian alamat supplier">
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label>Kota Supplier</label>
                                 <select tabindex="4" class="form-control" name="city_code" id="city_code"></select>
@@ -166,13 +166,17 @@
                                 <label>Kategori</label>
                                 <input type="text" tabindex="5" name="supplier_category" class="form-control" placeholder="Isian kategori supplier">
                             </div>
+                            <div class="form-group">
+                                <label>NPWP</label>
+                                <input type="text" tabindex="6" name="supplier_npwp" class="form-control" placeholder="Isian NPWP supplier">
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" tabindex="7" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
-                <button type="button" tabindex="6" class="btn btn-primary btn-submit">Simpan</button>
+                <button type="button" tabindex="8" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="7" class="btn btn-primary btn-submit">Simpan</button>
             </div>
         </div>
     </div>

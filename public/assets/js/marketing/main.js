@@ -26,6 +26,9 @@ var KTValidationForm = function(){
                     required: true,
                     minlength: 3,
                     maxlength: 10
+                },
+                supplier_npwp: {
+                    required: true
                 }
             },
 
@@ -156,6 +159,9 @@ jQuery(document).ready(function () {
         }, {
             field: 'supplier_category',
             title: 'Kategori',
+        }, {
+            field: 'supplier_npwp',
+            title: 'NPWP',
         }, {
             field: 'status_label',
             title: 'Status',
