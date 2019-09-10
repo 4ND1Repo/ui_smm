@@ -325,19 +325,19 @@ var KTGridRequestTools = function(){
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-                    var btn = '';
+                    var btn = [];
                     if(window.role.edit == 1)
-                        btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.req_tools_code+'" title="Detail data">\
+                        btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.req_tools_code+'" title="Detail data">\
                             <i class="la la-search-plus"></i>\
-                        </a>';
+                        </a>');
 
                     if(window.role.del == 1){
                         if(row.finish_by == null)
-                            btn += '<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.req_tools_code+'" title="Hapus">\
+                            btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.req_tools_code+'" title="Hapus">\
                             <i class="la la-trash"></i>\
-                            </a>';
+                            </a>');
                     }
-                    return btn;
+                    return myGrid.action(btn);
                 },
             }]
         );
@@ -789,11 +789,11 @@ $(document).ready(function(){
 
 
     var tmpHtml = '',
-        targetListPo= '#addPo .list-body';
+        targetListPo= '#addPo .po-table';
     $('#addPo').on('show.bs.modal', function(){
       $.each(window.po, function(k,v){
         // data add from stock
-        tmpHtml = '<div id="'+v.main_stock_code+'">';
+        tmpHtml = '<div class="po-row data" id="'+v.main_stock_code+'">';
         // detail stock
         tmpHtml += '<div>';
         tmpHtml += v.stock_code+' - ';
@@ -806,6 +806,12 @@ $(document).ready(function(){
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+v.main_stock_code+']" placeholder="Kuantiti" value="'+v.need_qty+'"></div>';
         tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.main_stock_code+']" placeholder="Keterangan"></div>';
+        tmpHtml += '<div style="position:relative"><div class="kt-checkbox-list" style="width:20px; position:absolute; left: calc(50% - 10px); top: calc(50% - 10px);">\
+                <label class="kt-checkbox">\
+                    <input type="checkbox" tabindex="10" value="1" name="urgent['+v.main_stock_code+']">&nbsp;\
+                    <span></span>\
+                </label>\
+            </div></div>';
         tmpHtml += '</div>';
         $(targetListPo).append(tmpHtml);
         KTFormPO.rules('input[name="data['+v.main_stock_code+']"]');
@@ -815,7 +821,7 @@ $(document).ready(function(){
       });
     });
     $('#addPo').on('hide.bs.modal', function(){
-      $(targetListPo).html('');
+      $(targetListPo+" .data").remove();
     });
     $('#addPo .btn-submit').on('click', function(){
       $('#FPO').submit();

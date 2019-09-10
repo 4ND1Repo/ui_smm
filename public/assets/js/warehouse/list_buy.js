@@ -152,11 +152,11 @@ $(document).ready(function(){
             field: 'stock_size',
             title: 'Ukuran'
         }, {
-            field: 'stock_brand',
-            title: 'Merek'
-        }, {
             field: 'stock_type',
             title: 'Tipe'
+        }, {
+            field: 'stock_brand',
+            title: 'Merek'
         }, {
             field: 'stock_color',
             title: 'Warna',
@@ -336,20 +336,28 @@ $(document).ready(function(){
         var nodes = myGrid.element().rows('tr[data-row].kt-datatable__row.kt-datatable__row--active').nodes();
         $.each(nodes, function(k,v){
             var tmpHtml = '';
-            tmpHtml += '<div>';
+            tmpHtml += '<div class="po-row data">';
             // detail stock
             tmpHtml += '<div>';
-            tmpHtml += $(v).children("td:nth-child(3)").text()+' - ';
-            tmpHtml += $(v).children("td:nth-child(5)").text()+' - ';
-            tmpHtml += $(v).children("td:nth-child(6)").text()+' - ';
-            tmpHtml += $(v).children("td:nth-child(7)").text();
-            if($(v).children("td:nth-child(7)").text() !== "")
-              tmpHtml += ' (' + $(v).children("td:nth-child(7)").text() + ')';
+            tmpHtml += '('+$(v).children("td:nth-child(3)").text()+') ';
+            tmpHtml += $(v).children("td:nth-child(5)").text();
+            tmpHtml += ($(v).children("td:nth-child(6)").text()!==''?' '+$(v).children("td:nth-child(6)").text():'');
+            tmpHtml += ($(v).children("td:nth-child(7)").text()!==''?' '+$(v).children("td:nth-child(7)").text():'');
+            tmpHtml += ($(v).children("td:nth-child(8)").text()!==''?' '+$(v).children("td:nth-child(8)").text():'');
+            tmpHtml += ($(v).children("td:nth-child(9)").text()!==''?' '+$(v).children("td:nth-child(9)").text():'');
             tmpHtml += '</div>';
             // input qty
             tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+$(v).find(":checked").val()+']" placeholder="Kuantiti" value="'+($(v).children("td:nth-child(12)").text().replace('.','')).replace(',','.')+'"></div>';
+            tmpHtml += '<div>'+(($(v).children("td:nth-child(10)").text()).split(' - '))[1]+'</div>';
+            tmpHtml += '<div><input type="text" class="form-control form-control-sm" name="notes['+$(v).find(":checked").val()+']" placeholder="Keterangan" value=""></div>';
+            tmpHtml += '<div style="position:relative"><div class="kt-checkbox-list" style="width:20px; position:absolute; left: calc(50% - 10px); top: calc(50% - 10px);">\
+                    <label class="kt-checkbox">\
+                        <input type="checkbox" tabindex="10" value="1" name="urgent['+$(v).find(":checked").val()+']">&nbsp;\
+                        <span></span>\
+                    </label>\
+                </div></div>';
             tmpHtml += '</div>';
-            $('#FPO .list-body').append(tmpHtml);
+            $('#FPO .po-table').append(tmpHtml);
 
             KTFormPO.rules('input[name="data['+$(v).find(":checked").val()+']"]');
         });
@@ -359,7 +367,7 @@ $(document).ready(function(){
     });
 
     $("#addPO").on('hide.bs.modal', function(){
-      $('#FPO .list-body').html('');
+      $('#FPO .po-table .data').remove();
     });
 
     // submit form PO

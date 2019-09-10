@@ -280,62 +280,47 @@
             </div>
             <div class="modal-body">
                 <style media="screen">
-                  #FPO .list-header, #FPO .list-body {
-                    display: block;
+                  .po-table {
+                      display: table;
                   }
-                  #FPO .list-header {
-                    min-height: 30px;
-                    border-bottom: 1px solid #999;
-                    margin-bottom: 6px;
+                  .po-table > .po-row {
+                        display: table-row;
                   }
-                  #FPO .list-header > div {
-                    float: left;
-                    font-weight: bold;
-                    width: 30%;
+                  .po-table > .po-row > div {
+                    display: table-cell;
+                    border-bottom: 1px dashed grey;
+                    padding: 4px;
                   }
-                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3) {
-                    text-align: center;
-                    width: 20%;
+                  .po-table > .po-row:first-child > div {
+                      border-bottom: 1px solid grey;
+                      font-weight: bold;
                   }
-                  #FPO .list-header > div:nth-child(4) {
-                    text-align: center;
-                    width: 10%;
+                  .po-table > .po-row:nth-child(2) > div {
+                      padding-top: 10px;
                   }
-                  #FPO .list-header > div:last-child {
-                    text-align: center;
-                    width: 20%;
+                  .po-table > .po-row > div:first-child {
+                      width: 40%;
                   }
-                  #FPO .list-body > div {
-                    width: 100%;
-                    min-height: 40px;
+                  .po-table > .po-row > div:nth-child(3) {
+                      width: 100px;
+                      text-align: center;
                   }
-                  #FPO .list-body > div > div {
-                    width: 30%;
-                    float: left;
-                  }
-                  #FPO .list-body > div > div:nth-child(2), #FPO .list-body > div > div:nth-child(3) {
-                    width: 20%;
-                  }
-                  #FPO .list-body > div > div:nth-child(4) {
-                    width: 10%;
-                    text-align: center;
-                  }
-                  #FPO .list-body > div > div:last-child {
-                    width: 20%;
-                    text-align: center;
+                  .po-table > .po-row > div:last-child {
+                      width: 70px;
+                      text-align: center;
                   }
                 </style>
                 <form class="kt-form" id="FPO">
                     <div class="row validated">
-                        <div class="col-md-12">
-                            <div class="list-header">
-                                <div>Stok</div>
+                        <div class="col-md-12 po-table">
+                            <div class="list-header po-row">
+                                <div>Barang</div>
                                 <div>Tanggal Terima</div>
                                 <div>Kuantiti</div>
                                 <div>Satuan</div>
                                 <div>Keterangan</div>
+                                <div>Penting</div>
                             </div>
-                            <div class="list-body"></div>
                         </div>
                     </div>
                 </form>

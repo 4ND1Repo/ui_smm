@@ -1,7 +1,7 @@
 <!-- begin:: Content Head -->
 <div class="kt-subheader   kt-grid__item" id="kt_subheader">
     <div class="kt-subheader__main">
-        <h3 class="kt-subheader__title">Halaman Surat Jalan</h3>
+        <h3 class="kt-subheader__title">Halaman Terima Barang</h3>
     </div>
 </div>
 <!-- end:: Content Head -->
@@ -16,7 +16,7 @@
                     <i class="kt-font-brand flaticon2-line-chart"></i>
                 </span>
                 <h3 class="kt-portlet__head-title">
-                    Surat Jalan
+                    Terima Barang
                 </h3>
             </div>
             <div class="kt-portlet__head-toolbar">

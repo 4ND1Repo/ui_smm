@@ -316,7 +316,7 @@ var KTGridPO = function(){
                                   $.each(data.purchase_order_detail, function(k,v){
                                     tmpHtml = "";
                                     // get data from po detail
-                                    tmpHtml += '<div id="'+v.po_code+'">';
+                                    tmpHtml += '<div id="'+v.po_code+'" did=0 class="row" style="margin:0;">';
                                     // detail stock
                                     tmpHtml += '<div data-toggle="kt-tooltip" data-placement="top" data-original-title="'+v.stock_name+' - '+v.stock_type+' - '+v.stock_size+'" data-skin="dark">';
                                     tmpHtml += v.stock_code+' - ';

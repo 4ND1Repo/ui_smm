@@ -55,9 +55,8 @@ var KTFormPO = function(){
                             showConfirmButton: false,
                             timer: 1500
                         }).then((res) => {
-                            $('#FPO .list-body').html('');
+                            $('#FPO .po-table .data').remove();
                             myGrid.element().reload();
-                            console.log('Success');
                             // send notification to target
                             $.ajax({
                               url: api_url+'/api/mng/user/notification/add',
@@ -178,17 +177,16 @@ var KTGridPO = function(){
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-                    var btn = '\
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Detail data">\
+                    var btn = [];
+                    btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-detail" id="'+row.po_code+'" title="Detail data">\
                             <i class="la la-search-plus"></i>\
-                        </a>\
-                    ';
-                    if(row.status == 'ST06')
-                      btn += '\
-                      <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.po_code+'" title="Hapus">\
+                        </a>');
+
+                    if(window.role.del == 1 && row.status == 'ST06')
+                      btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-delete" id="'+row.po_code+'" title="Hapus">\
                           <i class="la la-trash"></i>\
-                      </a>\ ';
-                    return btn;
+                      </a>');
+                    return myGrid.action(btn);
                 },
             }]
         );
@@ -213,13 +211,15 @@ var KTGridPO = function(){
                                 if(typeof data.purchase_order == "object"){
                                   $.each(data.purchase_order_detail, function(k,v){
                                     // get data from po detail
-                                    tmpHtml += '<div id="'+v.po_code+'">';
+                                    tmpHtml += '<div id="'+v.po_code+'" class="po-row data '+(v.urgent==1?'text-danger font-weight-bold':'')+'">';
                                     // detail stock
                                     tmpHtml += '<div>';
-                                    tmpHtml += v.stock_code+' - ';
-                                    tmpHtml += v.stock_name+' - ';
-                                    tmpHtml += v.stock_type+' - ';
-                                    tmpHtml += v.stock_size;
+                                    tmpHtml += '('+v.stock_code+') ';
+                                    tmpHtml += v.stock_name;
+                                    tmpHtml += (v.stock_size !== '' && v.stock_size != null? ' '+v.stock_size:'');
+                                    tmpHtml += (v.stock_type !== '' && v.stock_type != null? ' '+v.stock_type:'');
+                                    tmpHtml += (v.stock_brand !== '' && v.stock_brand != null? ' '+v.stock_brand:'');
+                                    tmpHtml += (v.stock_color !== '' && v.stock_color != null? ' '+v.stock_color:'');
                                     tmpHtml += '</div>';
                                     // input qty
                                     var tmpdt = (v.po_date_delivery !== null)?v.po_date_delivery.split('-'):'-';
@@ -228,9 +228,10 @@ var KTGridPO = function(){
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     tmpHtml += '<div class="text-center" data-toggle="kt-tooltip-notes" data-container="body" data-placement="top" title="'+(v.po_notes==null?"":v.po_notes)+'">'+(v.po_notes==null?"":v.po_notes)+'</div>';
+                                    tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'')+'</div>';
                                     tmpHtml += '</div>';
                                   });
-                                  $('#FPO .list-body').append(tmpHtml);
+                                  $('#FPO .po-table').append(tmpHtml);
                                   $('[data-toggle="kt-tooltip-notes"]').tooltip();
                                   $('#addPo .btn-submit, #addPo .typeahead').addClass('kt-hidden');
                                   $('#addPo').modal('show');
@@ -312,7 +313,8 @@ $(document).ready(function(){
     KTFormPO.init();
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [],
     stockAutocomplete = $('input[name=main_stock_code].autocomplete').typeahead(null, {
         name: 'stock_name',
@@ -329,6 +331,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = {id: v.id, need: v.need};
+                        datas[v.label] = v.data;
                     });
 
                 }
@@ -340,19 +343,28 @@ $(document).ready(function(){
             tmpHtml = '';
 
         // data add from stock
-        tmpHtml += '<div id="'+map[selection].id+'">';
+        tmpHtml += '<div class="po-row data" id="'+map[selection].id+'">';
         // detail stock
         tmpHtml += '<div>';
-        tmpHtml += data[0]+' - ';
-        tmpHtml += data[1]+' - ';
-        tmpHtml += data[2]+' - ';
-        tmpHtml += data[3];
+        tmpHtml += '('+datas[selection].stock_code+') ';
+        tmpHtml += datas[selection].stock_name;
+        tmpHtml += (datas[selection].stock_size != '' && datas[selection].stock_size != null?' '+datas[selection].stock_size:'');
+        tmpHtml += (datas[selection].stock_type != '' && datas[selection].stock_type != null?' '+datas[selection].stock_type:'');
+        tmpHtml += (datas[selection].stock_brand != '' && datas[selection].stock_brand != null?' '+datas[selection].stock_brand:'');
+        tmpHtml += (datas[selection].stock_color != '' && datas[selection].stock_color != null?' '+datas[selection].stock_color:'');
         tmpHtml += '</div>';
         // input qty
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection].id+']" placeholder="Kuantiti" value="'+map[selection].need+'"></div>';
         tmpHtml += '<div class="text-center">'+data[5]+'</div>';
-        tmpHtml += '<div style="position:relative; overflow:visible;"><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"><span style="position:absolute; right:-15px; top:6px;" onclick="$(this).parent().parent().remove();"><i class="fa fa-trash-alt"></i></span></span></div>';
+        tmpHtml += '<div style="position:relative; overflow:visible;"><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"></div>';
+        tmpHtml += '<div style="position:relative"><div class="kt-checkbox-list" style="width:20px; position:absolute; left: calc(50% - 10px); top: calc(50% - 10px);">\
+                <label class="kt-checkbox">\
+                    <input type="checkbox" tabindex="10" value="1" name="urgent['+map[selection].id+']">&nbsp;\
+                    <span></span>\
+                </label>\
+            </div></div>';
+        tmpHtml += '<div class="text-center"><i class="fa fa-trash" onclick="$(this).parent().parent().remove();"></i></div>';
         tmpHtml += '</div>';
 
         if($('#FPO').find("div[id='"+map[selection].id+"']").length > 0){
@@ -364,7 +376,7 @@ $(document).ready(function(){
                 timer: 1500
             });
         } else{
-            $('#FPO .list-body').append(tmpHtml);
+            $('#FPO .po-table').append(tmpHtml);
             $(".qtyPO").inputmask('decimal', {
                 rightAlignNumerics: false
             });
@@ -381,7 +393,7 @@ $(document).ready(function(){
 
 
     $("#addPo").on('hide.bs.modal', function(){
-      $('#FPO .list-body').html('');
+      $('#FPO .po-table .data').remove();
       $('#addPo .btn-submit, #addPo .typeahead').removeClass('kt-hidden');
     });
 

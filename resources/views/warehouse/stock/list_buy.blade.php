@@ -147,43 +147,46 @@
             </div>
             <div class="modal-body">
                 <style media="screen">
-                  #FPO .list-header, #FPO .list-body {
-                    display: block;
+                  .po-table {
+                      display: table;
                   }
-                  #FPO .list-header {
-                    min-height: 30px;
-                    border-bottom: 1px solid #999;
-                    margin-bottom: 6px;
+                  .po-table > .po-row {
+                      display: table-row;
                   }
-                  #FPO .list-header > div {
-                    float: left;
-                    font-weight: bold;
-                    width: 70%;
+                  .po-table > .po-row > div {
+                      display: table-cell;
+                      border-bottom: 1px dashed grey;
+                      padding: 4px;
                   }
-                  #FPO .list-header > div:last-child {
-                    text-align: center;
-                    width: 30%;
+                  .po-table > .po-row:first-child > div {
+                      font-weight: bold;
+                      border-bottom: 1px solid grey;
+                      text-align: center;
                   }
-                  #FPO .list-body > div {
-                    width: 100%;
-                    min-height: 40px;
+                  .po-table > .po-row:nth-child(2) > div {
+                      padding-top: 10px;
                   }
-                  #FPO .list-body > div > div {
-                    width: 70%;
-                    float: left;
+                  .po-table > .po-row > div:first-child {
+                      width: 45%;
                   }
-                  #FPO .list-body > div > div:last-child {
-                    width: 30%;
+                  .po-table > .po-row > div:nth-child(2){
+                      width: 80px;
+                  }
+                  .po-table > .po-row > div:last-child {
+                      width: 50px;
+                      text-align: center;
                   }
                 </style>
                 <form class="kt-form" id="FPO">
                     <div class="row validated">
-                        <div class="col-md-12">
-                            <div class="list-header">
-                                <div>Stok</div>
+                        <div class="col-md-12 po-table">
+                            <div class="list-header po-row">
+                                <div>Barang</div>
                                 <div>Kuantiti</div>
+                                <div>Satuan</div>
+                                <div>Keterangan</div>
+                                <div>Penting</div>
                             </div>
-                            <div class="list-body"></div>
                         </div>
                     </div>
                 </form>
