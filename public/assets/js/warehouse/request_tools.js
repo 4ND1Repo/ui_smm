@@ -31,7 +31,7 @@ var KTRequestTools = function(){
             },
 
             submitHandler: function (form) {
-                if($('.request_tools').html()== ""){
+                if($('.request_tools_new .data-row').length == 0){
                     swal.fire({
                         title: "",
                         text: "belum mengisi stok yang dibutuhkan",
@@ -364,26 +364,40 @@ var KTGridRequestTools = function(){
                                 var tmp = '';
                                 $.each(data.request_tools_detail, function(k,v){
 
-                                    tmp = '<div class="col-md-3">';
-                                    tmp += '<div class="list-item">';
-                                    tmp += '<div class="item_header">'+v.stock_code+'</div>';
-                                    tmp += '<div class="item_body">';
-                                    tmp += '<div>'+v.stock_name+'&nbsp;</div>';
-                                    tmp += '<div>'+v.stock_type+'&nbsp;</div>';
-                                    tmp += '<div>'+v.stock_size+'&nbsp;</div>';
-                                    tmp += '<div>'+v.stock_brand+'&nbsp;</div>';
-                                    tmp += '<div><textarea name="notes['+v.stock_code+']" rows="2" class="form-control form-control-sm" placeholder="keterangan" readonly>'+(v.req_tools_notes==null?"":v.req_tools_notes)+'</textarea></div>';
-                                    tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
-                                    tmp += '</div>';
-                                    if(v.finish_by == null && v.fullfillment == 1)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" data-from="'+data.request_tools.page_code_from+'" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
-                                    else if(v.finish_by == null && v.fullfillment == 0)
-                                        tmp += '<div class="text-center"><button type="button" class="btn btn-warning btn-wide btn-sm btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'">Buat PO</botton></div>';
-                                    tmp += '</div>';
-                                    tmp += '</div>';
+                                    /* old data get*/
+                                    // tmp = '<div class="col-md-3">';
+                                    // tmp += '<div class="list-item">';
+                                    // tmp += '<div class="item_header">'+v.stock_code+'</div>';
+                                    // tmp += '<div class="item_body">';
+                                    // tmp += '<div>'+v.stock_name+'&nbsp;</div>';
+                                    // tmp += '<div>'+v.stock_type+'&nbsp;</div>';
+                                    // tmp += '<div>'+v.stock_size+'&nbsp;</div>';
+                                    // tmp += '<div>'+v.stock_brand+'&nbsp;</div>';
+                                    // tmp += '<div><textarea name="notes['+v.stock_code+']" rows="2" class="form-control form-control-sm" placeholder="keterangan" readonly>'+(v.req_tools_notes==null?"":v.req_tools_notes)+'</textarea></div>';
+                                    // tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'" disabled><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div>'
+                                    // tmp += '</div>';
+                                    // if(v.finish_by == null && v.fullfillment == 1)
+                                    //     tmp += '<div class="text-center"><button type="button" class="btn btn-success btn-wide btn-sm btn-send" data-from="'+data.request_tools.page_code_from+'" id="'+v.stock_code+'-'+v.req_tools_code+'">Kirim</botton></div>';
+                                    // else if(v.finish_by == null && v.fullfillment == 0)
+                                    //     tmp += '<div class="text-center"><button type="button" class="btn btn-warning btn-wide btn-sm btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'">Buat PO</botton></div>';
+                                    // tmp += '</div>';
+                                    // tmp += '</div>';
+                                    // tmp += '</div>';
+
+                                    tmp += '<div class="row_request data-row'+((v.finish_by == null && v.fullfillment == 0)?' text-danger':'')+'">';
+                                    tmp += '<div>'+v.stock_code+'</div>';
+                                    tmp += '<div>'+v.stock_name+'</div>';
+                                    tmp += '<div class="text-center">'+v.stock_size+'</div>';
+                                    tmp += '<div class="text-center">'+v.stock_type+'</div>';
+                                    tmp += '<div>'+v.stock_brand+'</div>';
+                                    tmp += '<div class="text-center">'+v.stock_color+'</div>';
+                                    tmp += '<div class="text-right">'+v.stock_qty+'</div>';
+                                    tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'"><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div></div>';
+                                    tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.stock_code+']" value="'+v.req_tools_notes+'"></div>';
+                                    tmp += '<div>'+((v.finish_by == null && v.fullfillment == 1)?'<i class="fa fa-share-square text-success btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Berikan"></i>':((v.finish_by == null && v.fullfillment == 0)?'<i class="fa fa-book text-danger btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Tambahkan ke PO"></i>':'<i class="fa fa-check text-success"></i>'))+'</div>';
                                     tmp += '</div>';
 
-                                    $('.request_tools').append(tmp);
+                                    $('.request_tools_new').append(tmp);
                                 });
 
                                 $(".qtyStock").inputmask('decimal', {
@@ -427,7 +441,8 @@ var KTGridRequestTools = function(){
                                         type: "POST",
                                         data: {stock_code:id[0], req_tools_code:id[1], req_take_nik: $(receiver).val(), nik:Window.Auth.nik},
                                         success: function(r){
-                                          $(el).parent().remove();
+                                        //   $(el).parent().remove();
+                                            $(el).parent().html('<i class="fa fa-check text-success"></i>');
                                           _el.reload();
                                           KTApp.unblock(target);
 
@@ -565,6 +580,23 @@ $(document).ready(function(){
     Window.Auth = JSON.parse(myStorage.get());
     window.po = {};
     window.page_from = Window.Auth.page;
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": false,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+      };
 
     // initiate
     KTRequestTools.init();
@@ -577,7 +609,8 @@ $(document).ready(function(){
 
     // reset form when hide
     $("#addReqtools").on('hide.bs.modal', function(){
-        $('.request_tools').html('');
+        // $('.request_tools').html('');
+        $('.request_tools_new .data-row').remove();
         $('input[name=name_of_request]').val('').prop('readonly',false);
         $('input[name=req_nik]').val('').prop('readonly',false);
         $('#addReqtools .modal-footer, #addReqtools .validated.search > div:first-child').removeClass('kt-hidden');
@@ -589,7 +622,8 @@ $(document).ready(function(){
 
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [],
     stockAutocomplete = $('input[name=stock_name].autocomplete').typeahead(null, {
         name: 'stock_name',
@@ -607,6 +641,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = v.id;
+                        datas[v.label] = v.data;
                     });
 
                 }
@@ -616,20 +651,34 @@ $(document).ready(function(){
     }).on('typeahead:selected', function(event, selection) {
         var tmp = '',
             data = selection.split(' - ');
-        tmp += '<div class="col-md-3" id="'+map[selection]+'">';
-        tmp += '<div class="list-item">';
-        tmp += '<div class="item_header">'+data[0]+'<span class="item" onclick="delete_items_stock(\''+map[selection]+'\')"><i class="flaticon-close"></i></span></div>';
-        tmp += '<div class="item_body">';
-        tmp += '<div>'+data[1]+'&nbsp;</div>';
-        tmp += '<div>'+data[2]+'&nbsp;</div>';
-        tmp += '<div>'+data[3]+'&nbsp;</div>';
-        tmp += '<div>'+data[4]+'&nbsp;</div>';
-        tmp += '<div><textarea name="notes['+data[0]+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
-        tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
+        /* old process data */
+        // tmp += '<div class="col-md-3" id="'+map[selection]+'">';
+        // tmp += '<div class="list-item">';
+        // tmp += '<div class="item_header">'+data[0]+'<span class="item" onclick="delete_items_stock(\''+map[selection]+'\')"><i class="flaticon-close"></i></span></div>';
+        // tmp += '<div class="item_body">';
+        // tmp += '<div>'+data[1]+'&nbsp;</div>';
+        // tmp += '<div>'+data[2]+'&nbsp;</div>';
+        // tmp += '<div>'+data[3]+'&nbsp;</div>';
+        // tmp += '<div>'+data[4]+'&nbsp;</div>';
+        // tmp += '<div><textarea name="notes['+data[0]+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
+        // tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
+        // tmp += '</div>';
+        // tmp += '</div>';
+        // tmp += '</div>';
+
+        tmp += '<div class="row_request data-row" id="'+map[selection]+'">';
+        tmp += '<div>'+data[0]+'</div>';
+        tmp += '<div>'+data[1]+'</div>';
+        tmp += '<div class="text-center">'+data[3]+'</div>';
+        tmp += '<div class="text-center">'+data[2]+'</div>';
+        tmp += '<div>'+datas[selection]['stock_brand']+'</div>';
+        tmp += '<div class="text-center">'+datas[selection]['stock_color']+'</div>';
+        tmp += '<div class="text-right">'+(datas[selection]['qty']==0?0:datas[selection]['qty'])+'</div>';
+        tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value=""><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div></div>';
+        tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+data[0]+']" value=""></div>';
+        tmp += '<div class="text-center"><i class="fa fa-trash" onclick="$(this).parent().parent().remove()"></i></div>';
         tmp += '</div>';
-        tmp += '</div>';
-        tmp += '</div>';
-        if($('.request_tools').find("div[id='"+map[selection]+"']").length > 0){
+        if($('.request_tools_new').find("div[id='"+map[selection]+"']").length > 0){
             swal.fire({
                 title: "",
                 text: "Data sudah ada di daftar",
@@ -638,12 +687,22 @@ $(document).ready(function(){
                 timer: 1500
             });
         } else{
-            $('.request_tools').append(tmp);
+            $('.request_tools_new').append(tmp);
             $(".qtyStock").inputmask('decimal', {
                 rightAlignNumerics: false
             });
+            // $(".qtyStock").unbind('keayup');
+            $(".qtyStock").keyup(function(){
+                var el = this;
+                if(parseFloat($(el).parent().parent().prev().text()) < parseFloat($(el).val())){
+                    $(el).parent().parent().parent().addClass('text-danger');
+                    toastr.warning($(el).parent().parent().parent().children('div:first-child').text()+' kurang dari yang diminta');
+                } else {
+                    $(el).parent().parent().parent().removeClass('text-danger');
+                }
+            });
 
-            $('.request_tools input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
+            $('.request_tools_new input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
     });

@@ -153,10 +153,20 @@
 </div>
 
 
-
+<style>
+    .modal-full {
+        width: calc(100% - 20px) !important;
+        max-width: calc(100% - 20px) !important;
+		position: relative;
+		margin: 0 auto;
+    }
+    .modal-full .modal-content {
+        width: 100%;
+    }
+</style>
 <!-- modal for add stock -->
 <div class="modal fade" id="addReqtools" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="longModal">Request Barang</h5>
@@ -166,7 +176,7 @@
             <div class="modal-body">
                 <form class="kt-form" id="FReqtools">
                     <div class="row validated">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>NIK</label>
                                 <div class="typeahead">
@@ -174,15 +184,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Nama</label>
                                 <input type="text" name="name_of_request" class="form-control" placeholder="Isian nama yang request">
                             </div>
                         </div>
-                    </div>
-                    <div class="row validated search">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                          <div class="form-group kt-hidden take-by">
+                            <label>Diambil Oleh</label>
+                            <div class="typeahead">
+                              <input type="text" name="req_take_nik" class="form-control" placeholder="Isian NIK Pengambil">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3 validated search">
                             <div class="form-group">
                                 <label>Cari Stock</label>
                                 <div class="input-group typeahead">
@@ -190,13 +206,51 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group kt-hidden take-by">
-                            <label>Diambil Oleh</label>
-                            <div class="typeahead">
-                              <input type="text" name="req_take_nik" class="form-control" placeholder="Isian NIK Pengambil">
-                            </div>
-                          </div>
+                    </div>
+                    <style>
+                        .request_tools_new {
+                            width: 100%;
+                            display: table;
+                        }
+                        .request_tools_new .row_request {
+                            display: table-row;
+                        }
+                        .request_tools_new .row_request > div {
+                            display: table-cell;
+                        }
+                        .request_tools_new .row_request > div {
+                            border-bottom: 1px dashed grey;
+                            padding: 2px;
+                        }
+                        .request_tools_new .row_request:first-child > div {
+                            border-bottom: 1px solid grey;
+                            font-weight: bold;
+                        }
+                        .request_tools_new .row_request:nth-child(2) > div {
+                            padding-top: 10px;
+                        }
+                        .request_tools_new .row_request > div:first-child {
+                            width: 120px;
+                        }
+                        .request_tools_new .row_request > div:nth-child(7), .request_tools_new .row_request > div:nth-child(8), .request_tools_new .row_request > div:nth-child(9) {
+                            width: 10%;
+                        }
+                        .request_tools_new .row_request > div:last-child {
+                            width: 20px;
+                        }
+                    </style>
+                    <div class="row request_tools_new">
+                        <div class="row_request">
+                            <div class="text-center">Kode Barang</div>
+                            <div class="text-center">Nama Barang</div>
+                            <div class="text-center">Ukuran</div>
+                            <div class="text-center">Tipe</div>
+                            <div class="text-center">Merek</div>
+                            <div class="text-center">Warna</div>
+                            <div class="text-right">Kuantiti Sekarang</div>
+                            <div class="text-right">Kuantiti</div>
+                            <div class="text-center">Keterangan</div>
+                            <div class="text-center">&nbsp;</div>
                         </div>
                     </div>
                     <div class="row request_tools"></div>
