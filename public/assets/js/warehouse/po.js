@@ -359,7 +359,7 @@ $(document).ready(function(){
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div class="text-center">-</div>';
         tmpHtml += '<div><input type="text" class="form-control form-control-sm qtyPO" name="data['+map[selection].id+']" placeholder="Kuantiti" value="'+map[selection].need+'"></div>';
-        tmpHtml += '<div class="text-center">'+data[5]+'</div>';
+        tmpHtml += '<div class="text-center">'+datas[selection].measure_type+'</div>';
         tmpHtml += '<div style="position:relative; overflow:visible;"><input type="text" class="form-control form-control-sm" name="notes['+map[selection].id+']" placeholder="Keterangan"></div>';
         tmpHtml += '<div style="position:relative"><div class="kt-checkbox-list" style="width:20px; position:absolute; left: calc(50% - 10px); top: calc(50% - 10px);">\
                 <label class="kt-checkbox">\
