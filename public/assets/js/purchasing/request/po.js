@@ -316,16 +316,26 @@ var KTGridPO = function(){
                                   $.each(data.purchase_order_detail, function(k,v){
                                     tmpHtml = "";
                                     // get data from po detail
-                                    tmpHtml += '<div id="'+v.po_code+'" did=0 class="row" style="margin:0;">';
+                                    tmpHtml += '<div id="'+v.po_code+'" did="'+v.pod_code+'" class="po-row data'+(v.urgent==1?' text-danger':'')+'" style="margin:0;">';
+                                    // split data po detail
+                                    tmpHtml += '<div><i class="fa fa-plus split"></i></div>';
                                     // detail stock
-                                    tmpHtml += '<div data-toggle="kt-tooltip" data-placement="top" data-original-title="'+v.stock_name+' - '+v.stock_type+' - '+v.stock_size+'" data-skin="dark">';
-                                    tmpHtml += v.stock_code+' - ';
-                                    tmpHtml += v.stock_name+' - ';
-                                    tmpHtml += v.stock_type+' - ';
-                                    tmpHtml += v.stock_size;
+                                    var stock_data = '('+v.stock_code+') ';
+                                    stock_data += v.stock_name;
+                                    stock_data += (v.stock_size!='' && v.stock_size!=null?' '+v.stock_size:'');
+                                    stock_data += (v.stock_type!='' && v.stock_type!=null?' '+v.stock_type:'');
+                                    stock_data += (v.stock_brand!='' && v.stock_brand!=null?' '+v.stock_brand:'');
+                                    stock_data += (v.stock_color!='' && v.stock_color!=null?' '+v.stock_color:'');
+
+                                    tmpHtml += '<div data-toggle="kt-tooltip" data-placement="top" data-original-title="'+stock_data+'" data-skin="dark">';
+                                    tmpHtml += stock_data;
                                     if(v.po_notes !== null && v.po_notes !== "")
                                       tmpHtml += '<br/>Keterangan :<br/>'+v.po_notes;
                                     tmpHtml += '</div>';
+                                    // Urgenity
+                                    tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'&nbsp;')+'</div>';
+                                    // PIC
+                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic+' - '+v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
                                     // input income qty
@@ -338,14 +348,14 @@ var KTGridPO = function(){
                                       tmp = tmp.split('-');
                                       dte = tmp[2]+"/"+tmp[1]+"/"+tmp[0];
                                     }
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][date]" value="'+dte+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
-                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][supplier]" value="'+(v.supplier_code == null?'':v.supplier_code+' - '+v.supplier_name)+'" placeholder="Supplier" title="Supplier"></div>';
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" data-id="'+v.main_stock_code+'" data-skin="dark" data-toggle="kt-tooltip" data-container="body" data-placement="top" data-original-title="" placeholder="Harga" title="Harga"></div>';
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.main_stock_code+'][qty]" value="'+v.po_qty+'" placeholder="Tersedia" title="Tersedia"></div>';
-                                    $('#FPO .list-data').append(tmpHtml);
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm date-picker" name="data['+v.po_code+']['+v.pod_code+'][date]" value="'+dte+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
+                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm supplier" name="data['+v.po_code+']['+v.pod_code+'][supplier]" value="'+(v.supplier_code == null?'':v.supplier_code+' - '+v.supplier_name)+'" placeholder="Supplier" title="Supplier"></div>';
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm numberonly pricing" name="data['+v.po_code+']['+v.pod_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" data-id="'+v.pod_code+'" data-skin="dark" data-toggle="kt-tooltip" data-container="body" data-placement="top" data-original-title="" placeholder="Harga" title="Harga"></div>';
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm numberonly" name="data['+v.po_code+']['+v.pod_code+'][qty]" value="'+v.po_qty+'" placeholder="Tersedia" title="Tersedia"></div>';
                                     tmpHtml += '</div>';
+                                    $('#FPO .po-table').append(tmpHtml);
                                     // datepicker
-                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][date]"]').datepicker({
+                                    $('input[name="data['+v.po_code+']['+v.pod_code+'][date]"]').datepicker({
                                         format: "dd/mm/yyyy",
                                         pickTime: false,
                                         startDate: date,
@@ -356,7 +366,7 @@ var KTGridPO = function(){
                                       	event.stopPropagation();
                                     });
                                     // supplier autocomplete
-                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][supplier]"]').typeahead(null, {
+                                    $('input[name="data['+v.po_code+']['+v.pod_code+'][supplier]"]').typeahead(null, {
                                         name: 'stock_name',
                                         source: function(query,psc){
                                             $.ajax({
@@ -378,13 +388,13 @@ var KTGridPO = function(){
                                         }
                                     });
                                     // masking number format
-                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][price]"], input[name="data['+v.po_code+']['+v.main_stock_code+'][qty]"]').inputmask('decimal', {
+                                    $('input[name="data['+v.po_code+']['+v.pod_code+'][price]"], input[name="data['+v.po_code+']['+v.pod_code+'][qty]"]').inputmask('decimal', {
                                         rightAlignNumerics: false
                                     });
 
                                     // check last update price is higher or not
                                     var ajx = "";
-                                    $('input[name="data['+v.po_code+']['+v.main_stock_code+'][price]"]').on('keyup', function(){
+                                    $('input[name="data['+v.po_code+']['+v.pod_code+'][price]"]').on('keyup', function(){
                                       var el = this;
                                       if(typeof ajx === 'object'){
                                         ajx.abort();
@@ -432,13 +442,131 @@ var KTGridPO = function(){
                                     });
                                   });
 
-                                  $('#FPO .list-data div[data-toggle="kt-tooltip"]').tooltip({
+                                  $('#FPO .data div[data-toggle="kt-tooltip"]').tooltip({
                                     trigger: "hover",
                                     template: '<div class="tooltip tooltip-dark" role="tooltip">\
                                         <div class="arrow"></div>\
                                         <div class="tooltip-inner"></div>\
                                     </div>'
                                   });
+
+                                  // begin: split function for new task to PIC
+                                  $('.split').click(function(){
+                                    // destroy event before create new element
+                                    $('input.supplier').typeahead('destroy');
+                                    $('input.date-picker').datepicker('destroy');
+                                    console.log($('input.numberonly'));
+                                    $('input.numberonly').inputmask('remove');
+                                    console.log($(this).parent().parent().attr('last_id'));
+                                    if(typeof $(this).parent().parent().attr('last_id') == 'undefined')
+                                      $(this).parent().parent().attr('last_id',0);
+
+                                    var el = this,
+                                    row = $(el).parent().parent()[0].outerHTML;
+                                    // remove did
+                                    row = row.replace($(el).parent().parent().attr('did'),'new');
+                                    row = row.replace('[pic]','[new]['+$(el).parent().parent().attr('last_id')+'][pic]');
+                                    row = row.replace('[qty]','[new]['+$(el).parent().parent().attr('last_id')+'][qty]');
+                                    row = row.replace('[date]','[new]['+$(el).parent().parent().attr('last_id')+'][date]');
+                                    row = row.replace('[supplier]','[new]['+$(el).parent().parent().attr('last_id')+'][supplier]');
+                                    row = row.replace('[price]','[new]['+$(el).parent().parent().attr('last_id')+'][price]');
+                                    row = row.replace('<div><i class="fa fa-plus split"></i></div>', '<div><i class="fa fa-trash" onclick="$(this).parent().parent().remove()"></i></div>');
+                                    $(row).insertAfter($(el).parent().parent());
+                                    // increment last_id
+                                    $(el).parent().parent().attr('last_id',(parseInt($(el).parent().parent().attr('last_id'))+1));
+
+                                    // event for datepicker
+                                    $('input.date-picker').datepicker({
+                                        format: "dd/mm/yyyy",
+                                        pickTime: false,
+                                        startDate: date,
+                                        clearBtn: true,
+                                        autoclose: true
+                                    }).on('hide',function(event){
+                                        event.preventDefault();
+                                        event.stopPropagation();
+                                    });
+
+                                    // event for supplier
+                                    $('input.supplier').typeahead(null, {
+                                        name: 'supplier',
+                                        source: function(query,psc){
+                                            $.ajax({
+                                                url: api_url+'/api/mst/supplier/autocomplete',
+                                                type: 'POST',
+                                                data: {find:query},
+                                                async: false,
+                                                success: function(r){
+                                                    res = [];
+                                                    map = {};
+                                                    $.each(r, function(k,v){
+                                                        res.push(v.label);
+                                                        map[v.label] = v.id;
+                                                    });
+
+                                                }
+                                            });
+                                            psc(res);
+                                        }
+                                    });
+                                    // masking event
+                                    $('input.numberonly').inputmask('decimal', {
+                                        rightAlignNumerics: false
+                                    });
+                                    // check last update price is higher or not
+                                    var ajx = "";
+                                    $('input.pricing').on('keyup', function(){
+                                      var el = this,
+                                          spl_name = ($(this).attr('name')).replace('[price]','[supplier]');
+
+                                      if(typeof ajx === 'object'){
+                                        ajx.abort();
+                                      }
+                                      $(el).attr('title','');
+
+                                      if($('input[name="'+spl_name+'"]').val() !== ""){
+                                        ajx = $.ajax({
+                                          url: api_url+'/api/pur/req/po/check_price',
+                                          type: 'POST',
+                                          data: {main_stock_code: $(el).data('id'), supplier_code:$('input[name="'+spl_name+'"]').val()},
+                                          success: function(r){
+                                            $(el).attr('data-original-title',"");
+                                            $(el).removeClass('is-higher');
+                                            $(el).parent().removeClass('is-higher');
+                                            $(el).removeClass('is-lower');
+                                            $(el).parent().removeClass('is-lower');
+
+                                            if(r.status){
+                                              if(parseFloat($(el).val()) > r.data){
+                                                $(el).attr('data-original-title','harga sebelumnya : '+r.data);
+                                                if(!$(el).hasClass('is-higher'))
+                                                  $(el).addClass('is-higher');
+                                                if(!$(el).parent().hasClass('is-higher'))
+                                                  $(el).parent().addClass('is-higher');
+                                              } else if(parseFloat($(el).val()) < r.data){
+                                                $(el).attr('data-original-title','harga sebelumnya : '+r.data);
+                                                if(!$(el).hasClass('is-lower'))
+                                                  $(el).addClass('is-lower');
+                                                if(!$(el).parent().hasClass('is-lower'))
+                                                  $(el).parent().addClass('is-lower');
+                                              }
+                                            }
+                                          }
+                                        }).done(function(){
+                                          $('input[data-toggle="kt-tooltip"]').tooltip({
+                                            trigger: "hover",
+                                            template: '<div class="tooltip tooltip-dark" role="tooltip">\
+                                            <div class="arrow"></div>\
+                                            <div class="tooltip-inner"></div>\
+                                            </div>'
+                                          });
+                                        });
+                                      }
+                                    });
+
+                                  });
+                                  // end: split function
+
                                   $('#addPo').modal('show');
                                 }
                             }
@@ -496,17 +624,13 @@ var KTDateRange = function(){
 }();
 
 $(document).ready(function(){
-    myStorage.set('auth');
-    window.Auth = JSON.parse(myStorage.get());
-
     // initiate
     KTGridPO.init();
     KTFormPO.init();
     KTDateRange.set({elStart:'[name="in[start]"]', elEnd:'[name="in[end]"]'});
 
     $("#addPo").on('hide.bs.modal', function(){
-      console.log('test');
-      $('#FPO .list-data').html('');
+      $('#FPO .po-table .data').remove();
     });
 
     // submit form PO

@@ -155,13 +155,13 @@
                   .po-table > .po-row > div:first-child {
                       width: 45%;
                   }
-                  .po-table > .po-row > div:nth-child(2), .po-table > .po-row > div:nth-child(3) {
+                  .po-table > .po-row > div:nth-child(3), .po-table > .po-row > div:nth-child(4) {
                       width: 80px;
                   }
-                  .po-table > .po-row > div:nth-child(4) {
+                  .po-table > .po-row > div:nth-child(5) {
                       width: 50px;
                   }
-                  .po-table > .po-row > div:nth-child(6) {
+                  .po-table > .po-row > div:nth-child(7) {
                       width: 60px;
                   }
                   .po-table > .po-row > div:last-child {
@@ -178,6 +178,7 @@
                         <div class="col-md-12 po-table">
                             <div class="list-header po-row">
                                 <div>Barang</div>
+                                <div>Kode Supplier</div>
                                 <div title="Target Kirim">Target Kirim</div>
                                 <div>Kuantiti</div>
                                 <div>Satuan</div>

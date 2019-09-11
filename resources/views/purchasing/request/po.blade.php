@@ -140,61 +140,22 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="longModal">Daftar Request Stok</h5>
+                <h5 class="modal-title" id="longModal">Daftar Permintaan Pembelian</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <style media="screen">
-                  #FPO .list-header, #FPO .list-body {
-                    display: block;
-                  }
-                  #FPO .list-header {
-                    min-height: 30px;
-                    border-bottom: 1px solid #999;
-                    margin-bottom: 6px;
-                  }
-                  #FPO .list-header > div {
-                    float: left;
-                    font-weight: bold;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    width: 30%;
-                  }
-                  #FPO .list-header > div:nth-child(2), #FPO .list-header > div:nth-child(3), #FPO .list-header > div:nth-child(4), #FPO .list-header > div:nth-child(5), #FPO .list-header > div:nth-child(6), #FPO .list-header > div:nth-child(7), #FPO .list-header > div:last-child {
-                    text-align: center;
-                    width: 10%;
-                  }
-
-                  /* body style */
-                  #FPO .list-data > div {
-                    width: 100%;
-                    min-height: 40px;
-                  }
-                  #FPO .list-data > div > div {
-                    width: 30%;
-                    float: left;
-                  }
-                  #FPO .list-data > div > div:first-child {
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    white-space: nowrap;
-                  }
-                  #FPO .list-data > div > div:nth-child(2), #FPO .list-data > div > div:nth-child(3), #FPO .list-data > div > div:nth-child(4), #FPO .list-data > div > div:nth-child(5), #FPO .list-data > div > div:nth-child(6), #FPO .list-data > div > div:nth-child(7), #FPO .list-data > div > div:last-child {
-                    width: 10%;
-                  }
-
                   /* notified price */
-                  #FPO .list-data > div input.is-higher {
+                  #FPO .po-table .po-row > div input.is-higher {
                     border-color: red;
                   }
-                  #FPO .list-data > div input.is-lower {
+                  #FPO .po-table .po-row > div input.is-lower {
                     border-color: green;
                   }
-                  #FPO .list-data div{
+                  #FPO .po-table .po-row div{
                     position: relative;
                   }
-                  #FPO .list-data div.is-higher::after{
+                  #FPO .po-table .po-row div.is-higher::after{
                     font-family: "Font Awesome 5 Free";
                     font-weight: 900;
                     content: "\f106";
@@ -203,7 +164,7 @@
                     color: red;
                     position: absolute;
                   }
-                  #FPO .list-data div.is-lower::after{
+                  #FPO .po-table .po-row div.is-lower::after{
                     font-family: "Font Awesome 5 Free";
                     font-weight: 900;
                     content: "\f107";
@@ -212,13 +173,49 @@
                     color: green;
                     position: absolute;
                   }
+
+                  /* table fixed */
+                  .po-table {
+                      display: table;
+                  }
+                  .po-table > .po-row {
+                      display: table-row;
+                  }
+                  .po-table > .po-row > div {
+                      display: table-cell;
+                      padding: 4px;
+                      border-bottom: 1px dashed grey;
+                  }
+                  .po-table > .po-row:first-child > div {
+                      border-bottom: 1px solid grey;
+                      font-weight: bold;
+                      text-align: center;
+                  }
+                  .po-table > .po-row:nth-child(2) > div {
+                      padding-top: 10px;
+                  }
+                  .po-table > .po-row > div:first-child {
+                      width: 20px;
+                  }
+                  .po-table > .po-row > div:nth-child(2) {
+                      width: 30%;
+                  }
+                  .po-table > .po-row > div:nth-child(3) {
+                      width: 60px;
+                  }
+                  .po-table > .po-row > div:nth-child(4), .po-table > .po-row > div:nth-child(5), .po-table > .po-row > div:nth-child(6) {
+                      width: 80px;
+                  }
                 </style>
                 <div class="row">&nbsp;</div>
                 <form class="kt-form" id="FPO">
                     <div class="row validated">
-                        <div class="col-md-12">
-                            <div class="list-header">
+                        <div class="col-md-12 po-table">
+                            <div class="list-header po-row">
+                                <div>&nbsp;</div>
                                 <div>Stok</div>
+                                <div>Penting</div>
+                                <div>PIC</div>
                                 <div>Kuantiti</div>
                                 <div>Kuantiti Masuk</div>
                                 <div>Satuan</div>
@@ -227,7 +224,6 @@
                                 <div>Harga</div>
                                 <div>Tersedia</div>
                             </div>
-                            <div class="list-data"></div>
                         </div>
                     </div>
                 </form>

@@ -194,11 +194,12 @@ var KTGridPO = function(){
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row) {
-                    return '\
-                        <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-add-do" id="'+row.po_code+'" title="Terima Surat Jalan">\
-                            <i class="la la-paste"></i>\
-                        </a>\
-                    ';
+                    var btn = [];
+                    if(window.role.edit == 1)
+                        btn.push('<a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md btn-add-do" id="'+row.po_code+'" title="Terima Surat Jalan">\
+                                <i class="la la-paste"></i>\
+                        </a>');
+                    return myGrid.action(btn);
                 },
             }]
         );
@@ -225,25 +226,30 @@ var KTGridPO = function(){
                                     if(v.qty > 0){
                                       tmpHtml = '';
                                       // get data from po detail
-                                      tmpHtml += '<div id="'+v.po_code+'">';
+                                      tmpHtml += '<div class="do-row data'+(v.urgent==1?' text-danger':'')+'" id="'+v.po_code+'" did="'+v.pod_code+'">';
                                       // detail stock
                                       tmpHtml += '<div>';
-                                      tmpHtml += v.stock_code+' - ';
-                                      tmpHtml += v.stock_name+' - ';
-                                      tmpHtml += v.stock_type+' - ';
-                                      tmpHtml += v.stock_size;
+                                      tmpHtml += '<input type="hidden" name="main_stock_code['+v.po_code+']['+v.pod_code+']" value="'+v.main_stock_code+'">';
+                                      tmpHtml += '('+v.stock_code+') ';
+                                      tmpHtml += v.stock_name;
+                                      tmpHtml += (v.stock_size!='' && v.stock_size!=null?' '+v.stock_size:'');
+                                      tmpHtml += (v.stock_type!='' && v.stock_type!=null?' '+v.stock_type:'');
+                                      tmpHtml += (v.stock_brand!='' && v.stock_brand!=null?' '+v.stock_brand:'');
+                                      tmpHtml += (v.stock_color!='' && v.stock_color!=null?' '+v.stock_color:'');
                                       tmpHtml += '</div>';
+                                      tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'&nbsp;')+'</div>';
+                                      tmpHtml += '<div class="text-center">('+v.supplier_code+') '+v.supplier_name+'</div>';
                                       // po date
                                       var tmp = v.po_date_delivery.split("-");
-                                      tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm doNumber" data-supplier="'+v.supplier_code+'" name="do['+v.po_code+']['+v.main_stock_code+']" value=""></div>';
+                                      tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm doNumber" data-stock="'+v.main_stock_code+'" data-supplier="'+v.supplier_code+'" name="do['+v.po_code+']['+v.pod_code+']" value=""></div>';
                                       tmpHtml += '<div class="text-center">'+((typeof tmp == 'object')?tmp.reverse().join('/'):"-")+'</div>';
                                       // input qty
                                       tmpHtml += '<div class="text-right">'+price.format(v.qty,2,',','.')+'</div>';
-                                      tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm qtyDO" name="data['+v.po_code+']['+v.main_stock_code+']" value="'+v.qty+'"></div>';
+                                      tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm qtyDO" name="data['+v.po_code+']['+v.pod_code+']" value="'+0+'"></div>';
                                       tmpHtml += '<div class="text-right">'+(Math.ceil(((v.po_qty-v.qty)/v.po_qty)*100))+"%"+'</div>';
                                       tmpHtml += '</div>';
-                                      $('#FPO .list-body').append(tmpHtml);
-                                      KTFormPO.rules('input[name="data['+v.po_code+']['+v.main_stock_code+']"]',{max: parseFloat(v.qty)});
+                                      $('#FPO .do-table').append(tmpHtml);
+                                      KTFormPO.rules('input[name="data['+v.po_code+']['+v.pod_code+']"]',{max: parseFloat(v.qty)});
                                     }
                                   });
                                   $('#addPo .typeahead').addClass('kt-hidden');
@@ -312,15 +318,12 @@ var KTGridPO = function(){
 }();
 
 $(document).ready(function(){
-    myStorage.set('auth');
-    window.Auth = JSON.parse(myStorage.get());
-
     // initiate
     KTGridPO.init();
     KTFormPO.init();
 
     $("#addPo").on('hide.bs.modal', function(){
-      $('#FPO .list-body').html('');
+      $('#FPO .do-table .data').remove();
       $('#addPo .btn-submit, #addPo .typeahead').removeClass('kt-hidden');
       KTFormPO.element().resetForm();
       $('#FPO').find('.invalid-feedback').remove();
@@ -336,17 +339,19 @@ $(document).ready(function(){
       $('.doNumber').on('keyup', function(){
         $(this).val($(this).val().toUpperCase());
         var el = this,
-        poCode = $(".list-body > div:first-child").attr('id');
+        poCode = $(".do-table > div:first-child").attr('id');
         if(typeof doCode === 'object') doCode.abort();
 
-        var supplier_code = $(el).data('supplier');
+        var supplier_code = $(el).data('supplier'),
+            stock = $(el).data('stock');
+
         if($(el).next().length > 0)
           $(el).next().remove();
 
         doCode = $.ajax({
           url: api_url+"/api/wh/req/do/check",
           type: "POST",
-          data: {do_code:$(el).val(), supplier_code:supplier_code},
+          data: {do_code:$(el).val(), supplier_code:supplier_code, main_stock_code:stock},
           success: function(r){
             $(el).removeClass('exists');
 

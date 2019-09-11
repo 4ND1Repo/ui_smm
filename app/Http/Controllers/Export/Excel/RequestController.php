@@ -193,9 +193,11 @@ class RequestController extends Controller{
       $detailData = [
         ['title' => 'Kode Barang', 'field' => 'stock_code', 'style' => 'center'],
         ['title' => 'Barang', 'field' => 'stock_name', 'style' => 'left'],
-        ['title' => 'Tipe', 'field' => 'stock_type', 'style' => 'center'],
+        ['title' => 'Penting', 'field' => 'urgent', 'style' => 'center'],
         ['title' => 'Ukuran', 'field' => 'stock_size', 'style' => 'center'],
+        ['title' => 'Tipe', 'field' => 'stock_type', 'style' => 'center'],
         ['title' => 'Merek', 'field' => 'stock_brand', 'style' => 'left'],
+        ['title' => 'Warna', 'field' => 'stock_color', 'style' => 'left'],
         ['title' => 'Satuan', 'field' => 'measure_type', 'style' => 'center'],
         ['title' => 'Target Terima', 'field' => 'po_date_delivery', 'style' => 'center'],
         ['title' => 'Kuantiti', 'field' => 'po_qty', 'style' => 'right']
@@ -320,9 +322,12 @@ class RequestController extends Controller{
       $detailData = [
         ['title' => 'Kode Barang', 'field' => 'stock_code', 'style' => 'center'],
         ['title' => 'Barang', 'field' => 'stock_name', 'style' => 'left'],
-        ['title' => 'Tipe', 'field' => 'stock_type', 'style' => 'center'],
+        ['title' => 'Kode Supplier', 'field' => 'supplier_code', 'style' => 'left'],
+        ['title' => 'Penting', 'field' => 'urgent', 'style' => 'left'],
         ['title' => 'Ukuran', 'field' => 'stock_size', 'style' => 'center'],
+        ['title' => 'Tipe', 'field' => 'stock_type', 'style' => 'center'],
         ['title' => 'Merek', 'field' => 'stock_brand', 'style' => 'left'],
+        ['title' => 'Warna', 'field' => 'stock_color', 'style' => 'left'],
         ['title' => 'Satuan', 'field' => 'measure_type', 'style' => 'center'],
         ['title' => 'Target Terima', 'field' => 'po_date_delivery', 'style' => 'center'],
         ['title' => 'Sisa Kuantiti', 'field' => 'qty', 'style' => 'right']

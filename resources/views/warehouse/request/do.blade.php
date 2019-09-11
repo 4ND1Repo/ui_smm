@@ -96,10 +96,18 @@
     </div>
 </div>
 
-
+<style>
+    .modal-full {
+        width: calc(100% - 20px);
+        max-width: calc(100% - 20px);
+    }
+    .modal-full .modal-content {
+        width: 100%;
+    }
+</style>
 <!-- modal for receive stock from PO -->
 <div class="modal fade" id="addPo" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="longModal">Terima Barang</h5>
@@ -108,76 +116,41 @@
             </div>
             <div class="modal-body">
                 <style media="screen">
-                  .list_stock .list-header, .list_stock .list-body {
-                    display: block;
-                  }
-                  .list_stock .list-header {
-                    min-height: 30px;
-                    border-bottom: 1px solid #999;
-                    margin-bottom: 6px;
-                  }
-                  .list_stock .list-header > div {
-                    float: left;
-                    font-weight: bold;
-                    width: calc( 20% - 12px);
-                    padding-left: 6px;
-                    padding-right: 6px;
-                    text-align: center;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                  }
-                  .list_stock .list-header > div:first-child {
-                    width: 35%;
-                  }
-                  .list_stock .list-header > div:nth-child(2), .list_stock .list-header > div:nth-child(3) {
-                    width: 20%;
-                  }
-                  .list_stock .list-header > div:nth-child(4), .list_stock .list-header > div:nth-child(5) {
-                    width: 10%;
-                  }
-                  .list_stock .list-header > div:last-child {
-                    width: 5%;
-                  }
-                  .list_stock .list-body > div {
-                    width: 100%;
-                    min-height: 40px;
-                  }
-                  .list_stock .list-body > div > div {
-                    float: left;
-                    width: calc( 20% - 12px);
-                    padding-left: 6px;
-                    padding-right: 6px;
-                  }
-                  .list_stock .list-body > div > div:first-child {
-                    width: 35%;
-                  }
-                  .list_stock .list-body > div > div:nth-child(2), .list_stock .list-body > div > div:nth-child(3) {
-                    width: 20%;
-                  }
-                  .list_stock .list-body > div > div:nth-child(4), .list_stock .list-body > div > div:nth-child(5) {
-                    width: 10%;
-                  }
-                  .list_stock .list-body > div > div:last-child {
-                    width: 5%;
-                  }
                   #FPO div input.exists {
                     border-color: red;
+                  }
+
+                  .do-table {
+                      display: table;
+                  }
+                  .do-table > .do-row {
+                      display: table-row;
+                  }
+                  .do-table > .do-row > div {
+                      display: table-cell;
+                      border-bottom: 1px dashed grey;
+                      padding: 4px;
+                  }
+                  .do-table > .do-row:first-child > div {
+                      border-bottom: 1px solid grey;
+                      font-weight: bold;
+                      text-align: center;
                   }
                 </style>
                 <form class="kt-form" id="FPO">
                     <div class="row">&nbsp;</div>
                     <div class="row validated list_stock">
-                        <div class="col-md-12">
-                            <div class="list-header">
-                                <div>Stok</div>
+                        <div class="col-md-12 do-table">
+                            <div class="list-header do-row">
+                                <div>Barang</div>
+                                <div>Penting</div>
+                                <div>Supplier</div>
                                 <div>Surat Jalan</div>
-                                <div title="Target Kirim">Target Kirim</div>
-                                <div>Kuantiti</div>
+                                <div title="Target Kedatangan">Target Kedatangan</div>
+                                <div>Sisa Kuantiti</div>
                                 <div>Terima</div>
                                 <div>%</div>
                             </div>
-                            <div class="list-body"></div>
                         </div>
                     </div>
                 </form>

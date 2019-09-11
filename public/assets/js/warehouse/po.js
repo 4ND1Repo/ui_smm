@@ -221,7 +221,9 @@ var KTGridPO = function(){
                                     tmpHtml += (v.stock_brand !== '' && v.stock_brand != null? ' '+v.stock_brand:'');
                                     tmpHtml += (v.stock_color !== '' && v.stock_color != null? ' '+v.stock_color:'');
                                     tmpHtml += '</div>';
-                                    // input qty
+                                    // supplier
+                                    tmpHtml += '<div class="text-center">'+(v.supplier_code != null? v.supplier_code:'-')+'</div>';
+                                    // Target
                                     var tmpdt = (v.po_date_delivery !== null)?v.po_date_delivery.split('-'):'-';
                                     tmpHtml += '<div class="text-center">'+((v.po_date_delivery !== null)?(tmpdt[2]+"/"+tmpdt[1]+"/"+tmpdt[0]):tmpdt)+'</div>';
                                     // input qty
