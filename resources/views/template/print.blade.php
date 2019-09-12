@@ -9,6 +9,12 @@
 						font-weight: 300;
 						src: local('Poppins Light'), local('Poppins-Light'), url({{public_path()}}/assets/vendors/google/fonts/pxiByp8kv8JHgFVrLDz8Z1xlFd2JQEk.ttf) format('truetype');
 					}
+					@font-face {
+						font-family: 'Poppins';
+						font-style: normal;
+						font-weight: 700;
+						src: local('Poppins Bold'), local('Poppins-Bold'), url({{public_path()}}/assets/vendors/google/fonts/pxiByp8kv8JHgFVrLCz7Z11lFd2JQEl8qw.ttf) format('truetype');
+					}
 					.row {
 						display: block;
 						width: 100%;

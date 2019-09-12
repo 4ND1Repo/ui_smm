@@ -24,7 +24,7 @@ class PurchasingController extends Controller{
       // set active sheet
       $sheet = $spreadsheet->setActiveSheetIndex(0);
       // Set sheet title
-      $spreadsheet->getActiveSheet()->setTitle("Stock");
+      $spreadsheet->getActiveSheet()->setTitle("Terima Barang");
 
       // get image
       $path = public_path('assets/media/logos/logo-smm.png');
@@ -99,6 +99,90 @@ class PurchasingController extends Controller{
 
       header('Content-Type: application/vnd.ms-excel');
       header('Content-Disposition: attachment;filename="Surat_Jalan.xlsx"');
+      header('Cache-Control: max-age=0');
+      $writer->save("php://output");
+    }
+
+    public function po(Request $r){
+      // initiate styling for header and body
+
+      $spreadsheet = new Spreadsheet();
+      $spreadsheet->getProperties()->setCreator("System SMM")
+      ->setLastModifiedBy($r->nik)
+      ->setTitle("Export Data");
+
+      // set active sheet
+      $sheet = $spreadsheet->setActiveSheetIndex(0);
+      // Set sheet title
+      $spreadsheet->getActiveSheet()->setTitle("PO");
+
+      // get image
+      $path = public_path('assets/media/logos/logo-smm.png');
+      $type = pathinfo($path, PATHINFO_EXTENSION);
+      $data = file_get_contents($path);
+      $image = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+      $orig = imagecreatefrompng($image);
+      $imgWidth = imagesx($orig);
+      $imgHeight = imagesy($orig);
+      $newImgWidth = 200;
+      $newImgHeight = $imgHeight*($newImgWidth/$imgWidth);
+      $target = imagecreatetruecolor($newImgWidth, $newImgHeight);
+      imagealphablending($target, false);
+      imagesavealpha($target, true);
+      imagecopyresampled($target, $orig, 0, 0, 0, 0, $newImgWidth, $newImgHeight, $imgWidth, $imgHeight);
+
+      $objDrawing1 = new MemoryDrawing();
+      $objDrawing1->setName('SMM');
+      $objDrawing1->setDescription('SMM');
+      $objDrawing1->setImageResource($target);
+      $objDrawing1->setRenderingFunction(MemoryDrawing::RENDERING_PNG);
+      $objDrawing1->setMimeType(MemoryDrawing::MIMETYPE_DEFAULT);
+      $objDrawing1->setCoordinates("A1");
+      $objDrawing1->setWorksheet($spreadsheet->getActiveSheet());
+
+      $startRow = 6;
+      $startAlpha = 'A';
+      $headerTitle = [
+        ['title' => 'No.', 'field' => 'incremental', 'width' => 5, 'style' => 'center'],
+        ['title' => 'PO', 'field' => 'po_code', 'width' => 16, 'style' => 'left'],
+        ['title' => 'Barang', 'field' => 'stock_name', 'width' => 20, 'style' => 'left'],
+        ['title' => 'Spesifikasi', 'field' => 'stock_spec', 'width' => 20, 'style' => 'left'],
+        ['title' => 'Jumlah', 'field' => 'po_qty', 'width' => 16, 'style' => 'right'],
+        ['title' => 'Keterangan', 'field' => 'po_notes', 'width' => 28, 'style' => 'left']
+      ];
+
+      // config Header
+      foreach ($headerTitle as $i => $row) {
+        $col = ExcelHelper::getColumn($startAlpha, $i);
+        $sheet->setCellValue($col.$startRow, $row['title']);
+
+        // styling
+        $spreadsheet->getActiveSheet()->getStyle($col.$startRow)->applyFromArray(ExcelHelper::style('header'));
+        if(isset($row['width']))
+          $spreadsheet->getActiveSheet()->getColumnDimension($col)->setWidth($row['width']);
+      }
+
+      // get data from API
+      $data = RestCurl::post($r->input('api')."/api/pur/req/po/print/get", $r->except(['api']));
+      if(count($data->data) > 0){
+        foreach ($data->data as $i => $row) {
+          $row = (array) $row;
+          // content data
+          foreach ($headerTitle as $j => $rows) {
+            $col = ExcelHelper::getColumn($startAlpha, $j);
+            $sheet->setCellValue($col.(($startRow+1)+$i), $rows['field']=='incremental'?(1+$i):$row[$rows['field']]);
+            if(ExcelHelper::style($rows['style']))
+              $spreadsheet->getActiveSheet()->getStyle($col.(($startRow+1)+$i))->applyFromArray(ExcelHelper::style($rows['style']));
+          }
+        }
+      }
+
+
+      $writer = new Xlsx($spreadsheet);
+
+      header('Content-Type: application/vnd.ms-excel');
+      header('Content-Disposition: attachment;filename="PO.xlsx"');
       header('Cache-Control: max-age=0');
       $writer->save("php://output");
     }

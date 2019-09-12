@@ -162,4 +162,63 @@ class MainController extends Controller{
 
         return View('admin',$v::colect());
     }
+
+    public function manual_print(Request $r, Views $v){
+        // validate user is login
+        $v::js_head([
+            'js/authentication/storage.js',
+            'js/authentication/validate.js'
+        ]);
+
+        $v::all_css();
+        $v::all_js();
+
+        $v::css([
+            'css/demo1/pages/general/login/login-1.css',
+            'css/demo1/style.bundle.css',
+            'css/demo1/skins/header/base/light.css',
+            'css/demo1/skins/header/menu/light.css',
+            'css/demo1/skins/brand/dark.css',
+            'css/demo1/skins/aside/dark.css'
+        ]);
+        $v::js(['js/purchasing/request/manual_print.js']);
+        $v::page('purchasing.request.manual_print');
+
+        return View('admin',$v::colect());
+    }
+
+    public function manual_print_po(Request $r, Views $v){
+        $v::page('purchasing.request.manual_po_print');
+        $tmp = RestCurl::post($r->get('api')."/api/pur/req/po/print/get", $r->post());
+
+        if($tmp->status == 200){
+            $v::data($tmp->data);
+        }
+        $html = View('template.print',$v::colect())->render();
+// return $html;
+        // dompdf
+        // if($r->get('die'))
+          // echo $html; die();
+        $pdf = PDF::loadHTML($html);
+        $pdf->setOptions([
+          'isHtml5ParserEnabled' => true,
+          'isFontSubsettingEnabled' => true,
+          'isPhpEnabled' => true,
+          'tempDir' => storage_path(),
+          'fontDir' => storage_path()
+        ]);
+        $pdf->setPaper(array(0,0,609.4488,935.433), 'portrait');
+        header('Content-Type: application/pdf');
+        header('Cache-Control: max-age=0');
+
+        // mpdf
+        // $mpdf = new \Mpdf\Mpdf(['tempDir' => storage_path()]);
+        // $mpdf->WriteHTML($html);$r->nik
+        // return $mpdf->Output();
+
+
+        // $pdf = $pdf->output();
+        // $pdf->stream();
+        return $pdf->stream('PO_'.date("Y-m-d").'.pdf');
+    }
 }

@@ -136,6 +136,11 @@ if ($response->status == 200) {
                     Route::get('print', $row->page_name . '\MainController@print_po');
                     Route::post('print', $row->page_name . '\MainController@print_po');
                 });
+                // Print Group of PO Manually
+                Route::group(['prefix' => 'print_po'], function () use ($row){
+                    Route::get('/', $row->page_name . '\MainController@manual_print');
+                    Route::post('print', $row->page_name . '\MainController@manual_print_po');
+                });
                 // Delivery Order
                 Route::get('do', $row->page_name . '\MainController@do');
                 // Goods
@@ -199,6 +204,7 @@ if ($response->status == 200) {
                         // Request group
                         Route::group(['prefix' => 'req'], function () {
                             Route::post('do', 'Export\Excel\PurchasingController@do');
+                            Route::post('po', 'Export\Excel\PurchasingController@po');
                         });
                     });
                 });
