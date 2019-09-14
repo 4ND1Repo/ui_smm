@@ -434,6 +434,12 @@ var KTGridQtyOut = function(){
             overflow: 'visible',
             autoHide: false,
         }, {
+            field: 'stock_out_date',
+            title: 'Tanggal Keluar',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
             field: 'master.master_measure.measure_type',
             title: 'Tipe Ukuran',
             template: function(row){
