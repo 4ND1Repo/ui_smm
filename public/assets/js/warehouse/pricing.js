@@ -37,7 +37,7 @@ var KTGrid = function(){
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.max_price,2,",",'.');
+                    return price.format(row.max_price,0,",",'.');
                 }
             }, {
                 field: 'min_price',
@@ -45,7 +45,7 @@ var KTGrid = function(){
                 overflow: 'visible',
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.min_price,2,",",'.');
+                    return price.format(row.min_price,0,",",'.');
                 }
             }]
         );

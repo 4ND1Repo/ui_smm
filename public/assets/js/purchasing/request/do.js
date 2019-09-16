@@ -50,7 +50,7 @@ var KTGrid = function(){
                 sortable: false,
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.do_qty,2,",",'.');
+                    return price.format(row.do_qty,0,",",'.');
                 }
             }]
         );

@@ -244,7 +244,7 @@ var KTGridPO = function(){
                                       tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm doNumber" data-stock="'+v.main_stock_code+'" data-supplier="'+v.supplier_code+'" name="do['+v.po_code+']['+v.pod_code+']" value=""></div>';
                                       tmpHtml += '<div class="text-center">'+((typeof tmp == 'object')?tmp.reverse().join('/'):"-")+'</div>';
                                       // input qty
-                                      tmpHtml += '<div class="text-right">'+price.format(v.qty,2,',','.')+'</div>';
+                                      tmpHtml += '<div class="text-right">'+price.format(v.qty,0,',','.')+'</div>';
                                       tmpHtml += '<div class="text-right"><input type="text" class="form-control form-control-sm qtyDO" name="data['+v.po_code+']['+v.pod_code+']" value="'+0+'"></div>';
                                       tmpHtml += '<div class="text-right">'+(Math.ceil(((v.po_qty-v.qty)/v.po_qty)*100))+"%"+'</div>';
                                       tmpHtml += '</div>';

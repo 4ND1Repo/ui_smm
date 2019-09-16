@@ -34,7 +34,7 @@ var KTGridPO = function(){
                 field: 'po_qty',
                 title: 'Jumlah',
                 template: function(row){
-                    return price.format(row.po_qty,2,",",'.');
+                    return price.format(row.po_qty,0,",",'.');
                 }
             }, {
                 field: 'po_notes',

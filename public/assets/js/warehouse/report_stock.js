@@ -122,7 +122,7 @@ var KTGridDetailReport = function(){
                 sortable: false,
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.first_qty,2,",",'.');
+                    return price.format(row.first_qty,0,",",'.');
                 }
             }, {
                 field: 'qty_in',
@@ -131,7 +131,7 @@ var KTGridDetailReport = function(){
                 sortable: false,
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.qty_in,2,",",'.');
+                    return price.format(row.qty_in,0,",",'.');
                 }
             }, {
                 field: 'qty_out',
@@ -140,7 +140,7 @@ var KTGridDetailReport = function(){
                 sortable: false,
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.qty_out,2,",",'.');
+                    return price.format(row.qty_out,0,",",'.');
                 }
             }, {
                 field: 'current_qty',
@@ -149,7 +149,7 @@ var KTGridDetailReport = function(){
                 sortable: false,
                 autoHide: false,
                 template: function(row){
-                    return price.format(row.current_qty,2,",",'.');
+                    return price.format(row.current_qty,0,",",'.');
                 }
             }],
           fn: function(){
@@ -248,7 +248,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.first_qty,2,",",'.');
+                return price.format(row.first_qty,0,",",'.');
             }
         }, {
             field: 'in_qty',
@@ -257,7 +257,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.in_qty,2,",",'.');
+                return price.format(row.in_qty,0,",",'.');
             }
         }, {
             field: 'out_qty',
@@ -266,7 +266,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.out_qty,2,",",'.');
+                return price.format(row.out_qty,0,",",'.');
             }
         }, {
             field: 'current_qty',
@@ -275,7 +275,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.current_qty,2,",",'.');
+                return price.format(row.current_qty,0,",",'.');
             }
         }, {
             field: '#',

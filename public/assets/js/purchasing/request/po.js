@@ -337,9 +337,9 @@ var KTGridPO = function(){
                                     // PIC
                                     tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic+' - '+v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
                                     // input qty
-                                    tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    tmpHtml += '<div class="text-right">'+price.format(v.po_qty,0,',','.')+'</div>';
                                     // input income qty
-                                    tmpHtml += '<div class="text-right">'+price.format((v.po_qty-v.qty),2,',','.')+'</div>';
+                                    tmpHtml += '<div class="text-right">'+price.format((v.po_qty-v.qty),0,',','.')+'</div>';
                                     // input measure
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     var tmp = (v.po_date_delivery == null?false:v.po_date_delivery),

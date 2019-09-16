@@ -172,7 +172,7 @@ $(document).ready(function(){
             autoHide: false,
             overflow: 'visible',
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'qty.need_qty',
@@ -181,13 +181,13 @@ $(document).ready(function(){
             overflow: 'visible',
             sortable: false,
             template: function(row){
-                return price.format(row.need_qty,2,",",'.');
+                return price.format(row.need_qty,0,",",'.');
             }
         }, {
             field: 'stock_min_qty',
             title: 'Minimal Kuantiti',
             template: function(row){
-                return price.format(row.stock_min_qty,2,",",'.');
+                return price.format(row.stock_min_qty,0,",",'.');
             }
         }, {
             field: 'stock_daily_use',

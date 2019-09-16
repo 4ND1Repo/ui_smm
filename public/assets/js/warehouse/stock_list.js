@@ -361,7 +361,7 @@ var KTGridQtyIn = function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'stock_notes',
@@ -383,6 +383,7 @@ var KTGridQtyIn = function(){
         this.element.destroy();
       this.config.main_stock_code = window.main_stock_code;
       this.element = grid(this.config);
+      this.element.reload();
     }
   };
 }();
@@ -452,7 +453,7 @@ var KTGridQtyOut = function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'stock_notes',
@@ -474,6 +475,7 @@ var KTGridQtyOut = function(){
         this.element.destroy();
       this.config.main_stock_code = window.main_stock_code;
       this.element = grid(this.config);
+      this.element.reload();
     }
   };
 }();
@@ -756,13 +758,13 @@ $(document).ready(function(){
             autoHide: false,
             overflow: 'visible',
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'stock_min_qty',
             title: 'Minimal Kuantiti',
             template: function(row){
-                return price.format(row.stock_min_qty,2,",",'.');
+                return price.format(row.stock_min_qty,0,",",'.');
             }
         }, {
             field: 'stock_daily_use',

@@ -227,7 +227,7 @@ var KTGridPO = function(){
                                     var tmpdt = (v.po_date_delivery !== null)?v.po_date_delivery.split('-'):'-';
                                     tmpHtml += '<div class="text-center">'+((v.po_date_delivery !== null)?(tmpdt[2]+"/"+tmpdt[1]+"/"+tmpdt[0]):tmpdt)+'</div>';
                                     // input qty
-                                    tmpHtml += '<div class="text-right">'+price.format(v.po_qty,2,',','.')+'</div>';
+                                    tmpHtml += '<div class="text-right">'+price.format(v.po_qty,0,',','.')+'</div>';
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
                                     tmpHtml += '<div class="text-center" data-toggle="kt-tooltip-notes" data-container="body" data-placement="top" title="'+(v.po_notes==null?"":v.po_notes)+'">'+(v.po_notes==null?"":v.po_notes)+'</div>';
                                     tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'')+'</div>';

@@ -230,7 +230,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'stock_notes',
@@ -369,7 +369,7 @@ $(document).ready(function(){
             sortable: false,
             autoHide: false,
             template: function(row){
-                return price.format(row.stock_qty,2,",",'.');
+                return price.format(row.stock_qty,0,",",'.');
             }
         }, {
             field: 'stock_notes',

@@ -56,7 +56,7 @@ var KTGridPO = function(){
                 field: 'do_qty',
                 title: 'Kuantiti masuk',
                 template: function(row){
-                    return price.format(row.do_qty,2,",",'.');
+                    return price.format(row.do_qty,0,",",'.');
                 }
             }, {
                 field: 'measure_type',
@@ -65,7 +65,7 @@ var KTGridPO = function(){
                 field: 'stock_price',
                 title: 'Harga',
                 template: function(row){
-                    return price.format(row.stock_price,2,",",'.');
+                    return price.format(row.stock_price,0,",",'.');
                 }
             }, {
                 field: 'finish_by',
