@@ -149,6 +149,11 @@ if ($response->status == 200) {
                 Route::get('borrow', 'Warehouse\MainController@borrow');
             });
 
+            // Report group
+            Route::group(['prefix' => 'rep'], function () use ($row) {
+                Route::get('stock', $row->page_name . '\MainController@report_stock');
+            });
+
 
             // Import Group
             Route::group(['prefix' => 'import'], function () use ($row) {
@@ -183,6 +188,12 @@ if ($response->status == 200) {
                         // for Purchasing
                         Route::post('po_pur', 'Export\Excel\RequestController@po_pur');
                         Route::post('history_po_pur', 'Export\Excel\RequestController@history_po_pur');
+                    });
+
+                    // report group
+                    Route::group(['prefix' => 'rep'], function () {
+                        Route::post('stock', 'Export\Excel\StockController@report_stock');
+                        Route::post('stock/detail', 'Export\Excel\StockController@report_detail_stock');
                     });
 
                     // stock by warehouse type group
