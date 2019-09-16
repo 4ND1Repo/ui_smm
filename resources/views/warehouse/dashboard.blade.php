@@ -77,10 +77,10 @@
                                             </g>
                                         </svg> </span>
                                     <span class="kt-widget17__subtitle">
-                                        Komplain Untuk Saya Bulan ini
+                                        Pesan Untuk Saya Bulan ini
                                     </span>
                                     <span class="kt-widget17__desc complaint_to_me">
-                                        0 komplain
+                                        0 pesan
                                     </span>
                                 </div>
                                 <div class="kt-widget17__item">

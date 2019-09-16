@@ -103,7 +103,7 @@ var KTChart = function(){
             success: function(r){
               if(r.status){
                 $('.req_tools').html(r.data.request_tools + ' Barang');
-                $('.complaint_to_me').html(r.data.complaint + ' Komplain');
+                $('.complaint_to_me').html(r.data.complaint + ' Pesan');
                 $('.po_goods').html(r.data.po + ' Barang');
                 $('.do_goods').html(r.data.do + ' Surat Jalan');
               }
