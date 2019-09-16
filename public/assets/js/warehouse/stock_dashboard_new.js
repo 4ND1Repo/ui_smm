@@ -582,7 +582,8 @@ $(document).ready(function(){
     });
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [];
     var stockAutocomplete = $('input[name=stock_name].autocomplete').typeahead(null, {
         name: 'stock_name',
@@ -599,6 +600,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = v.id;
+                        datas[v.label] = v.data;
                     });
 
                 }

@@ -65,7 +65,7 @@ var KTRequestTools = function(){
                     data: data,
                     success: function(r){
                         if(r.status){
-                            $(formId)[0].reset();
+                            $(formId+" .request_tools_new").find(".data-row").remove();
                             $(formId+" input[type=text]")[0].focus();
 
                             if(bEdit){
@@ -667,15 +667,15 @@ $(document).ready(function(){
         // tmp += '</div>';
 
         tmp += '<div class="row_request data-row" id="'+map[selection]+'">';
-        tmp += '<div>'+data[0]+'</div>';
-        tmp += '<div>'+data[1]+'</div>';
-        tmp += '<div class="text-center">'+data[3]+'</div>';
-        tmp += '<div class="text-center">'+data[2]+'</div>';
+        tmp += '<div>'+datas[selection]['stock_code']+'</div>';
+        tmp += '<div>'+datas[selection]['stock_name']+'</div>';
+        tmp += '<div class="text-center">'+datas[selection]['stock_size']+'</div>';
+        tmp += '<div class="text-center">'+datas[selection]['stock_type']+'</div>';
         tmp += '<div>'+datas[selection]['stock_brand']+'</div>';
         tmp += '<div class="text-center">'+datas[selection]['stock_color']+'</div>';
         tmp += '<div class="text-right">'+(datas[selection]['qty']==0?0:datas[selection]['qty'])+'</div>';
-        tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value=""><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div></div>';
-        tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+data[0]+']" value=""></div>';
+        tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+datas[selection]['stock_code']+']" value=""><div class="input-group-append"><span class="input-group-text">'+datas[selection]['measure_type']+'</span></div></div></div>';
+        tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+datas[selection]['stock_code']+']" value=""></div>';
         tmp += '<div class="text-center"><i class="fa fa-trash" onclick="$(this).parent().parent().remove()"></i></div>';
         tmp += '</div>';
         if($('.request_tools_new').find("div[id='"+map[selection]+"']").length > 0){
@@ -702,7 +702,7 @@ $(document).ready(function(){
                 }
             });
 
-            $('.request_tools_new input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
+            $('.request_tools_new input[name="items['+datas[selection]['stock_code']+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
     });

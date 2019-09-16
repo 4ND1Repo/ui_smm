@@ -356,7 +356,8 @@ $(document).ready(function(){
 
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [],
     stockAutocomplete = $('input[name=stock_name].autocomplete').typeahead(null, {
         name: 'stock_name',
@@ -373,6 +374,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = v.id;
+                        datas[v.label] = v.data;
                     });
 
                 }
@@ -384,14 +386,14 @@ $(document).ready(function(){
             data = selection.split(' - ');
         tmp += '<div class="col-md-3" id="'+map[selection]+'">';
         tmp += '<div class="list-item">';
-        tmp += '<div class="item_header">'+data[0]+'<span class="item" onclick="delete_items_stock(\''+map[selection]+'\')"><i class="flaticon-close"></i></span></div>';
+        tmp += '<div class="item_header">'+datas[selection]['stock_code']+'<span class="item" onclick="delete_items_stock(\''+map[selection]+'\')"><i class="flaticon-close"></i></span></div>';
         tmp += '<div class="item_body">';
-        tmp += '<div>'+data[1]+'&nbsp;</div>';
-        tmp += '<div>'+data[2]+'&nbsp;</div>';
-        tmp += '<div>'+data[3]+'&nbsp;</div>';
-        tmp += '<div>'+data[4]+'&nbsp;</div>';
-        tmp += '<div><textarea name="notes['+data[0]+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
-        tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+data[5]+'</span></div></div>';
+        tmp += '<div>'+datas[selection]['stock_name']+'&nbsp;</div>';
+        tmp += '<div>'+datas[selection]['stock_type']+'&nbsp;</div>';
+        tmp += '<div>'+datas[selection]['stock_size']+'&nbsp;</div>';
+        tmp += '<div>'+datas[selection]['stock_brand']+'&nbsp;</div>';
+        tmp += '<div><textarea name="notes['+datas[selection]['stock_code']+']" rows="2" class="form-control form-control-sm" placeholder="keterangan"></textarea></div>';
+        tmp += '<div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+data[0]+']" value="0"><div class="input-group-append"><span class="input-group-text">'+datas[selection]['measure_type']+'</span></div></div>';
         tmp += '</div>';
         tmp += '</div>';
         tmp += '</div>';
@@ -409,7 +411,7 @@ $(document).ready(function(){
                 rightAlignNumerics: false
             });
 
-            $('.request_tools input[name="items['+data[0]+']"]').rules('add', {required:true, min:0.01});
+            $('.request_tools input[name="items['+datas[selection]['stock_code']+']"]').rules('add', {required:true, min:0.01});
         }
         stockAutocomplete.typeahead('val','');
     });

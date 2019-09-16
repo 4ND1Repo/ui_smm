@@ -24,7 +24,8 @@ $(document).ready(function(){
 
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [],
     stockAutocomplete = $('#find-goods').typeahead(null, {
         name: 'stock_name',
@@ -43,6 +44,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = v.id;
+                        datas[v.label] = v.data;
                     });
 
                 }
@@ -55,10 +57,10 @@ $(document).ready(function(){
             target = $('.popup-search').attr('target'),
             label = '';
 
-        label = encodeURI(data[1].substring(0,14)+((data[2]!="")?" "+data[2].substring(0,8):"")+((data[3]!="")?" "+data[3].substring(0,8):"")+((data[4]!="")?" "+data[4].substring(0,8):""));
+        label = encodeURI(datas[selection]['stock_name'].substring(0,14)+((datas[selection]['stock_type']!="")?" "+datas[selection]['stock_type'].substring(0,8):"")+((datas[selection]['stock_size']!="")?" "+datas[selection]['stock_size'].substring(0,8):"")+((datas[selection]['stock_brand']!="")?" "+datas[selection]['stock_brand'].substring(0,8):""));
         
 
-        $("[data-id="+target+"]").children('input:first-child').val(data[0]).next().val(label);
+        $("[data-id="+target+"]").children('input:first-child').val(datas[selection]['stock_code']).next().val(label);
         $("[data-id="+target+"]").children('div').html(selection);
         $('.popup-search').css({display:'none'});
         stockAutocomplete.typeahead('val','');

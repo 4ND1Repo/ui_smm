@@ -25,6 +25,7 @@
     }
     .typeahead .tt-dataset {
       max-height: 200px;
+      min-width: 600px;
       overflow-y: auto;
     }
 </style>
@@ -242,10 +243,10 @@
                     <div class="row request_tools_new">
                         <div class="row_request">
                             <div class="text-center">Kode Barang</div>
-                            <div class="text-center">Nama Barang</div>
+                            <div class="text-left">Nama Barang</div>
                             <div class="text-center">Ukuran</div>
                             <div class="text-center">Tipe</div>
-                            <div class="text-center">Merek</div>
+                            <div class="text-left">Merek</div>
                             <div class="text-center">Warna</div>
                             <div class="text-right">Kuantiti Sekarang</div>
                             <div class="text-right">Kuantiti</div>

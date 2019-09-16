@@ -2,6 +2,7 @@
     .typeahead .tt-dataset {
       max-height: 200px;
       overflow-y: auto;
+      min-width: 600px;
     }
 </style>
 

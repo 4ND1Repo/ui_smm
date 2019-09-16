@@ -58,6 +58,11 @@
                     border: 1px solid grey;
                     border-radius: 8px;
                 }
+                .typeahead .tt-dataset {
+                    max-height: 200px;
+                    overflow-y: auto;
+                    min-width: 600px;
+                }
                 </style>
                 <form id="Fbarcode" method="POST" target="_blank">
                     <div class="grid-container">

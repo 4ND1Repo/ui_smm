@@ -364,7 +364,8 @@ $(document).ready(function(){
     });
 
     // autocomplete
-    var map = {};
+    var map = {},
+        datas = {};
     var res = [],
     ajx = null,
     stockAutocomplete = $('input[name=stock_code].autocomplete').typeahead(null, {
@@ -382,6 +383,7 @@ $(document).ready(function(){
                     $.each(r, function(k,v){
                         res.push(v.label);
                         map[v.label] = v.id;
+                        datas[v.label] = v.data;
                     });
 
                 }
@@ -392,32 +394,18 @@ $(document).ready(function(){
         var tmp = '',
             data = selection.split(' - ');
 
-        if(ajx !== null) ajx.abort();
+        $('input[name=stock_name]').val(datas[selection]['stock_name']);
+        $('input[name=stock_type]').val(datas[selection]['stock_type']);
+        $('input[name=stock_size]').val(datas[selection]['stock_size']);
+        $('input[name=stock_qty]').val((datas[selection]['qty']==null?0:datas[selection]['qty']));
+        $('input[name=main_stock_code]').val(map[selection]);
+        $(stockAutocomplete).prop('disabled', true);
+        $('input[name=borrowed_long_term]').focus();
 
-        ajx = $.ajax({
-          url: api_url + '/api/wh/stock/find_by_stock',
-          type: 'POST',
-          data: {stock_code: data[0], page_code: 'wh', borrow:1},
-          success: function(r){
-            if(r.status){
-              var dta = r.data;
-              $('input[name=stock_name]').val(dta.stock_name);
-              $('input[name=stock_type]').val(dta.stock_type);
-              $('input[name=stock_size]').val(dta.stock_size);
-              $('input[name=stock_qty]').val((dta.stock_qty==null?0:dta.stock_qty));
-              $('input[name=main_stock_code]').val(dta.main_stock_code);
-              $(stockAutocomplete).prop('disabled', true);
-              $('input[name=borrowed_long_term]').focus();
-
-              $('.typeahead').on('dblclick', function(){
-                $(this).find('input').prop('disabled', false).focus();
-              });
-            }
-          },
-          error: function(){
-            console.log('error');
-          }
+        $('.typeahead').on('dblclick', function(){
+          $(this).find('input').prop('disabled', false).focus();
         });
+
         stockAutocomplete.typeahead('val',data[0]);
     });
     $('#FBorrow .typeahead').on('keyup', function(e) {
