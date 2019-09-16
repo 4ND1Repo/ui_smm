@@ -361,8 +361,8 @@ var KTGridRequestTools = function(){
                                 $('input[name=req_nik]').val(data.request_tools.req_nik).prop('readonly',true);
                                 $('#addReqtools  .take-by').removeClass('kt-hidden');
 
-                                var tmp = '';
                                 $.each(data.request_tools_detail, function(k,v){
+                                    var tmp = '';
 
                                     /* old data get*/
                                     // tmp = '<div class="col-md-3">';
@@ -393,7 +393,7 @@ var KTGridRequestTools = function(){
                                     tmp += '<div class="text-center">'+v.stock_color+'</div>';
                                     tmp += '<div class="text-right">'+v.stock_qty+'</div>';
                                     tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'"><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div></div>';
-                                    tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.stock_code+']" value="'+v.req_tools_notes+'"></div>';
+                                    tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.stock_code+']" value="'+(v.req_tools_notes!=null?v.req_tools_notes:'')+'"></div>';
                                     tmp += '<div>'+((v.finish_by == null && v.fullfillment == 1)?'<i class="fa fa-share-square text-success btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Berikan"></i>':((v.finish_by == null && v.fullfillment == 0)?'<i class="fa fa-book text-danger btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Tambahkan ke PO"></i>':'<i class="fa fa-check text-success"></i>'))+'</div>';
                                     tmp += '</div>';
 
@@ -812,6 +812,7 @@ $(document).ready(function(){
                     <span></span>\
                 </label>\
             </div></div>';
+        tmpHtml += '<div><i class="fa fa-trash" onclick="$(this).parent().parent().remove(); delete window.po.'+k+';"></i></div>';
         tmpHtml += '</div>';
         $(targetListPo).append(tmpHtml);
         KTFormPO.rules('input[name="data['+v.main_stock_code+']"]');

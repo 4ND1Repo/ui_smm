@@ -306,8 +306,12 @@
                       width: 100px;
                       text-align: center;
                   }
-                  .po-table > .po-row > div:last-child {
+                  .po-table > .po-row > div:nth-child(6) {
                       width: 70px;
+                      text-align: center;
+                  }
+                  .po-table > .po-row > div:nth-child(6) {
+                      width: 20px;
                       text-align: center;
                   }
                 </style>
@@ -321,6 +325,7 @@
                                 <div>Satuan</div>
                                 <div>Keterangan</div>
                                 <div>Penting</div>
+                                <div>&nbsp;</div>
                             </div>
                         </div>
                     </div>

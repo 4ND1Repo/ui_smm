@@ -335,7 +335,7 @@ var KTGridPO = function(){
                                     // Urgenity
                                     tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'&nbsp;')+'</div>';
                                     // PIC
-                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic+' - '+v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
+                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,0,',','.')+'</div>';
                                     // input income qty
@@ -365,6 +365,37 @@ var KTGridPO = function(){
                                       	event.preventDefault();
                                       	event.stopPropagation();
                                     });
+
+                                    // autocomplete
+                                    var map = {};
+                                    var res = [],
+                                    PicAutocomplete = $('[name="data['+v.po_code+']['+v.pod_code+'][pic]"]').typeahead(null, {
+                                        name: 'pic',
+                                        source: function(query,psc){
+                                            $.ajax({
+                                                url: api_url+'/api/account/user/autocomplete',
+                                                type: 'POST',
+                                                data: {find:query},
+                                                async: false,
+                                                success: function(r){
+                                                    res = [];
+                                                    map = {};
+                                                    $.each(r, function(k,v){
+                                                        res.push(v.label);
+                                                        map[v.label] = v.id;
+                                                    });
+                                
+                                                }
+                                            });
+                                            psc(res);
+                                        }
+                                    }).on('typeahead:selected', function(event, selection) {
+                                        var tmp = '',
+                                            data = selection.split(' - ');
+                                        PicAutocomplete.typeahead('val',map[selection]);
+                                        $(PicAutocomplete).prop('readonly', true);
+                                    });
+
                                     // supplier autocomplete
                                     $('input[name="data['+v.po_code+']['+v.pod_code+'][supplier]"]').typeahead(null, {
                                         name: 'stock_name',
@@ -440,6 +471,10 @@ var KTGridPO = function(){
                                         });
                                       }
                                     });
+                                  });
+
+                                  $("input[name=req_take_nik]").on('dblclick', function(){
+                                    $(this).prop('readonly',false);
                                   });
 
                                   $('#FPO .data div[data-toggle="kt-tooltip"]').tooltip({
