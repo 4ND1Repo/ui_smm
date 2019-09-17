@@ -350,8 +350,10 @@ var KTGridRequestTools = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+                var ajx = null;
                 $('.btn-detail').click(function(){
-                    $.ajax({
+                    if(ajx != null) ajx.abort();
+                    ajx = $.ajax({
                         url: api_url+'/api/wh/req/tools/find/'+$(this).attr('id'),
                         type: 'GET',
                         success: function(res){
@@ -691,7 +693,7 @@ $(document).ready(function(){
             $(".qtyStock").inputmask('decimal', {
                 rightAlignNumerics: false
             });
-            // $(".qtyStock").unbind('keayup');
+            $(".qtyStock").unbind('keyup');
             $(".qtyStock").keyup(function(){
                 var el = this;
                 if(parseFloat($(el).parent().parent().prev().text()) < parseFloat($(el).val())){

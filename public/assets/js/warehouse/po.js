@@ -199,8 +199,11 @@ var KTGridPO = function(){
 
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+                var ajx = null;
                 $('.btn-detail').click(function(){
-                    $.ajax({
+                    if(ajx != null) ajx.abort();
+                    
+                    ajx = $.ajax({
                         url: link_find+$(this).attr('id'),
                         type: 'GET',
                         success: function(res){

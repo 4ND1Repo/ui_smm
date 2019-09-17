@@ -213,6 +213,8 @@ var KTGridPO = function(){
             });
             // function buttin on datatable grid
             $('.kt-datatable').on('kt-datatable--on-layout-updated', function() {
+                var ajx = null;
+
                 $('.btn-cancel').click(function(){
                   Swal.fire({
                       title: 'Anda yakin?',
@@ -302,7 +304,8 @@ var KTGridPO = function(){
                 });
 
                 $('.btn-detail').click(function(){
-                    $.ajax({
+                    if(ajx != null) ajx.abort();
+                    ajx = $.ajax({
                         url: link_find+$(this).attr('id'),
                         type: 'GET',
                         success: function(res){
@@ -335,7 +338,7 @@ var KTGridPO = function(){
                                     // Urgenity
                                     tmpHtml += '<div class="text-center">'+(v.urgent==1?'<i class="fa fa-check"></i>':'&nbsp;')+'</div>';
                                     // PIC
-                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
+                                    tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm po-pic" name="data['+v.po_code+']['+v.pod_code+'][pic]" value="'+(v.po_pic == null?'':v.po_pic)+'" placeholder="PIC" title="PIC"></div>';
                                     // input qty
                                     tmpHtml += '<div class="text-right">'+price.format(v.po_qty,0,',','.')+'</div>';
                                     // input income qty
@@ -393,7 +396,6 @@ var KTGridPO = function(){
                                         var tmp = '',
                                             data = selection.split(' - ');
                                         PicAutocomplete.typeahead('val',map[selection]);
-                                        $(PicAutocomplete).prop('readonly', true);
                                     });
 
                                     // supplier autocomplete
@@ -488,7 +490,7 @@ var KTGridPO = function(){
                                   // begin: split function for new task to PIC
                                   $('.split').click(function(){
                                     // destroy event before create new element
-                                    $('input.supplier').typeahead('destroy');
+                                    $('input.supplier, input.po-pic').typeahead('destroy');
                                     $('input.date-picker').datepicker('destroy');
                                     console.log($('input.numberonly'));
                                     $('input.numberonly').inputmask('remove');
@@ -509,7 +511,36 @@ var KTGridPO = function(){
                                     $(row).insertAfter($(el).parent().parent());
                                     // increment last_id
                                     $(el).parent().parent().attr('last_id',(parseInt($(el).parent().parent().attr('last_id'))+1));
+                                    
+                                    // autocomplete
+                                    var map = {};
+                                    var res = [],
+                                    PicAutocomplete = $('.po-pic').typeahead(null, {
+                                        name: 'pic',
+                                        source: function(query,psc){
+                                            $.ajax({
+                                                url: api_url+'/api/account/user/autocomplete',
+                                                type: 'POST',
+                                                data: {find:query},
+                                                async: false,
+                                                success: function(r){
+                                                    res = [];
+                                                    map = {};
+                                                    $.each(r, function(k,v){
+                                                        res.push(v.label);
+                                                        map[v.label] = v.id;
+                                                    });
 
+                                                }
+                                            });
+                                            psc(res);
+                                        }
+                                    }).on('typeahead:selected', function(event, selection) {
+                                        var tmp = '',
+                                            data = selection.split(' - ');
+
+                                        $(event.target).typeahead('val',map[selection]);
+                                    });
                                     // event for datepicker
                                     $('input.date-picker').datepicker({
                                         format: "dd/mm/yyyy",

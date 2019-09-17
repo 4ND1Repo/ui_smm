@@ -725,7 +725,7 @@ var KTNotification = function(){
               $(target_notif+' a[data-id="'+v.notification_id+'"] [data-toggle="kt-tooltip"]').tooltip();
 
               // toaster
-              if(v.notification_read==0)
+              if(v.notification_read==0 && (typeof t.init == 'undefined'))
                 toastr.info(((v.notification_title!=null?v.notification_title+" : ":"")+v.notification_content));
 
 

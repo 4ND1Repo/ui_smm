@@ -195,10 +195,8 @@ class MainController extends Controller{
             $v::data($tmp->data);
         }
         $html = View('template.print',$v::colect())->render();
-// return $html;
+
         // dompdf
-        // if($r->get('die'))
-          // echo $html; die();
         $pdf = PDF::loadHTML($html);
         $pdf->setOptions([
           'isHtml5ParserEnabled' => true,
