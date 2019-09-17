@@ -345,13 +345,7 @@ var KTGridPO = function(){
                                     tmpHtml += '<div class="text-right">'+price.format((v.po_qty-v.qty),0,',','.')+'</div>';
                                     // input measure
                                     tmpHtml += '<div class="text-center">'+v.measure_type+'</div>';
-                                    var tmp = (v.po_date_delivery == null?false:v.po_date_delivery),
-                                      dte = '';
-                                    if(tmp){
-                                      tmp = tmp.split('-');
-                                      dte = tmp[2]+"/"+tmp[1]+"/"+tmp[0];
-                                    }
-                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm date-picker" name="data['+v.po_code+']['+v.pod_code+'][date]" value="'+dte+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
+                                    tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm date-picker" name="data['+v.po_code+']['+v.pod_code+'][date]" value="'+(v.po_date_delivery == null?'':v.po_date_delivery)+'" placeholder="Tanggal Terima" title="Tanggal Terima" readonly></div>';
                                     tmpHtml += '<div class="typeahead"><input type="text" class="form-control form-control-sm supplier" name="data['+v.po_code+']['+v.pod_code+'][supplier]" value="'+(v.supplier_code == null?'':v.supplier_code+' - '+v.supplier_name)+'" placeholder="Supplier" title="Supplier"></div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm numberonly pricing" name="data['+v.po_code+']['+v.pod_code+'][price]" value="'+(v.stock_price == null?'':v.stock_price)+'" data-id="'+v.pod_code+'" data-skin="dark" data-toggle="kt-tooltip" data-container="body" data-placement="top" data-original-title="" placeholder="Harga" title="Harga"></div>';
                                     tmpHtml += '<div class=""><input type="text" class="form-control form-control-sm numberonly" name="data['+v.po_code+']['+v.pod_code+'][qty]" value="'+v.po_qty+'" placeholder="Tersedia" title="Tersedia"></div>';

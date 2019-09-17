@@ -72,12 +72,7 @@ var KTGridPO = function(){
                 title: 'Diselesaikan oleh'
             }, {
                 field: 'finish_date',
-                title: 'Pada Tanggal',
-                template: function(row){
-                  var tmp = row.po_date.split(" "), date;
-                  date = tmp[0].split('-');
-                  return (tmp.length > 1?(date[2]+"/"+date[1]+"/"+date[0]+' '+tmp[1]):row.po_date);
-                }
+                title: 'Pada Tanggal'
             }, {
                 field: 'action',
                 title: 'Aksi',

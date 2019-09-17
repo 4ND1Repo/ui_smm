@@ -180,6 +180,12 @@ $(document).ready(function(){
     gridIn.set('page', '10');
     gridIn.set('column',
         [{
+            field: 'stock_date',
+            title: 'Tanggal',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
             field: 'stock_code',
             title: 'Kode Stock',
             sortable: false,
@@ -211,12 +217,6 @@ $(document).ready(function(){
         }, {
             field: 'stock_color',
             title: 'Warna',
-        }, {
-            field: 'stock_date',
-            title: 'Tanggal',
-            width: 80,
-            overflow: 'visible',
-            autoHide: false,
         }, {
             field: 'master.master_measure.measure_type',
             title: 'Tipe Ukuran',
@@ -313,6 +313,18 @@ $(document).ready(function(){
     gridOut.set('find', '#generalSearchOut');
     gridOut.set('column',
         [{
+            field: 'stock_out_date',
+            title: 'Tanggal Keluar',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
+            field: 'stock_date',
+            title: 'Tanggal',
+            width: 80,
+            overflow: 'visible',
+            autoHide: false,
+        }, {
             field: 'stock_code',
             title: 'Kode Stock',
             sortable: false,
@@ -344,18 +356,6 @@ $(document).ready(function(){
         }, {
             field: 'stock_color',
             title: 'Warna',
-        }, {
-            field: 'stock_date',
-            title: 'Tanggal',
-            width: 80,
-            overflow: 'visible',
-            autoHide: false,
-        }, {
-            field: 'stock_out_date',
-            title: 'Tanggal Keluar',
-            width: 80,
-            overflow: 'visible',
-            autoHide: false,
         }, {
             field: 'master.master_measure.measure_type',
             title: 'Tipe Ukuran',

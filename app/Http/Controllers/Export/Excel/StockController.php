@@ -484,7 +484,14 @@ class StockController extends Controller{
         $startRow = 6;
         $startAlpha = 'A';
         $headerTitle = [
-            ['title' => 'No.', 'field' => 'incremental', 'width' => 5, 'style' => 'center'],
+            ['title' => 'No.', 'field' => 'incremental', 'width' => 5, 'style' => 'center']];
+
+        if($r->input('query')['type'] == "in")
+            array_push($headerTitle, ['title' => 'Tanggal Masuk', 'field' => 'stock_date', 'width' => 20, 'style' => 'center']);
+        else
+            array_push($headerTitle, ['title' => 'Tanggal Keluar', 'field' => 'stock_out_date', 'width' => 20, 'style' => 'center']);
+
+        $headerTitle = array_merge($headerTitle, [
             ['title' => 'Kode Barang', 'field' => 'stock_code', 'width' => 20, 'style' => 'center'],
             ['title' => 'Barang', 'field' => 'stock_name', 'width' => 24, 'style' => 'left'],
             ['title' => 'Ukuran', 'field' => 'stock_size', 'width' => 16, 'style' => 'center'],
@@ -493,13 +500,9 @@ class StockController extends Controller{
             ['title' => 'Warna', 'field' => 'stock_color', 'width' => 16, 'style' => 'left'],
             ['title' => 'Satuan', 'field' => 'measure_type', 'width' => 16, 'style' => 'center'],
             ['title' => 'Pinjaman', 'field' => 'stock_daily_use', 'width' => 10, 'style' => 'center'],
-            ['title' => 'Kuantiti', 'field' => 'stock_qty', 'width' => 16, 'style' => 'right']
-        ];
-        if($r->input('query')['type'] == "in")
-            array_push($headerTitle, ['title' => 'Tanggal Masuk', 'field' => 'stock_date', 'width' => 20, 'style' => 'center']);
-        else
-            array_push($headerTitle, ['title' => 'Tanggal Keluar', 'field' => 'stock_out_date', 'width' => 20, 'style' => 'center']);
-        array_push($headerTitle, ['title' => 'Keterangan', 'field' => 'stock_notes', 'width' => 26, 'style' => 'left']);
+            ['title' => 'Kuantiti', 'field' => 'stock_qty', 'width' => 16, 'style' => 'right'],
+            ['title' => 'Keterangan', 'field' => 'stock_notes', 'width' => 26, 'style' => 'left']
+        ]);
 
         // config Header
         foreach ($headerTitle as $i => $row) {

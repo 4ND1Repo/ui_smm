@@ -90,3 +90,13 @@ Class ExcelHelper {
     return isset($style[$t])?$style[$t]:false;
   }
 }
+
+
+Class converter {
+    public static function fromID($dt){
+        if(strpos($dt, '/') != -1){
+            list($date, $month, $year) = explode("/",$dt);
+            return implode("-",[$year, $month, $date]);
+        }
+    }
+}

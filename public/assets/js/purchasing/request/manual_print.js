@@ -154,6 +154,9 @@ $(document).ready(function(){
     $(".btn-print").click(function(){
         // empty post before send data
         $('#print_page').html('');
+        // filter find
+        if($('input#generalSearch').val() != "")
+            $('#print_page').append('<input type="hidden" name="query[find]" value="'+$('input#generalSearch').val()+'">');
         // filter supplier
         if($('select[name=supplier_code]').val() != "")
             $('#print_page').append('<input type="hidden" name="query[supplier_code]" value="'+$('select[name=supplier_code]').val()+'">');

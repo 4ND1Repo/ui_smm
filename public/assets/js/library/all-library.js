@@ -1173,7 +1173,8 @@ $(document).ready(function(){
     $('.date-picker').datepicker({
       changeMonth:true,
       changeYear:true,
-      format:"yyyy-mm-dd",
+      // format:"yyyy-mm-dd",
+      format:"dd/mm/yyyy",
       autoclose: true,
       clearBtn: true
     }).on('hide',function(event){
