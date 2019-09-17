@@ -763,7 +763,12 @@ var KTNotification = function(){
                 last: $("#topbar_notifications_notifications .kt-notification > a").length,
                 end: 'Sudah di akhir',
                 template: function(r){
-                  return '<a href="'+(r.notification_url !== null?r.notification_url:"javascript:void(0);")+'" target="_blank" data-id="'+r.notification_id+'" class="kt-notification__item'+(r.notification_read==1?' kt-notification__item--read':'')+'">\
+                  var url_notif = (r.notification_url !== null?r.notification_url:"javascript:void(0);");
+                  if(url_notif.indexOf('http') == -1 && url_notif != "javascript:void(0);"){
+                    url_notif = base_url + url_notif;
+                  }
+
+                  return '<a href="'+url_notif+'" target="_blank" data-id="'+r.notification_id+'" class="kt-notification__item'+(r.notification_read==1?' kt-notification__item--read':'')+'">\
                   <div class="kt-notification__item-icon">\
                   <i class="'+r.notification_icon+' kt-font-success"></i>\
                   </div>\
@@ -1083,7 +1088,7 @@ $(document).ready(function(){
                       $.ajax({
                         url: api_url+'/api/mng/user/notification/add',
                         type: 'POST',
-                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Ada pesan untuk anda', notification_icon: "fa fa-bullhorn kt-font-warning"},
+                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Pesan untuk anda', notification_icon: "fa fa-bullhorn kt-font-warning"},
                         success: function(r){
                           console.log(r);
                         }

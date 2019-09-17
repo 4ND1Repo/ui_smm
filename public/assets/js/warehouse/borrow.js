@@ -310,7 +310,7 @@ var KTGridBorrow = function(){
                                     $.ajax({
                                       url: api_url+'/api/mng/user/notification/add',
                                       type: 'POST',
-                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Pinjam Barang('+$(el).attr('id')+') digagalkan', notification_url:base_url+'/wh/req/borrow', notification_icon: "fa fa-people-carry kt-font-danger"},
+                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Pinjam Barang('+$(el).attr('id')+') digagalkan', notification_url:'/wh/req/borrow', notification_icon: "fa fa-people-carry kt-font-danger"},
                                       success: function(r){
                                         console.log(r);
                                       }
@@ -542,7 +542,7 @@ $(document).ready(function(){
                       $.ajax({
                         url: api_url+'/api/mng/user/notification/add',
                         type: 'POST',
-                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Ada Pinjaman barang', notification_icon: "fa fa-people-carry kt-font-default"},
+                        data:{notification_to:to, notification_from:window.Auth.nik, notification_content:'Pinjaman barang', notification_icon: "fa fa-people-carry kt-font-default"},
                         success: function(r){
                           console.log(r);
                         }

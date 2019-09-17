@@ -27,86 +27,107 @@ var KTFormPO = function(){
         },
 
         submitHandler: function (form) {
-            var link = link_add;
+            var link = link_add,
+                err = false,
+                cntNull = 0;
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"page_code", value:window.Auth.page});
             data.push({name:"page_code_destination", value:'pur'});
-            if($('input.exists').length == 0){
-                // block ui modal
-                var target = formModal+' .modal-content';
-                KTApp.block(target, {
-                    overlayColor: '#000000',
-                    type: 'v2',
-                    state: 'primary',
-                    message: 'Processing...'
-                });
-
-                $.ajax({
-                    url: link,
-                    type: "POST",
-                    data: data,
-                    success: function(r){
-                        if(r.status){
-                            swal.fire({
-                                title: "",
-                                text: r.message,
-                                type: "success",
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then((res) => {
-                                $('#FPO .list-body').html('');
-                                $('#addPo').modal('hide');
-                                myGrid.element().reload();
-
-                                // send notification to target
-                                $.ajax({
-                                  url: api_url+'/api/mng/user/notification/add',
-                                  type: 'POST',
-                                  data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Ada barang masuk gudang', notification_url:base_url+'/pur/req/do', notification_icon: "fa fa-box-open kt-font-success"},
-                                  success: function(r){
-                                    console.log(r);
-                                  }
-                                });
-                                console.log('Success');
-                            });
-                        } else {
-                            swal.fire({
-                                title: "",
-                                text: r.message,
-                                type: "warning",
-                                showConfirmButton: false,
-                                timer: 1500
-                            }).then((res) => {
-                                console.log('failed');
-                            });
-                        }
-                        KTApp.unblock(target);
-                    },
-                    error: function(){
-                      swal.fire({
-                          title: "",
-                          text: "Kesalahan sistem",
-                          type: "error",
-                          showConfirmButton: false,
-                          timer: 1500
-                      }).then((res) => {
-                          console.log('failed');
-                      });
-                      KTApp.unblock(target);
+            // check do number not input
+            $(".qtyDO").each(function(k,v){
+                if(parseInt($(v).val()) > 0){
+                    var doNum = $(v).parent().prev().prev().prev().find('input.doNumber');
+                    if( $(doNum).val() == ''){
+                        toastr.warning('Nomor DO belum di input');
+                        $(doNum).focus();
+                        console.log(doNum);
+                        err = true;
                     }
-                });
-            } else {
-                swal.fire({
-                    title: "",
-                    text: "Nomor Surat Jalan sudah ada",
-                    type: "warning",
-                    showConfirmButton: false,
-                    timer: 1500
-                }).then((res) => {
-                    console.log('failed');
-                });
+                } else
+                    cntNull++;
+            });
+            if(cntNull >= $(".qtyDO").length){
+                toastr.warning('Tidak ada yang di isi');
+                err = true;
+            }
+            if(!err) {
+                if($('input.exists').length == 0){
+                    // block ui modal
+                    var target = formModal+' .modal-content';
+                    KTApp.block(target, {
+                        overlayColor: '#000000',
+                        type: 'v2',
+                        state: 'primary',
+                        message: 'Processing...'
+                    });
+    
+                    $.ajax({
+                        url: link,
+                        type: "POST",
+                        data: data,
+                        success: function(r){
+                            if(r.status){
+                                swal.fire({
+                                    title: "",
+                                    text: r.message,
+                                    type: "success",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((res) => {
+                                    $('#FPO .list-body').html('');
+                                    $('#addPo').modal('hide');
+                                    myGrid.element().reload();
+    
+                                    // send notification to target
+                                    $.ajax({
+                                      url: api_url+'/api/mng/user/notification/add',
+                                      type: 'POST',
+                                      data:{notification_to:'pur', notification_from:window.Auth.nik, notification_content:'Barang masuk gudang', notification_url:'/pur/req/do', notification_icon: "fa fa-box-open kt-font-success"},
+                                      success: function(r){
+                                        console.log(r);
+                                      }
+                                    });
+                                    console.log('Success');
+                                });
+                            } else {
+                                swal.fire({
+                                    title: "",
+                                    text: r.message,
+                                    type: "warning",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then((res) => {
+                                    console.log('failed');
+                                });
+                            }
+                            KTApp.unblock(target);
+                        },
+                        error: function(){
+                          swal.fire({
+                              title: "",
+                              text: "Kesalahan sistem",
+                              type: "error",
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then((res) => {
+                              console.log('failed');
+                          });
+                          KTApp.unblock(target);
+                        }
+                    });
+                } else {
+                    swal.fire({
+                        title: "",
+                        text: "Nomor Surat Jalan sudah ada",
+                        type: "warning",
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then((res) => {
+                        console.log('failed');
+                    });
+                }
             }
             return false;
         }

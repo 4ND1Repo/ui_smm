@@ -27,74 +27,105 @@ var KTFormPO = function(){
         },
 
         submitHandler: function (form) {
-            var link = link_add;
+            var link = link_add,
+                err = false;
 
             var data = $(formId).serializeArray();
             data.push({name:"nik", value:window.Auth.nik});
             data.push({name:"page_code", value:window.Auth.page});
             data.push({name:"page_code_destination", value:'pur'});
-            // block ui modal
-            var target = formModal+' .modal-content';
-            KTApp.block(target, {
-                overlayColor: '#000000',
-                type: 'v2',
-                state: 'primary',
-                message: 'Processing...'
+
+            // validate form if not set
+            $(".supplier.tt-input").each(function(k,v){
+              if($(v).val() != ''){
+                var dt = $(v).parent().parent().prev().find('.date-picker');
+                if($(dt).val() == ''){
+                  toastr.warning('Tanggal belum di isi');
+                  err = true;
+                  $(dt).focus();
+                  return false;
+                }
+              }
             });
 
-            $.ajax({
-                url: link,
-                type: "POST",
-                data: data,
-                success: function(r){
-                    if(r.status){
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "success",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            $('#FPO .list-body').html('');
-                            $(formModal).modal('hide');
-                            myGrid.element().reload();
-                            console.log('Success');
-                            // send notification to target
-                            $.ajax({
-                              url: api_url+'/api/mng/user/notification/add',
-                              type: 'POST',
-                              data:{notification_to:r.data.to, notification_from:window.Auth.nik, notification_content:'PO '+r.data.po_code+' sedang diproses', notification_url:base_url+'/wh/req/po', notification_icon: "fa fa-book kt-font-success"},
-                              success: function(r){
-                                console.log(r);
-                              }
-                            });
-                        });
-                    } else {
-                        swal.fire({
-                            title: "",
-                            text: r.message,
-                            type: "warning",
-                            showConfirmButton: false,
-                            timer: 1500
-                        }).then((res) => {
-                            console.log('failed');
-                        });
-                    }
-                    KTApp.unblock(target);
-                },
-                error: function(){
-                    swal.fire({
-                        title: "",
-                        text: "Kesalahan sistem",
-                        type: "error",
-                        showConfirmButton: false,
-                        timer: 1500
-                    }).then((res) => {
-                        console.log('failed');
-                    });
-                    KTApp.unblock(target);
+            $(".date-picker").each(function(k,v){
+              if($(v).val() != ''){
+                var sp = $(v).parent().next().find('.supplier.tt-input');
+                console.log(sp);
+                if($(sp).val() == ''){
+                  toastr.warning('Supplier belum di isi');
+                  err = true;
+                  $(sp).focus();
+                  return false;
                 }
+              }
             });
+
+
+            if(!err){
+              // block ui modal
+              var target = formModal+' .modal-content';
+              KTApp.block(target, {
+                  overlayColor: '#000000',
+                  type: 'v2',
+                  state: 'primary',
+                  message: 'Processing...'
+              });
+  
+              $.ajax({
+                  url: link,
+                  type: "POST",
+                  data: data,
+                  success: function(r){
+                      if(r.status){
+                          swal.fire({
+                              title: "",
+                              text: r.message,
+                              type: "success",
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then((res) => {
+                              $('#FPO .list-body').html('');
+                              $(formModal).modal('hide');
+                              myGrid.element().reload();
+                              console.log('Success');
+                              // send notification to target
+                              $.ajax({
+                                url: api_url+'/api/mng/user/notification/add',
+                                type: 'POST',
+                                data:{notification_to:r.data.to, notification_from:window.Auth.nik, notification_content:'PO '+r.data.po_code+' sedang diproses', notification_url:'/wh/req/po', notification_icon: "fa fa-book kt-font-success"},
+                                success: function(r){
+                                  console.log(r);
+                                }
+                              });
+                          });
+                      } else {
+                          swal.fire({
+                              title: "",
+                              text: r.message,
+                              type: "warning",
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then((res) => {
+                              console.log('failed');
+                          });
+                      }
+                      KTApp.unblock(target);
+                  },
+                  error: function(){
+                      swal.fire({
+                          title: "",
+                          text: "Kesalahan sistem",
+                          type: "error",
+                          showConfirmButton: false,
+                          timer: 1500
+                      }).then((res) => {
+                          console.log('failed');
+                      });
+                      KTApp.unblock(target);
+                  }
+              });
+            }
             return false;
         }
     });
@@ -264,7 +295,7 @@ var KTGridPO = function(){
                                   $.ajax({
                                     url: api_url+'/api/mng/user/notification/add',
                                     type: 'POST',
-                                    data:{notification_to:$(el).parent().parent().parent().children('[data-field="create_by"]').text(), notification_from:window.Auth.nik, notification_content:'PO '+$(el).attr('id')+' dibatalkan', notification_url:base_url+'/wh/req/po', notification_icon: "fa fa-book kt-font-danger"},
+                                    data:{notification_to:$(el).parent().parent().parent().children('[data-field="create_by"]').text(), notification_from:window.Auth.nik, notification_content:'PO '+$(el).attr('id')+' dibatalkan', notification_url:'/wh/req/po', notification_icon: "fa fa-book kt-font-danger"},
                                     success: function(r){
                                       console.log(r);
                                     }

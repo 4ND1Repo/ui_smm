@@ -81,7 +81,7 @@ var KTRequestTools = function(){
                                 $.ajax({
                                   url: api_url+'/api/mng/user/notification/add',
                                   type: 'POST',
-                                  data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Ada request barang', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-box kt-font-info"},
+                                  data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request barang', notification_url:'/wh/req/tools', notification_icon: "fa fa-box kt-font-info"},
                                   success: function(r){
                                     console.log(r);
                                   }
@@ -294,7 +294,7 @@ var KTGridRequestTools = function(){
                                     $.ajax({
                                       url: api_url+'/api/mng/user/notification/add',
                                       type: 'POST',
-                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Barang('+$(el).attr('id')+') digagalkan', notification_url:base_url+'/wh/req/tools', notification_icon: "fa fa-trash kt-font-danger"},
+                                      data:{notification_to:'wh', notification_from:window.Auth.nik, notification_content:'Request Barang('+$(el).attr('id')+') digagalkan', notification_url:'/wh/req/tools', notification_icon: "fa fa-trash kt-font-danger"},
                                       success: function(r){
                                         console.log(r);
                                       }
