@@ -150,6 +150,114 @@ var KTFormPO = function(){
   }
 }();
 
+var KTSupplierForm = function(){
+  var formId = "#FSupplier",
+      formModal = "#insertSupplier";
+  var _el = null;
+
+  var SupplierFormValidation = function () {
+      _el = $( formId ).validate({
+          // define validation rules
+          rules: {
+              supplier_name: {
+                  required: true
+              },
+              supplier_category: {
+                  minlength: 3,
+                  maxlength: 10
+              }
+          },
+
+          //display error alert on form submit
+          invalidHandler: function(event, validator) {
+              swal.fire({
+                  "title": "",
+                  "text": "Mohon periksa kembali inputan anda.",
+                  "type": "error",
+                  "confirmButtonClass": "btn btn-secondary",
+                  "onClose": function(e) {
+                      console.log('on close event fired!');
+                  }
+              });
+
+              event.preventDefault();
+          },
+
+          submitHandler: function (form) {
+              var link = api_url+"/api/mst/supplier/add";
+
+              // block ui modal
+              var target = formModal+' .modal-content';
+              var data = $("#FSupplier").serializeArray();
+              data.push({name:'nik', value:window.Auth.nik});
+              KTApp.block(target, {
+                  overlayColor: '#000000',
+                  type: 'v2',
+                  state: 'primary',
+                  message: 'Processing...'
+              });
+
+              $.ajax({
+                  url: link,
+                  type: "POST",
+                  data: data,
+                  success: function(r){
+                      if(r.status){
+                          $(formId)[0].reset();
+                          $(formId+" input[type=text]")[0].focus();
+
+                          swal.fire({
+                              title: "",
+                              text: r.message,
+                              type: "success",
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then((res) => {
+                              $(formId+" input[type=text]")[0].focus();
+                          });
+                      } else {
+                          swal.fire({
+                              title: "",
+                              text: r.message,
+                              type: "warning",
+                              showConfirmButton: false,
+                              timer: 1500
+                          }).then((res) => {
+                              console.log('failed');
+                          });
+                      }
+                      KTApp.unblock(target);
+                  },
+                  error: function(){
+                      swal.fire({
+                          title: "",
+                          text: "Kesalahan sistem",
+                          type: "error",
+                          showConfirmButton: false,
+                          timer: 1500
+                      }).then((res) => {
+                          console.log('failed');
+                      });
+                      KTApp.unblock(target);
+                  }
+              });
+              return false;
+          }
+      });
+  };
+
+  return {
+      element: function(){
+          return _el;
+      },
+      init: function(){
+          SupplierFormValidation();
+      }
+  };
+}();
+
+
+
 var KTGridPO = function(){
     var _el,
         gridId = "#datagrid-pur-po",
@@ -714,10 +822,86 @@ var KTDateRange = function(){
     };
 }();
 
+var KTCity = function(){
+  var _getCity = function(){
+    // get all data city to append new form
+    $.ajax({
+      url: api_url+'/api/mst/city',
+      type: 'GET',
+      success: function(r){
+          if(r.status){
+              $('select[name=city_code]').selectpicker('destroy');
+              $('select[name=city_code]').html("");
+              $.each(r.data,function(k,v){
+                  $('select[name=city_code]').append('<option value="'+v.city_code+'">'+v.city_name+'</option>');
+              });
+              $('select[name=city_code]').selectpicker();
+          }
+      }
+    });
+  }
+  return {
+    get: function(){
+      _getCity();
+    },
+    init: function(){
+      KTForm.init({
+        formId: "#FCity",
+        link: api_url + '/api/mst/city/add',
+        data: {
+            nik: window.Auth.nik,
+            page_code: window.Auth.page
+        },
+        formRules: {
+            city_code: {required: true},
+            city_name: {required: true}
+        },
+        fn: {
+            before: function (el, callback) {
+                var data = {data: {city_code: $('#addCity').find('.btn-submit').attr('id')}};
+
+                callback(data, el);
+                return true;
+            },
+            after: function (r) {
+                if (r.status) {
+                    KTForm.notif({
+                        text: r.message,
+                        type: "success",
+                        timer: 1500,
+                        fn: {
+                            after: function (r) {
+                              KTCity.get();
+                                // $('#addCity').modal('hide');
+                            }
+                        }
+                    });
+                } else {
+                    KTForm.notif({
+                        text: r.message,
+                        type: "warning",
+                        timer: 1500
+                    });
+                }
+            }
+        }
+      });
+
+      // submit form City
+      $('#addCity .btn-submit').click(function(){
+        $('#FCity').submit();
+      });
+    }
+  };
+}();
+
 $(document).ready(function(){
     // initiate
     KTGridPO.init();
     KTFormPO.init();
+    KTSupplierForm.init();
+    KTCity.get();
+    KTCity.init();
     KTDateRange.set({elStart:'[name="in[start]"]', elEnd:'[name="in[end]"]'});
 
     $("#addPo").on('hide.bs.modal', function(){
@@ -727,6 +911,11 @@ $(document).ready(function(){
     // submit form PO
     $('#addPo .btn-submit').on('click', function(){
       $('#FPO').submit();
+    });
+
+    // submit form PO
+    $('#insertSupplier .btn-submit').on('click', function(){
+      $('#FSupplier').submit();
     });
 
     // export excel

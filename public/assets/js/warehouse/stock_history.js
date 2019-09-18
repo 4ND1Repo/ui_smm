@@ -194,7 +194,7 @@ $(document).ready(function(){
             autoHide: false,
         }, {
             field: 'nik',
-            title: 'NIK',
+            title: 'NIK Yang Proses',
             sortable: false,
             width: 80,
             overflow: 'visible',
@@ -333,7 +333,7 @@ $(document).ready(function(){
             autoHide: false,
         }, {
             field: 'nik',
-            title: 'NIK',
+            title: 'NIK Yang Proses',
             sortable: false,
             width: 80,
             overflow: 'visible',

@@ -206,8 +206,28 @@
                   .po-table > .po-row > div:nth-child(4), .po-table > .po-row > div:nth-child(5), .po-table > .po-row > div:nth-child(6) {
                       width: 80px;
                   }
+                    .modal.show::after{
+                        content: "";
+                        position: fixed;
+                        height: 100%;
+                        width: 100%;
+                        top: 0;
+                        left: 0;
+                        background-color: black;
+                        opacity: 0.7;
+                        z-index: -1;
+                        -webkit-filter: blur(4px);
+                        -moz-filter: blur(4px);
+                        -o-filter: blur(4px);
+                        -ms-filter: blur(4px);
+                        filter: blur(4px);
+                    }
                 </style>
-                <div class="row">&nbsp;</div>
+                <div class="row">
+                  <div class="col-md-12 col-xl-12 text-right">
+                    <button type="button" class="btn btn-clear btn-sm btn-info" data-toggle="modal" data-target="#insertSupplier">Tambah Supplier</button>
+                  </div>
+                </div>
                 <form class="kt-form" id="FPO">
                     <div class="row validated">
                         <div class="col-md-12 po-table">
@@ -231,6 +251,103 @@
             <div class="modal-footer">
                 <button type="button" tabindex="12" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
                 <button type="button" tabindex="11" class="btn btn-primary btn-submit">Proses</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--end::Modal-->
+
+
+<!-- modal for add supplier -->
+<div class="modal fade" id="insertSupplier" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="kt-form" id="FSupplier">
+                    <div class="row validated">
+                        <div class="col-md-6">
+                            <div class="form-group kt-hidden">
+                                <label>Kode Supplier</label>
+                                <input type="text" name="supplier_code" class="form-control" placeholder="Generate otomatis" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Supplier</label>
+                                <input type="text" tabindex="1" name="supplier_name" class="form-control" placeholder="Isian nama supplier">
+                            </div>
+                            <div class="form-group">
+                                <label>Telepon Supplier</label>
+                                <input type="text" tabindex="2" name="supplier_phone" class="form-control" placeholder="Isian nomor telepon supplier">
+                            </div>
+                            <div class="form-group">
+                                <label>Alamat Supplier</label>
+                                <input type="text" tabindex="3" name="supplier_address" class="form-control" placeholder="Isian alamat supplier">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Kota Supplier</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text" data-toggle="modal" data-target="#addCity" style="cursor:pointer;">Tambah</label>
+                                    </div>
+                                    <select tabindex="4" class="form-control" name="city_code" id="city_code" data-live-search="true"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Kategori</label>
+                                <input type="text" tabindex="5" name="supplier_category" class="form-control" placeholder="Isian kategori supplier">
+                            </div>
+                            <div class="form-group">
+                                <label>NPWP</label>
+                                <input type="text" tabindex="6" name="supplier_npwp" class="form-control" placeholder="Isian NPWP supplier">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="8" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="7" class="btn btn-primary btn-submit">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- modal for add supplier -->
+<div class="modal fade" id="addCity" tabindex="-1" role="dialog" aria-labelledby="longModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="longModal">Kota</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="kt-form" id="FCity">
+                    <div class="row validated">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Kode Kota</label>
+                                <input type="text" name="city_code" class="form-control" placeholder="Kode Kota">
+                            </div>
+                            <div class="form-group">
+                                <label>Nama Kota</label>
+                                <input type="text" name="city_name" class="form-control" placeholder="Nama Kota">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" tabindex="7" class="btn btn-secondary" data-dismiss="modal">Keluar</button>
+                <button type="button" tabindex="6" class="btn btn-primary btn-submit">Simpan</button>
             </div>
         </div>
     </div>

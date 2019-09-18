@@ -395,8 +395,8 @@ var KTGridRequestTools = function(){
                                     tmp += '<div class="text-center">'+v.stock_color+'</div>';
                                     tmp += '<div class="text-right">'+v.stock_qty+'</div>';
                                     tmp += '<div class="text-right"><div class="input-group input-group-sm"><input type="text" class="form-control form-control-sm qtyStock" name="items['+v.stock_code+']" value="'+v.req_tools_qty+'"><div class="input-group-append"><span class="input-group-text">'+v.measure_type+'</span></div></div></div>';
-                                    tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.stock_code+']" value="'+(v.req_tools_notes!=null?v.req_tools_notes:'')+'"></div>';
-                                    tmp += '<div>'+((v.finish_by == null && v.fullfillment == 1)?'<i class="fa fa-share-square text-success btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Berikan"></i>':((v.finish_by == null && v.fullfillment == 0)?'<i class="fa fa-book text-danger btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Tambahkan ke PO"></i>':'<i class="fa fa-check text-success"></i>'))+'</div>';
+                                    tmp += '<div><input type="text" class="form-control form-control-sm" name="notes['+v.stock_code+']" value="'+(v.req_tools_notes!=null?v.req_tools_notes:'')+'" readonly></div>';
+                                    tmp += '<div>'+((v.finish_by == null && v.fullfillment == 1)?((v.stock_qty >= v.req_tools_qty)?'<i class="fa fa-share-square text-success btn-send" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Berikan"></i>':'<i class="fa fa-book text-danger btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Tambahkan ke PO"></i>'):((v.finish_by == null && v.fullfillment == 0)?'<i class="fa fa-book text-danger btn-add-po" id="'+v.stock_code+'-'+v.req_tools_code+'" title="Tambahkan ke PO"></i>':'<i class="fa fa-check text-success"></i>'))+'</div>';
                                     tmp += '</div>';
 
                                     $('.request_tools_new').append(tmp);
@@ -486,6 +486,14 @@ var KTGridRequestTools = function(){
                                                   type: 'success',
                                                   showConfirmButton: false,
                                                   timer: 1500
+                                              });
+                                              $.ajax({
+                                                url: api_url+'/api/wh/req/tools/chg_status',
+                                                type: 'POST',
+                                                data: {req_tools_code:id[1], status:'ST03', page_code:window.Auth.page},
+                                                success: function(r){
+                                                    KTGridRequestTools.element().reload();
+                                                }
                                               });
                                             }
                                           }
